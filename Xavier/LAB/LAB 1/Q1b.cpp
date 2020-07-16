@@ -6,7 +6,7 @@ cout << ++x << endl;
 cout << x << endl;
 cout << x-- << endl;
 cout << x + y << endl;
-//cout << x <<” “<< y << endl;
+cout << x << " "<< y << endl;
 cout << "x * x = "; 
 cout << x * x << endl;
 cout << y++ << endl;
