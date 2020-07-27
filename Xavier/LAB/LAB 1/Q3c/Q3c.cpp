@@ -19,6 +19,13 @@ int main()
         cin  >> payRate[index];
 	}
 	// Display the data
-	
+	cout<<endl<<endl;
+	cout<<"Here is the gross pay for each employee" <<endl;
+
+	for(index=0; index<NUM_EMPS; index++){
+		grossPay=hours[index]*payRate[index];
+		cout<<fixed<<setprecision(2);
+		cout<<"Employee #"<<(index+1)<<": RM "<<grossPay<<endl;
+	}
 	return 0;
 }
