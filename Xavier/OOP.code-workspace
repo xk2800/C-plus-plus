@@ -10,6 +10,7 @@
 			"iomanip": "cpp",
 			"random": "cpp",
 			"ostream": "cpp"
-		}
+		},
+		"discord.enabled": true
 	}
 }
