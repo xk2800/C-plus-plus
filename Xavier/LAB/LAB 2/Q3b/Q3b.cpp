@@ -3,8 +3,6 @@
 
 using namespace std;
 
-
-
 struct Rental
 {      char name[20];
        float rent; int month;      
@@ -26,14 +24,14 @@ int main(){
 
 }
 
-
-
 float report(struct Rental *R){
 
     double amtdue[3], total;
 
     //static part
-    cout<<"----------------------------------------------------"<<endl<<"-\t\tAMOUNT DUE MORE THAN $1000.00     -"<<endl<<"----------------------------------------------------"<<endl;
+    cout<<"----------------------------------------------------"<<endl
+    <<"-\t\tAMOUNT DUE MORE THAN $1000.00-"<<endl
+    <<"----------------------------------------------------"<<endl;
 
 
     for(int i=0; i<3; i++){
