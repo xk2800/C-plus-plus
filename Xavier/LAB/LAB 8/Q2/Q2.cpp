@@ -43,12 +43,11 @@ class Student{
                 cin.ignore();
 
             if(purchase =='Y'){
-        /**/        cout<<"test Y";
 
                 P.setTickets();
                 
             }else{
-        /**/        cout<<"test N";
+    
                 cout<<"--------No tickets purchase--------";
             }
         }
@@ -76,10 +75,6 @@ class Student{
 };
 
 int main(){
-
-            //Student P;
-
-            //P.ticket_entry();
 
             Student arrey[3];
 
