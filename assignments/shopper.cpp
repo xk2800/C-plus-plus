@@ -10,3 +10,27 @@ Email: 1181202757@student.mmu.edu.my
 Phone: 010-2311245
 **********|**********|**********/
 
+#include <iostream>
+
+using namespace std;
+
+class customer{
+
+
+};
+
+class student{
+
+
+};
+
+class staff{
+
+
+};
+
+
+int main(){
+
+    
+}
