@@ -16,17 +16,36 @@ using namespace std;
 
 class customer{
 
+    private:
+        string name, address, password, id;
+        int cust_type;
+    
+    public:
+
+        void input(){
+
+            
+        }
 
 };
 
 class student{
-
+    
+    private:
+        string name, address, password, id;
+        int cust_type;
+    
+    public: 
 
 };
 
 class staff{
 
-
+    private:
+        string name, address, password, id;
+        int cust_type;
+    
+    public: 
 };
 
 
