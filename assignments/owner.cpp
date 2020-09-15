@@ -106,7 +106,7 @@ void registerLogic() {
 	string password, cfrmpassword;
 	
 	out_reg_file.open("owner-details.txt", std::ios_base::app);
-	
+
 	if(!out_reg_file) {
 		cout<<"File is not found !"<<endl;
 	} else {
@@ -121,13 +121,7 @@ void registerLogic() {
 		cout<<endl;
 		cout<<"Register is completed and the data is saved !"<<endl<<endl;
 		
-		out_reg_file<<"=============================="<<endl;
-		out_reg_file<<"Shop Owner Account Details"<<endl;
-		out_reg_file<<"=============================="<<endl;
-		out_reg_file<<"Username      Password      Confirm Password"<<endl;
-		out_reg_file<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl<<endl;	
-		
-		
+		out_reg_file<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl;		
 	}
 			
 	out_reg_file.close();
@@ -172,6 +166,8 @@ void loginUserLogic() {
 		}
 	
 		in_log_file_user.close();
+	} else {
+		cout<<"File is not found !";
 	}		
 }
 
@@ -219,7 +215,7 @@ void loginPassLogic() {
 
 /*********************************************** int main() ***********************************************/
 
-int main() {
+int main() {	
 	
 	cout<<"===================================="<<endl;
 	cout<<"              REGISTER              "<<endl;
@@ -238,10 +234,5 @@ int main() {
 	return 0;
 }
 
-
-
-
-
-
-
 // CREDIT : https://stackoverflow.com/questions/2393345/how-to-append-text-to-a-text-file-in-c
+//          https://www.youtube.com/watch?v=s3-DmI1ZWxE&t=151s
