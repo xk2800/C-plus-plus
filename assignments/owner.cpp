@@ -10,6 +10,16 @@ Email :                 eltonwcm00@gmail.com / 1181203056@student.mmu.edu.my
 Phone :                 01111207201
 /**********|**********|**********|**********|**********|**********|**********/
 
+
+
+/**
+  * Class - Input from user
+  * Function - Feature logic
+  * Main Function - Call others function
+  */
+
+
+
 #include<iostream>
 #include<fstream>
 #include<iomanip>
@@ -18,8 +28,9 @@ Phone :                 01111207201
 using namespace std;
 
 void registerLogic();
-void loginUserLogic();
-void loginPassLogic();
+void loginUserValidationLogic();
+void loginPassValidationLogic();
+void menuLogic();
 
 /*********************************************** REGISTER CLASS ***********************************************/
 
@@ -30,7 +41,6 @@ class Register {
 		string pass, cfrmpass;
 	
 	public:
-		
 		void usernameRegister() {
 			cout<<"Set a username : ";
 			getline(cin, oname);
@@ -62,7 +72,7 @@ class Register {
 		
 		string getCfrmpass() {
 			return cfrmpass;
-		}
+		}		
 };
 
 /*********************************************** LOGIN CLASS ***********************************************/
@@ -72,7 +82,6 @@ class Login {
 	private:
 		string username;
 		string pass;
-		Register reg_friend_obj;
 		
 	public:
 		usernameLogin() {	
@@ -92,7 +101,41 @@ class Login {
 		
 		string getPass() {
 			return pass;
+		}		
+};
+
+/*********************************************** OWNER MENU CLASS ***********************************************/
+
+class Menu {
+	
+	private:
+		int selection;
+		
+	public:
+		menuDisplay() {
+			
+			cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+			cout<<"          WELCOME TO MMU SHOPPING KIOSK OWNER SYSTEM          "<<endl;
+			cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+			cout<<endl<<endl;
+			cout<<" 1. Login "<<endl;
+			cout<<" 2. Register "<<endl;
+			cout<<" 3. View Items "<<endl;
+			cout<<" 4. Insert New Items "<<endl;
+			cout<<" 5. Update Information Of Items "<<endl;
+			cout<<" 6. Delete Items "<<endl;
+			cout<<" 0. Exit "<<endl;
 		}
+		
+		menuSelection() {
+			cout<<endl;
+			cout<<"Please choose an operation to proceed !"<<endl;
+			cin>>selection;
+			
+			cin.ignore();
+		}
+				
+		friend void menuLogic();	
 };
 
 /*********************************************** registerLogic() ***********************************************/
@@ -127,9 +170,9 @@ void registerLogic() {
 	out_reg_file.close();
 }
 
-/*********************************************** loginUserLogic() ***********************************************/
+/*********************************************** loginUserValidationLogic() ***********************************************/
 
-void loginUserLogic() {
+void loginUserValidationLogic() {
 	
 	Login log_obj;
 	ifstream in_log_file_user;
@@ -159,7 +202,7 @@ void loginUserLogic() {
 		
 		if (validate_name == true) {
 			cout<<"Username is matched ! You can proceed to enter your password "<<endl<<endl;
-			loginPassLogic();
+			loginPassValidationLogic();
 		} else {
 			cout<<"Name is incorrect or not found ! Please exit the program and try again "<<endl<<endl;
 			exit(1);
@@ -171,9 +214,9 @@ void loginUserLogic() {
 	}		
 }
 
-/*********************************************** loginPassLogic() ***********************************************/
+/*********************************************** loginPassValidationLogic() ***********************************************/
 
-void loginPassLogic() {
+void loginPassValidationLogic() {
 	
 	Login log_obj;
 	ifstream in_log_file_user;
@@ -212,24 +255,56 @@ void loginPassLogic() {
 	}
 }
 
+/*********************************************** menuLogic() ***********************************************/
+
+void menuLogic() {
+	
+	Menu menu_obj;
+	char proceed;
+	
+	do {
+		menu_obj.menuDisplay();
+		menu_obj.menuSelection();
+		cout<<endl;
+		
+		switch(menu_obj.selection) {
+			case 0 : cout<<"Thank you for using !";
+					 exit(0);
+				 	 break;
+				 		
+			case 1 : cout<<"Reading from the file...."<<endl<<endl;
+				 	 cout<<"===================================="<<endl;
+				 	 cout<<"              LOGIN                 "<<endl;
+	             	 cout<<"===================================="<<endl<<endl;
+				 
+				 	 loginUserValidationLogic();
+				 	 break;
+				 
+			case 2 : cout<<"===================================="<<endl;
+				 	 cout<<"              REGISTER              "<<endl;
+		         	 cout<<"===================================="<<endl<<endl;
+		
+		         	 registerLogic();
+				 	 break;
+				 
+			//case 3....6	
+		}
+	
+		cout<<"Would you like to continue ? [ Y / N ]";
+		cin>>proceed;
+	
+		cin.ignore();	
+	} while (proceed == 'Y' || proceed == 'y');
+	
+	cout<<"Thank you for using !";	
+}
+
 
 /*********************************************** int main() ***********************************************/
 
 int main() {	
 	
-	cout<<"===================================="<<endl;
-	cout<<"              REGISTER              "<<endl;
-	cout<<"===================================="<<endl;
-	registerLogic();
-	
-	cout<<endl;
-	
-	cout<<"Reading from the file...."<<endl<<endl;
-	
-	cout<<"===================================="<<endl;
-	cout<<"              LOGIN                 "<<endl;
-	cout<<"===================================="<<endl;
-	loginUserLogic();
+	menuLogic();
 		
 	return 0;
 }
