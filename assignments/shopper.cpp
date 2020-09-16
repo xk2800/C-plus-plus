@@ -22,11 +22,22 @@ using namespace std;
 class Register{
 
     private:
-        string uname, pwd, cpwd;
+        string uname, pwd, cpwd, address, name;
+		int ctype;
 
     public:
         //enter credential for acc registration
         void accRegister(){
+
+			cout<<"Enter your name: ";
+				cin.ignore();
+				getline(cin, name);
+			cout<<"Enter your full address: ";
+				cin.ignore();
+				getline(cin, address);
+			cout<<"Enter what type of customer you are: "<<endl;
+			custType();
+
 
             cout<<"Enter a username: ";
                 cin.ignore();
@@ -64,6 +75,13 @@ class Register{
 
             return cpwd;
         }
+
+		void custType(){
+
+			cout<<"1. Normal Customer (Non MMU)"<<endl;
+			cout<<"2. MMU Student"<<endl;
+			cout<<"3. MMU Staff"<<endl;
+		}
 
         //Logic for registration part
         void registerLogic(){
