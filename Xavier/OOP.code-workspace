@@ -10,7 +10,8 @@
 			"iomanip": "cpp",
 			"random": "cpp",
 			"ostream": "cpp",
-			"typeinfo": "cpp"
+			"typeinfo": "cpp",
+			"*.tcc": "cpp"
 		},
 		"discord.enabled": true
 	}

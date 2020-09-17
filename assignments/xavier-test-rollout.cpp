@@ -1,15 +1,3 @@
-/**********|**********|**********|
-Program             : shopper.cpp
-Course              : Object Oriented Programming
-Year                : 2020/21 Trimester 1
-Name                : Khew Xavier Ethan
-ID                  : 1181202757
-Lecture Section     : TC02
-Tutorial Section    : TT04
-Email               : 1181202757@student.mmu.edu.my
-Phone               : 010-2311245
-**********|**********|**********/
-
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -22,22 +10,11 @@ using namespace std;
 class Register{
 
     private:
-        string uname, pwd, cpwd, address, name;
-		int ctype;
+        string uname, pwd, cpwd;
 
     public:
         //enter credential for acc registration
         void accRegister(){
-
-			cout<<"Enter your name: ";
-				cin.ignore();
-				getline(cin, name);
-			cout<<"Enter your full address: ";
-				cin.ignore();
-				getline(cin, address);
-			cout<<"Enter what type of customer you are: "<<endl;
-			custType();
-
 
             cout<<"Enter a username: ";
                 cin.ignore();
@@ -75,13 +52,6 @@ class Register{
 
             return cpwd;
         }
-
-		void custType(){
-
-			cout<<"1. Normal Customer (Non MMU)"<<endl;
-			cout<<"2. MMU Student"<<endl;
-			cout<<"3. MMU Staff"<<endl;
-		}
 
         //Logic for registration part
         void registerLogic(){
@@ -246,42 +216,6 @@ void mainmenu(){
         break;
     }
 }
-
-
-class customer{
-
-    private:
-        string name, address, password, id;
-        int cust_type;
-    
-    public:
-
-        void input(){
-
-            
-        }
-
-};
-
-class student{
-    
-    private:
-        string name, address, password, id;
-        int cust_type;
-    
-    public: 
-
-};
-
-class staff{
-
-    private:
-        string name, address, password, id;
-        int cust_type;
-    
-    public: 
-};
-
 
 int main(){
 
