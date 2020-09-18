@@ -84,7 +84,7 @@ class Register{
             
             if(ctype==2){
 
-                Student stud;
+                MMUStudent stud;
 
                 stud.major();
             }
@@ -281,7 +281,7 @@ class Customer{
     
 };
 
-class Student{
+class MMUStudent{
     
     private:
         
@@ -293,9 +293,11 @@ class Student{
 
             cout<<"Enter your major: ";
         }
+
+    friend class Register;
 };
 
-class Staff{
+class MMUStaff{
 
     private:
         
