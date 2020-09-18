@@ -35,19 +35,16 @@ class Register{
 			cout<<"Enter your full address: ";
 				cin.ignore();
 				getline(cin, address);
-			cout<<"Enter what type of customer you are: "<<endl;
+			cout<<"Customer type: "<<endl;
 			custType();
-
-
             cout<<"Enter a username: ";
                 cin.ignore();
                 getline(cin, uname);
-            cout<<endl;
-
-            cout<<"Enter a password: ";
+            cout<<endl<<"Enter a password: ";
                 cin>>pwd;
             cout<<"Re-confirm your password: ";
                 cin>>cpwd;
+            idGen();
 
             //if pwd and confirm pwd not same, error happens and user must retry until both same
                 while(pwd != cpwd){
@@ -76,12 +73,54 @@ class Register{
             return cpwd;
         }
 
+        //print customer type table
 		void custType(){
 
 			cout<<"1. Normal Customer (Non MMU)"<<endl;
 			cout<<"2. MMU Student"<<endl;
 			cout<<"3. MMU Staff"<<endl;
+            cout<<"Select a customer type: "<<endl;
+                cin>>ctype;
+            
+            if(ctype==2){
+
+                Student stud;
+
+                stud.major();
+            }
 		}
+
+        //auto gen ID
+        int idGen(){
+
+            struct id_Gen
+            {
+                id_Gen()
+                : _id (0)
+                {
+                    std::ifstream ifs("_id.txt");
+                    ifs>>_id;
+                }
+
+                ~id_Gen()
+                {
+                    std::ofstream ofs("_id.txt", std::ios_base::out | std::ios_base::trunc);
+                    ofs<<_id;
+                }
+
+                int operator()() { return _id++; }
+
+                int _id;
+            };
+
+                id_Gen idGen;
+
+                cout<<"Your id is: " << idGen()<<endl;
+
+                return 0;
+        }
+
+
 
         //Logic for registration part
         void registerLogic(){
@@ -111,11 +150,9 @@ class Register{
                 cout<<"Register is completed and the data is saved !"<<endl<<endl;
 
                 reg_file<<uname<<setw(15)<<pwd<<setw(15)<<cpwd<<endl;
-
             }
 
             reg_file.close();
-
         }
 
 };
@@ -202,21 +239,7 @@ class Login{
             }
 
             login_file.close();
-
-
         }
-
-        /*void logicPassLogic(){
-
-            string password;
-
-            int offset_pwd;
-            bool valdate_pwd;
-
-            login_file.open("shopper-details.txt");
-
-        }*/
-
 
 };
 
@@ -248,45 +271,58 @@ void mainmenu(){
 }
 
 
-class customer{
+class Customer{
 
     private:
-        string name, address, password, id;
-        int cust_type;
+        
     
     public:
 
-        void input(){
+    
+};
 
-            
+class Student{
+    
+    private:
+        
+        string major;
+    
+    public: 
+
+        void major(){
+
+            cout<<"Enter your major: ";
         }
-
 };
 
-class student{
-    
+class Staff{
+
     private:
-        string name, address, password, id;
-        int cust_type;
+        
     
     public: 
 
-};
+        
 
-class staff{
-
-    private:
-        string name, address, password, id;
-        int cust_type;
-    
-    public: 
 };
 
 
 int main(){
 
+    //login and register function call, the 2 classes and function put into 1 function
     mainmenu();
 
 
 
 }
+
+
+
+
+
+/*Credits:
+
+auto gen id = https://stackoverflow.com/questions/39098219/auto-generate-id-c/39099637
+
+
+*/

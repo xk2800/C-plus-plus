@@ -36,7 +36,7 @@ class InventiveMarks{
 
         void setInvPoints(){
 
-            cout<<"Enter Inventive Marks [max: 20]\t:";
+            cout<<"Enter Inventive Marks [max: 20]\t\t:";
                 cin>>points;
 
                 cin.ignore();
@@ -57,10 +57,10 @@ class Dancer{
         void set_details(){
 
             //age, name
-            cout<<"Enter name\t\t:";
+            cout<<endl<<"Enter name\t\t\t\t:";
                 getline(cin, name);
                 //cin.ignore();
-            cout<<"Enter age\t\t:";
+            cout<<"Enter age\t\t\t\t:";
                 cin>>age;
         }
 
@@ -68,7 +68,7 @@ class Dancer{
 
             cpoints = (C.points /C.total) * 100;
             ipoints= (I.points /I.total) * 100;
-            finalpoints = (C.points + I.points) / (C.total + I.total);
+            finalpoints = ((C.points + I.points) / (C.total + I.total)) * 100;
         }
 
         int getAge(){
@@ -85,7 +85,7 @@ class Dancer{
 
             cout<<":::::Score Board:::::"<<endl;
             cout<<"Choreography\t: "<<cpoints<<endl;
-            cout<<"Inventive\t\t: "<<ipoints<<endl;
+            cout<<"Inventive\t: "<<ipoints<<endl;
             cout<<"Final Score\t: "<<finalpoints<<endl;
         }
 };
@@ -113,10 +113,10 @@ int main(){
         cout<<":::::Details for Dancer::::: ";
 
         D.set_details();
-        D.calcFinalPoints(C, I);
 
-        c_array->setCgPoints();
-        i_array->setInvPoints();
+        C.setCgPoints();
+        I.setInvPoints();
+        D.calcFinalPoints(C, I);
 
         cout<<endl<<"========================================="<<endl;
         cout<<"Dancer #"<<k+1<<endl;
