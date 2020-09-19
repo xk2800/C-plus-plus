@@ -1,3 +1,15 @@
+/**********|**********|**********|
+Program             : shopper.cpp
+Course              : Object Oriented Programming
+Year                : 2020/21 Trimester 1
+Name                : Khew Xavier Ethan
+ID                  : 1181202757
+Lecture Section     : TC02
+Tutorial Section    : TT04
+Email               : 1181202757@student.mmu.edu.my
+Phone               : 010-2311245
+**********|**********|**********/
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -6,25 +18,35 @@
 
 using namespace std;
 
-
-class Register{
+class MMUStudent;
+class Shopper{
 
     private:
-        string uname, pwd, cpwd;
+        string uname, pwd, cpwd, address, name;
+		int ctype;
 
     public:
+
+    ///MMUStudent mmustud;
         //enter credential for acc registration
         void accRegister(){
 
+			cout<<"Enter your name: ";
+				cin.ignore();
+				getline(cin, name);
+			cout<<"Enter your full address: ";
+				cin.ignore();
+				getline(cin, address);
+			cout<<"Customer type: "<<endl;
+			custType();
             cout<<"Enter a username: ";
                 cin.ignore();
                 getline(cin, uname);
-            cout<<endl;
-
-            cout<<"Enter a password: ";
+            cout<<endl<<"Enter a password: ";
                 cin>>pwd;
             cout<<"Re-confirm your password: ";
                 cin>>cpwd;
+            idGen();
 
             //if pwd and confirm pwd not same, error happens and user must retry until both same
                 while(pwd != cpwd){
@@ -52,6 +74,74 @@ class Register{
 
             return cpwd;
         }
+
+        //print customer type table
+		void custType(){
+
+			cout<<"1. Normal Customer (Non MMU)"<<endl;
+			cout<<"2. MMU Student"<<endl;
+			cout<<"3. MMU Staff"<<endl;
+            cout<<"Select a customer type: "<<endl;
+                cin>>ctype;
+            
+            switch (ctype){
+
+                case 1:
+                    
+                break;
+                case 2:
+                    studmajor();
+                    cout<<"detected input 2";
+                break;
+                case 3:
+                    MMUStaff depart();
+                break;
+
+            }
+
+            /*
+            if(ctype==2){
+                cin.ignore();
+                MMUStudent studmajor();
+                cin.ignore();
+                cout<<"detected input 2";
+            } else{
+                
+                cout<<"ctype func no work";
+            }*/
+		}
+
+        //auto gen ID
+        int idGen(){
+
+            struct id_Gen
+            {
+                id_Gen()
+                : _id (0)
+                {
+                    std::ifstream ifs("_id.txt");
+                    ifs>>_id;
+                }
+
+                ~id_Gen()
+                {
+                    std::ofstream ofs("_id.txt", std::ios_base::out | std::ios_base::trunc);
+                    ofs<<_id;
+                }
+
+                int operator()() { return _id++; }
+
+                int _id;
+            };
+
+                id_Gen idGen;
+
+                cout<<"Your id is: " << idGen()<<endl;
+
+                return 0;
+        }
+
+
 
         //Logic for registration part
         void registerLogic(){
@@ -81,20 +171,18 @@ class Register{
                 cout<<"Register is completed and the data is saved !"<<endl<<endl;
 
                 reg_file<<uname<<setw(15)<<pwd<<setw(15)<<cpwd<<endl;
-
             }
 
             reg_file.close();
-
         }
 
-};
+//};
 
-class Login{
+//class Login{
 
     private:
-        string uname, pwd;
-        Register Reg;
+        string luname, lpwd;
+        //Register Reg;
         ifstream login_file;
 
     public:
@@ -108,21 +196,21 @@ class Login{
 
             cout<<"Enter your username: ";
                 cin.ignore();
-                getline(cin, uname);
+                getline(cin, luname);
             
             cout<<"Enter your password: ";
-                cin>>pwd;
+                cin>>lpwd;
             
         }
 
-        string getUsername(){
+        string lgetUsername(){
 
-            return uname;
+            return luname;
         }
 
-        string getPwd(){
+        string lgetPwd(){
 
-            return pwd;
+            return lpwd;
         }
 
         void loginUserLogic(){
@@ -135,8 +223,8 @@ class Login{
             login_file.open("shopper-details.txt");
             openingmsg();
             accLogin();
-            uname = getUsername();
-            pwd = getPwd();
+            uname = lgetUsername();
+            pwd = lgetPwd();
 
             if(login_file.is_open()){
 
@@ -172,29 +260,15 @@ class Login{
             }
 
             login_file.close();
-
-
         }
 
-        /*void logicPassLogic(){
-
-            string password;
-
-            int offset_pwd;
-            bool valdate_pwd;
-
-            login_file.open("shopper-details.txt");
-
-        }*/
-
-
-};
+//};
 
 //function that contain controls and basic logic for register and login functions. Reason for this is to reduce clutter in main.
 void mainmenu(){
 
-    Register R;
-    Login L;
+    //Register R;
+    //Login L;
     int choice;
 
     cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
@@ -204,7 +278,8 @@ void mainmenu(){
         switch(choice){
 
         case 1:
-            R.registerLogic();
+            //R.registerLogic();
+            registerLogic();
             
             cout<<endl;
         break;
@@ -212,15 +287,75 @@ void mainmenu(){
             //cout<<"Reading from the file...."<<endl<<endl;
         
         case 2:
-            L.loginUserLogic();
+            //L.loginUserLogic();
+            loginUserLogic();
         break;
     }
 }
+};
+
+class Customer{
+
+    private:
+        
+    
+    public:
+
+    
+};
+
+class MMUStudent:public Shopper{
+    
+    private:
+        
+        string major;
+    
+    public: 
+
+        void studmajor(){
+            
+            //cout.flush();
+            cout<<"Enter your major: ";
+                cin>>major;
+        }
+
+    friend class Shopper;
+};
+
+class MMUStaff:public Shopper{
+
+    private:
+        
+        string department;
+    
+    public: 
+
+        string depart(){
+
+            cout<<"Enter your department: ";
+        }
+
+};
+
 
 int main(){
 
-    mainmenu();
+    Shopper s;
+
+    //login and register function call, the 2 classes and function put into 1 function
+    s.mainmenu();
 
 
 
 }
+
+
+
+
+
+/*Credits:
+
+auto gen id = https://stackoverflow.com/questions/39098219/auto-generate-id-c/39099637
+
+
+*/
