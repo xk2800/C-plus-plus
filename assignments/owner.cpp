@@ -153,10 +153,11 @@ class InsertNewItems {
 			cout<<"----------------------"<<endl;
 			cout<<"    Item Categories    "<<endl;
 			cout<<"----------------------"<<endl;
-			cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl;
+			cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl<<endl;
 			
-			cout<<"Please choose a category that you would like to insert new items";
+			cout<<"Please choose a category that you would like to insert new items"<<endl;
 			cin>>category_number;
+			cout<<endl;
 		}
 		
 		insertItemsInput() {
@@ -185,31 +186,23 @@ class InsertNewItems {
 			cout<<"Name of the company which produces the item : ";
 			getline(cin, new_item_company);
 			
-			cout<<endl;
 		}
 
 		friend void insertNewItemsLogic();
+		friend class ItemDisplay();
 };
 
 class ShopItem {
 
 	protected: 
-		int shopitem_yr, shopitem_month;
+		friend void insertNewItemsLogic();
+		int shopitem_yr = 0, shopitem_month = 0;
 		string shopitem_author;
 		string shopitem_actor;
 
 	public:
-		virtual void itemDisplay() = 0;
+		virtual void itemDisplay() { };
 
-		/*void setVar(int yr_shopitem, int month_shopitem, string author_shopitem,
-					string actor_shopitem) {
-						shopitem_yr = yr_shopitem;
-						shopitem_month = month_shopitem;
-						shopitem_author = author_shopitem;
-						shopitem_actor = actor_shopitem;*/
-		}
-
-	friend void insertNewItemsLogic();
 };
 
 class Magazine: public ShopItem {
@@ -220,7 +213,11 @@ class Magazine: public ShopItem {
 			cin>>shopitem_yr;
 			cout<<"Month of publication : ";
 			cin>>shopitem_month;
-		}
+			
+			cin.ignore();		}
+
+	friend void insertNewItemsLogic();
+	friend class ItemDisplay();	
 };
 
 class Book: public ShopItem {
@@ -230,6 +227,9 @@ class Book: public ShopItem {
 			cout<<"Name of the author : ";
 			getline(cin, shopitem_author);
 		}
+
+	friend void insertNewItemsLogic();
+	friend class ItemDisplay();
 };
 
 class Movie: public ShopItem {
@@ -239,6 +239,59 @@ class Movie: public ShopItem {
 			cout<<"Name of the actor : ";
 			getline(cin, shopitem_actor);
 		}
+
+	friend void insertNewItemsLogic();
+	friend class ItemDisplay();
+};
+
+/*********************************************** ITEM DISPLAY CLASS ***********************************************/
+
+class ItemDisplay() {
+
+	private:
+		InsertNewItems insertitemdisp_obj;
+		Magazine magitemdisp_obj;
+		Book bookitemdisp_obj;
+		Movie movieitemdisp_obj;
+	
+	public:
+		void itemOnScreen() {
+			cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
+			cout<<"								                 Product Stock List Details						 				     "<<endl;
+			cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
+			cout<<"Name of the product"<<setw(5)<<"Price of the product"<<setw(5)<<"Number of units available"<<setw(5)
+				<<"Name of the product manufacture"<<setw(5);
+
+			switch(insertitemdisp_obj.category_number) {
+
+					case 1 : cout<<"Publication year"<<setw(5)<<"Publication month"<<setw(5)<<endl;
+							 break;
+					case 2 : cout<<"Author name"<<endl;
+							 break;
+					case 3 : cout<<"Actor name"<<endl;
+							 break;
+				}
+			
+			for (int x=0; x<insertitemdisp_obj.number; x++) {
+				cout<<insertitemdisp_obj.new_item_name<<setw(5)<<insertitemdisp_obj.new_item_price<<setw(5)
+				<<insertitemdisp_obj.new_item_units<<setw(5)<<insertitemdisp_obj.new_item_company;	
+			}
+
+			for(int y=0; y<insertitemdisp_obj.number; y++) {
+
+				switch(insertitemdisp_obj.category_number) {
+
+					case 1 : cout<<magitemdisp_obj.shopitem_yr<<setw(5)<<magitemdisp_obj.shopitem_month<<setw(5)<<endl;
+							 break;
+					case 2 : cout<<bookitemdisp_obj.shopitem_author<<endl;
+							 break;
+					case 3 : cout<<movieitemdisp_obj.shopitem_actor<<endl;
+							break;
+				}
+			}
+		}
+
+		friend void itemDisplayLogic();
 };
 
 /*********************************************** registerLogic() ***********************************************/
@@ -410,6 +463,7 @@ void menuLogic() {
 
 	} while (proceed == 'Y' || proceed == 'y');
 	
+	cout<<endl;
 	cout<<"Thank you for using !";	
 }
 
@@ -418,17 +472,18 @@ void menuLogic() {
 void insertNewItemsLogic() {
 	
 	InsertNewItems insert_new_obj;
+	
 	Magazine insert_magazine_obj;
 	Book insert_book_obj;
 	Movie insert_movie_obj;
 
 	ofstream out_insert_file;
 
-	int new_itemid, new_itemunits;
+	int new_itemid = 0, new_itemunits = 0;
 	string new_itemname, new_itemcompany;
-	float new_itemprice;
+	float new_itemprice = 0;
 
-	int shop_itemyr, shop_itemmonth;
+	int shop_itemyr = 0, shop_itemmonth = 0;
 	string shop_itemauthor;
 	string shop_itemactor;
 
@@ -459,7 +514,7 @@ void insertNewItemsLogic() {
 			insert_new_obj.insertItemsMenuDetails();
 
 			srand (time(NULL));
-			rand_number=rand()%20;
+			rand_number = rand()%20;
 
 			new_itemname = insert_new_obj.new_item_name;
 			new_itemprice = insert_new_obj.new_item_price;
@@ -471,42 +526,47 @@ void insertNewItemsLogic() {
 			shop_itemauthor = insert_book_obj.shopitem_author;
 			shop_itemactor = insert_movie_obj.shopitem_actor;
 			
-			if(insert_new_obj.category_number == 1) {
-				insert_magazine_obj.itemDisplay();
-
-				out_insert_file<<rand_number<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
-							new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemyr
-							<<shop_itemmonth<<endl;
-
-			} else if(insert_new_obj.category_number == 2) {
-				insert_book_obj.itemDisplay();
-
-				out_insert_file<<rand_number<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
-							new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemauthor<<endl;
+			switch(insert_new_obj.category_number) {
 				
-			} else if(insert_new_obj.category_number == 3) {
-				insert_movie_obj.itemDisplay();
+				case 1: insert_magazine_obj.itemDisplay();
+					
+					out_insert_file<<rand_number<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
+								    new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemyr
+								    <<shop_itemmonth<<endl;		     
+					break;
 
-				out_insert_file<<rand_number<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
-							new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemactor<<endl;
+			 	case 2: insert_book_obj.itemDisplay();
+					 	
+						out_insert_file<<rand_number<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
+								       new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemauthor<<endl;	 
+					 	break;
+				
+			 	case 3: insert_movie_obj.itemDisplay();
 
-			} else {
-				cout<<"The option is unavailable at the moment ! Please try again later";
-			  	exit(1);
-			} 
+						out_insert_file<<rand_number<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
+								       new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemactor<<endl;
+					 	break;
 
+			 	default: cout<<"The option is unavailable at the moment ! Please try again later";
+			  	      	 exit(1);
+			  	      	 break;
+			}
+			
 			cout<<endl;
 			cout<<"Insertion of new products is completed and the data is saved !"<<endl<<endl;	
 		}
-	}
 
-	out_insert_file.close();
+		out_insert_file.close();
+	}
 }
 
-/*********************************************** insertNewItemsExtraLogic() ***********************************************/
+/*********************************************** itemDisplayLogic() ***********************************************/
 
-void insertNewItemsExtraLogic() {
+void itemDisplayLogic() {
 
+	ItemDisplay	itemdisp_obj;
+
+	itemdisp_obj.itemOnScreen();
 }
 
 /*********************************************** int main() ***********************************************/
