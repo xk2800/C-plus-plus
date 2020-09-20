@@ -33,7 +33,7 @@ void loginUserValidationLogic();
 void loginPassValidationLogic();
 void menuLogic();
 void insertNewItemsLogic();
-void itemDisplayLogic();
+void updateItemsLogic();
 
 /*********************************************** REGISTER CLASS ***********************************************/
 
@@ -140,7 +140,7 @@ class Menu {
 		friend void menuLogic();	
 };
 
-/*********************************************** OWNER INSERT CLASS ***********************************************/
+/*********************************************** OWNER INSERT ITEM CLASS ***********************************************/
 
 class InsertNewItems {
 
@@ -191,7 +191,6 @@ class InsertNewItems {
 
 		friend void insertNewItemsLogic();
 };
-
 class ShopItem {
 
 	protected: 
@@ -216,7 +215,8 @@ class Magazine: public ShopItem {
 			
 			cin.ignore();		}
 
-	friend void insertNewItemsLogic();	
+	friend void insertNewItemsLogic();
+	friend void updateItemsLogic();	
 };
 
 class Book: public ShopItem {
@@ -228,6 +228,7 @@ class Book: public ShopItem {
 		}
 
 	friend void insertNewItemsLogic();
+	friend void updateItemsLogic();
 };
 
 class Movie: public ShopItem {
@@ -238,7 +239,61 @@ class Movie: public ShopItem {
 			getline(cin, shopitem_actor);
 		}
 
-	friend void insertNewItemsLogic();;
+	friend void insertNewItemsLogic();
+	friend void updateItemsLogic();
+};
+
+/*********************************************** OWNER UPDATE ITEM CLASS ***********************************************/
+
+class UpdateItem {
+	
+	private:
+		int category_number, category_details_number ;
+
+	public:
+		updateItemsCategory() {
+			cout<<"----------------------"<<endl;
+			cout<<"    Item Categories    "<<endl;
+			cout<<"----------------------"<<endl;
+			cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl<<endl;
+			
+			cout<<"Please choose a category that you would like update the items"<<endl<<endl;
+			cin>>category_number;
+		}
+
+		updateItemsInput() {
+
+			switch(category_number) {
+				case 1: 
+				case 2:
+				case 3: cout<<"[1] Name of product"<<endl;
+						cout<<"[2] Price of product"<<endl;
+						cout<<"[3] Units available of product"<<endl;
+						cout<<"[4] Name of the manufacture"<<endl;
+						break;
+			}
+
+			switch(category_number) {
+				case 1: cout<<"[5] Publication year"<<endl;
+						cout<<"[6] Publication month"<<endl;
+						break;
+				case 2: cout<<"[5] Author name"<<endl;
+						break;
+				case 3: cout<<"[5] Actor name"<<endl;
+						break;
+
+				default: cout<<"Please choose a appopriate category to update ! Try again later"<<endl;
+						 exit(1);
+			}
+
+			cout<<endl;
+			cout<<"What are the element of the item you would like to update ? [1 - 6]"<<endl;
+			cin>>category_details_number;
+			cout<<endl;			
+			
+		}
+
+		friend void updateItemsLogic();
 };
 
 /*********************************************** registerLogic() ***********************************************/
@@ -400,11 +455,19 @@ void menuLogic() {
 					 insertNewItemsLogic();
 					 break;
 
-			//case 3, 5, 6
+			case 5 : cout<<"=========================================="<<endl;
+				 	 cout<<"              UPDATE ITEMS                "<<endl;
+		         	 cout<<"=========================================="<<endl;
+					 cout<<endl;
+
+					 updateItemsLogic();
+					 break;
+			//case 3, 6
 		}
 	
 		cout<<"Would you like to continue ? [ Y / N ]"<<endl;
 		cin>>proceed;
+		cout<<endl;
 	
 		//cin.ignore();
 
@@ -504,6 +567,60 @@ void insertNewItemsLogic() {
 		}
 
 		out_insert_file.close();
+	}
+}
+
+/*********************************************** updateItemLogic() ***********************************************/
+
+void updateItemsLogic() {
+
+	UpdateItem update_item_obj;
+
+	ofstream out_update_file;
+
+	/*int update_item_units;
+	string update_item_name, update_item_company;
+	float update_item_price;*/
+
+	Magazine update_magazine_obj;
+	Book update_book_obj;
+	Movie update_movie_obj;
+
+	update_item_obj.updateItemsCategory();
+	update_item_obj.updateItemsInput();
+
+	switch(update_item_obj.category_number) {
+		
+		case 1 : out_update_file.open("owner-magazine-insert.txt", std::ios_base::app);
+				 switch(update_item_obj.category_details_number) {
+					 case 1:  
+					 case 2:
+					 case 3: 		/**LOGIC**/
+					 case 4:
+					 case 5:
+					 case 6: cout<<"test logic 1"<<endl;
+				 }
+				 break;
+		case 2 : out_update_file.open("owner-book-insert.txt", std::ios_base::app);
+				 switch(update_item_obj.category_details_number) {
+					 case 1: 
+					 case 2:
+					 case 3: 
+					 case 4:
+					 case 5: cout<<"test logic 2"<<endl;
+				 }
+				 break;
+		case 3:  out_update_file.open("owner-movie-insert.txt", std::ios_base::app);
+				 switch(update_item_obj.category_details_number) {
+					 case 1: 
+					 case 2:
+					 case 3: 
+					 case 4:
+					 case 5: cout<<"test logic 3"<<endl;
+				 }
+				 break;
+		default: cout<<"The option is unavailable at the moment ! Please try again later";
+				 exit(1);
 	}
 }
 
