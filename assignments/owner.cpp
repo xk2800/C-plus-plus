@@ -33,6 +33,7 @@ void loginUserValidationLogic();
 void loginPassValidationLogic();
 void menuLogic();
 void insertNewItemsLogic();
+void itemDisplayLogic();
 
 /*********************************************** REGISTER CLASS ***********************************************/
 
@@ -119,10 +120,10 @@ class Menu {
 			cout<<"          WELCOME TO MMU SHOPPING KIOSK OWNER SYSTEM          "<<endl;
 			cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
 			cout<<endl<<endl;
-			cout<<" 1. Login "<<endl;
-			cout<<" 2. Register "<<endl;
+			cout<<" 1. Login "<<endl; 				/***/
+			cout<<" 2. Register "<<endl;			/***/
 			cout<<" 3. View Items "<<endl;
-			cout<<" 4. Insert New Items "<<endl;
+			cout<<" 4. Insert New Items "<<endl;	/***/
 			cout<<" 5. Update Information Of Items "<<endl;
 			cout<<" 6. Delete Items "<<endl;
 			cout<<" 0. Exit "<<endl;
@@ -189,7 +190,6 @@ class InsertNewItems {
 		}
 
 		friend void insertNewItemsLogic();
-		friend class ItemDisplay();
 };
 
 class ShopItem {
@@ -216,8 +216,7 @@ class Magazine: public ShopItem {
 			
 			cin.ignore();		}
 
-	friend void insertNewItemsLogic();
-	friend class ItemDisplay();	
+	friend void insertNewItemsLogic();	
 };
 
 class Book: public ShopItem {
@@ -229,7 +228,6 @@ class Book: public ShopItem {
 		}
 
 	friend void insertNewItemsLogic();
-	friend class ItemDisplay();
 };
 
 class Movie: public ShopItem {
@@ -240,58 +238,7 @@ class Movie: public ShopItem {
 			getline(cin, shopitem_actor);
 		}
 
-	friend void insertNewItemsLogic();
-	friend class ItemDisplay();
-};
-
-/*********************************************** ITEM DISPLAY CLASS ***********************************************/
-
-class ItemDisplay() {
-
-	private:
-		InsertNewItems insertitemdisp_obj;
-		Magazine magitemdisp_obj;
-		Book bookitemdisp_obj;
-		Movie movieitemdisp_obj;
-	
-	public:
-		void itemOnScreen() {
-			cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
-			cout<<"								                 Product Stock List Details						 				     "<<endl;
-			cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
-			cout<<"Name of the product"<<setw(5)<<"Price of the product"<<setw(5)<<"Number of units available"<<setw(5)
-				<<"Name of the product manufacture"<<setw(5);
-
-			switch(insertitemdisp_obj.category_number) {
-
-					case 1 : cout<<"Publication year"<<setw(5)<<"Publication month"<<setw(5)<<endl;
-							 break;
-					case 2 : cout<<"Author name"<<endl;
-							 break;
-					case 3 : cout<<"Actor name"<<endl;
-							 break;
-				}
-			
-			for (int x=0; x<insertitemdisp_obj.number; x++) {
-				cout<<insertitemdisp_obj.new_item_name<<setw(5)<<insertitemdisp_obj.new_item_price<<setw(5)
-				<<insertitemdisp_obj.new_item_units<<setw(5)<<insertitemdisp_obj.new_item_company;	
-			}
-
-			for(int y=0; y<insertitemdisp_obj.number; y++) {
-
-				switch(insertitemdisp_obj.category_number) {
-
-					case 1 : cout<<magitemdisp_obj.shopitem_yr<<setw(5)<<magitemdisp_obj.shopitem_month<<setw(5)<<endl;
-							 break;
-					case 2 : cout<<bookitemdisp_obj.shopitem_author<<endl;
-							 break;
-					case 3 : cout<<movieitemdisp_obj.shopitem_actor<<endl;
-							break;
-				}
-			}
-		}
-
-		friend void itemDisplayLogic();
+	friend void insertNewItemsLogic();;
 };
 
 /*********************************************** registerLogic() ***********************************************/
@@ -459,7 +406,7 @@ void menuLogic() {
 		cout<<"Would you like to continue ? [ Y / N ]"<<endl;
 		cin>>proceed;
 	
-		cin.ignore();	
+		//cin.ignore();
 
 	} while (proceed == 'Y' || proceed == 'y');
 	
@@ -558,15 +505,6 @@ void insertNewItemsLogic() {
 
 		out_insert_file.close();
 	}
-}
-
-/*********************************************** itemDisplayLogic() ***********************************************/
-
-void itemDisplayLogic() {
-
-	ItemDisplay	itemdisp_obj;
-
-	itemdisp_obj.itemOnScreen();
 }
 
 /*********************************************** int main() ***********************************************/
