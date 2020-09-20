@@ -20,3 +20,8 @@ lk             lk             lk
 d              d              d
 gf             gf             gf
 fd             fd             fd
+dd             dd             dd
+22             22             22
+jj             jj             jj
+2              2              2
+o              9              9

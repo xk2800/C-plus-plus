@@ -18,16 +18,17 @@ Phone               : 010-2311245
 
 using namespace std;
 
-class MMUStudent;
+//class MMUStudent;
 class Shopper{
 
     private:
-        string uname, pwd, cpwd, address, name;
-		int ctype;
+        string uname, pwd, cpwd, address, name;//MMUStudent m;
+        MMUStudent mmustud;
+		
 
     public:
-
-    ///MMUStudent mmustud;
+        int ctype;
+    //MMUStudent mmustud;
         //enter credential for acc registration
         void accRegister(){
 
@@ -39,6 +40,7 @@ class Shopper{
 				getline(cin, address);
 			cout<<"Customer type: "<<endl;
 			custType();
+            mmustud.test();
             cout<<"Enter a username: ";
                 cin.ignore();
                 getline(cin, uname);
@@ -84,7 +86,7 @@ class Shopper{
             cout<<"Select a customer type: "<<endl;
                 cin>>ctype;
             
-            switch (ctype){
+            /*switch (ctype){
 
                 case 1:
                     
@@ -99,12 +101,11 @@ class Shopper{
 
             }
 
-            /*
+            
             if(ctype==2){
-                cin.ignore();
-                MMUStudent studmajor();
-                cin.ignore();
-                cout<<"detected input 2";
+                
+                MMUStudent stud;
+                stud.test();
             } else{
                 
                 cout<<"ctype func no work";
@@ -265,7 +266,7 @@ class Shopper{
 //};
 
 //function that contain controls and basic logic for register and login functions. Reason for this is to reduce clutter in main.
-void mainmenu(){
+/*void mainmenu(){
 
     //Register R;
     //Login L;
@@ -291,10 +292,10 @@ void mainmenu(){
             loginUserLogic();
         break;
     }
-}
+}*/
 };
 
-class Customer{
+class Customer:public Shopper{
 
     private:
         
@@ -304,7 +305,7 @@ class Customer{
     
 };
 
-class MMUStudent:public Shopper{
+class MMUStudent/*:public Shopper*/{
     
     private:
         
@@ -312,14 +313,13 @@ class MMUStudent:public Shopper{
     
     public: 
 
-        void studmajor(){
-            
-            //cout.flush();
-            cout<<"Enter your major: ";
+        void test(){
+
+            cout<<"What is your major";
                 cin>>major;
         }
 
-    friend class Shopper;
+    //friend class Shopper;
 };
 
 class MMUStaff:public Shopper{
@@ -328,23 +328,55 @@ class MMUStaff:public Shopper{
         
         string department;
     
-    public: 
+    public:
 
-        string depart(){
 
-            cout<<"Enter your department: ";
-        }
+
+        
 
 };
 
+//function that contain controls and basic logic for register and login functions. Reason for this is to reduce clutter in main.
+void mainmenu(){
 
+    Shopper s;
+    MMUStudent stud;
+    int choice;
+
+    cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
+    cout<<"1. new here? Register an account."<<endl<<"2. Already a member? Login."<<endl;
+        cin>>choice;
+
+        switch(choice){
+
+        case 1:
+            //R.registerLogic();
+            s.registerLogic();
+            
+            cout<<endl;
+        break;
+
+            //cout<<"Reading from the file...."<<endl<<endl;
+        
+        case 2:
+            //L.loginUserLogic();
+            s.loginUserLogic();
+        break;
+    }
+
+    if(s.ctype==2){
+
+        //stud.test();
+    }
+}
 int main(){
 
     Shopper s;
 
     //login and register function call, the 2 classes and function put into 1 function
-    s.mainmenu();
-
+    mainmenu();
+    
+    
 
 
 }
