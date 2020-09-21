@@ -158,7 +158,6 @@ class InsertNewItems {
 			
 			cout<<"Please choose a category that you would like to insert new items"<<endl;
 			cin>>category_number;
-			cout<<endl;
 		}
 		
 		insertItemsInput() {
@@ -190,6 +189,7 @@ class InsertNewItems {
 		}
 
 		friend void insertNewItemsLogic();
+		friend void updateItemsLogic();
 };
 class ShopItem {
 
@@ -249,19 +249,27 @@ class UpdateItem {
 	
 	private:
 		int category_number, category_details_number ;
+		int update_item_units = 0;
+		string update_item_name, update_item_company;
+		float update_item_price = 0;
+
+		int update_magazine_yr = 0, update_magazine_month = 0;
+		string update_book_author, update_movie_actor;
 
 	public:
-		updateItemsCategory() {
+		void updateItemsCategory() {
 			cout<<"----------------------"<<endl;
 			cout<<"    Item Categories    "<<endl;
 			cout<<"----------------------"<<endl;
 			cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl<<endl;
 			
-			cout<<"Please choose a category that you would like update the items"<<endl<<endl;
+			cout<<"Please choose a category that you would like update the items"<<endl;
 			cin>>category_number;
+			
+			cout<<endl;
 		}
 
-		updateItemsInput() {
+		void updateItemsInput() {
 
 			switch(category_number) {
 				case 1: 
@@ -289,8 +297,69 @@ class UpdateItem {
 			cout<<endl;
 			cout<<"What are the element of the item you would like to update ? [1 - 6]"<<endl;
 			cin>>category_details_number;
-			cout<<endl;			
-			
+
+			cin.ignore();			
+		}
+
+		void updateItemsAskInput() {
+			switch(category_number) {
+		
+				case 1 : 
+				case 2 :
+				case 3 : switch(category_details_number) {
+					 
+					 		case 1: cout<<"Enter the new product name : "; 
+									getline(cin, update_item_name);
+							 		break;
+
+					 		case 2: cout<<"Enter the new product price : ";
+					 				cin>>update_item_price;
+									break;
+
+					 		case 3: cout<<"Enter the new product units : ";
+					 		 		cin>>update_item_units;
+									break;
+
+					 		case 4: cout<<"Enter the new product manufacture : ";
+					 		 		getline(cin, update_item_company);
+									break;
+
+						}
+			}
+	
+			switch(category_number) {
+		
+				case 1 : switch(category_details_number) { 
+					 		
+							 case 5: cout<<"Enter the new publication year : ";
+					 		 		 cin>>update_magazine_yr;
+							 		 break;	
+
+					 		 case 6: cout<<"Enter the new publication month : ";
+					 				 cin>>update_magazine_month;
+								     break;	
+				 		 }
+
+				 		 break;
+		
+				case 2 : switch(category_details_number) {
+					 		
+							 case 5: cout<<"Enter the new author name : ";
+					 		 		 getline(cin, update_book_author);
+							 		 break;
+				 		 }
+				 
+				         break;
+				
+				case 3 : switch(category_details_number) {
+
+					 		 case 5: cout<<"Enter the new actor name : ";
+					 				 getline(cin, update_movie_actor);
+									 break;
+				 		 }
+				 
+				 		 break;
+			}
 		}
 
 		friend void updateItemsLogic();
@@ -392,7 +461,7 @@ void loginPassValidationLogic() {
 
 		while(!in_log_file_user.eof()) {
 			
-			getline(in_log_file_user, password);
+	/**/		getline(in_log_file_user, password);
 			
 			if((offset_pass = password.find(pass, 0))!= string::npos) {	
 				validate_pass = true;
@@ -465,6 +534,7 @@ void menuLogic() {
 			//case 3, 6
 		}
 	
+		cout<<endl;
 		cout<<"Would you like to continue ? [ Y / N ]"<<endl;
 		cin>>proceed;
 		cout<<endl;
@@ -574,55 +644,102 @@ void insertNewItemsLogic() {
 
 void updateItemsLogic() {
 
+	InsertNewItems insert_item_obj;
 	UpdateItem update_item_obj;
+	
+	Magazine insert_magazine_obj;
+	Book insert_book_obj;
+	Movie insert_movie_obj;
 
-	ofstream out_update_file;
+	ifstream in_update_file;	// read the file
+	ofstream out_update_file;	// update the file
 
-	/*int update_item_units;
-	string update_item_name, update_item_company;
-	float update_item_price;*/
-
-	Magazine update_magazine_obj;
-	Book update_book_obj;
-	Movie update_movie_obj;
+	int new_itemunits = insert_item_obj.new_item_units;
+	string new_itemcompany = insert_item_obj.new_item_company;
+	string new_itemname = insert_item_obj.new_item_name;
+	float new_itemprice = insert_item_obj.new_item_price;
+	int shop_itemyr = insert_magazine_obj.shopitem_yr;
+	int shop_itemmonth = insert_magazine_obj.shopitem_month;
+	string shop_itemauthor = insert_book_obj.shopitem_author;
+	string shop_itemactor = insert_movie_obj.shopitem_actor;
 
 	update_item_obj.updateItemsCategory();
 	update_item_obj.updateItemsInput();
+	update_item_obj.updateItemsAskInput();
 
 	switch(update_item_obj.category_number) {
 		
-		case 1 : out_update_file.open("owner-magazine-insert.txt", std::ios_base::app);
-				 switch(update_item_obj.category_details_number) {
-					 case 1:  
-					 case 2:
-					 case 3: 		/**LOGIC**/
-					 case 4:
-					 case 5:
-					 case 6: cout<<"test logic 1"<<endl;
-				 }
-				 break;
-		case 2 : out_update_file.open("owner-book-insert.txt", std::ios_base::app);
-				 switch(update_item_obj.category_details_number) {
-					 case 1: 
-					 case 2:
-					 case 3: 
-					 case 4:
-					 case 5: cout<<"test logic 2"<<endl;
-				 }
-				 break;
-		case 3:  out_update_file.open("owner-movie-insert.txt", std::ios_base::app);
-				 switch(update_item_obj.category_details_number) {
-					 case 1: 
-					 case 2:
-					 case 3: 
-					 case 4:
-					 case 5: cout<<"test logic 3"<<endl;
-				 }
-				 break;
-		default: cout<<"The option is unavailable at the moment ! Please try again later";
-				 exit(1);
+		case 1: in_update_file.open("owner-magazine-insert.txt", std::ios_base::app);
+				out_update_file.open("owner-magazine-insert.txt", std::ios_base::app);
+				break;
+
+		case 2: out_update_file.open("owner-book-insert.txt", std::ios_base::app);
+				in_update_file.open("owner-book-insert.txt", std::ios_base::app);
+				break;
+
+		case 3: out_update_file.open("owner-book-insert.txt", std::ios_base::app);
+		        in_update_file.open("owner-book-insert.txt", std::ios_base::app);
+				break;
 	}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+			
+			if(in_update_file.is_open()) {
+
+				while(!in_update_file.eof()) {
+					switch(update_item_obj.category_number) {
+
+						case 1 : 
+						case 2 :
+						case 3 : switch(update_item_obj.category_details_number) { 
+
+							 		case 1 : getline(in_update_file, new_itemname);
+							 				 cout<<"test : "<<new_itemname;
+									  		 break;
+							 		case 2 : in_update_file>>new_itemprice;
+							 				 cout<<"test 2 : "<<new_itemprice;
+									  		 break;
+							 		case 3 : in_update_file>>new_itemunits;
+							          		 break;
+							 		case 4 : getline(in_update_file, new_itemcompany);
+									 		 break;
+						 		 }
+					}
+
+					switch(update_item_obj.category_number) {
+				
+						case 1 : switch(update_item_obj.category_details_number) {
+							
+									case 5: in_update_file>>shop_itemyr;
+										    break;
+
+									case 6: in_update_file>>shop_itemmonth;
+											break;
+						 }
+
+						 break;
+
+						case 2 : switch(update_item_obj.category_details_number) {
+
+									case 5: getline(in_update_file, shop_itemauthor);
+											cout<<"test 3 : "<<shop_itemauthor;
+							 				break;
+				 		 }
+				 
+				         break;
+
+						case 3 : switch(update_item_obj.category_details_number) {
+
+					 		 		case 5: getline(in_update_file, shop_itemactor);
+											break;
+				 		 }
+				 
+				 		 break;
+					}
+				}
+			}	
 }
+
 
 /*********************************************** int main() ***********************************************/
 
