@@ -21,7 +21,7 @@ using namespace std;
 //class MMUStudent;
 class Shopper{
 
-    private:
+    protected:
         string uname, pwd, cpwd, address, name;//MMUStudent m;
         MMUStudent mmustud;
 		
@@ -305,7 +305,7 @@ class Customer:public Shopper{
     
 };
 
-class MMUStudent/*:public Shopper*/{
+class MMUStudent:public Shopper{
     
     private:
         
@@ -319,7 +319,7 @@ class MMUStudent/*:public Shopper*/{
                 cin>>major;
         }
 
-    //friend class Shopper;
+    friend class Shopper;
 };
 
 class MMUStaff:public Shopper{
