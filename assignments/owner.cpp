@@ -19,7 +19,6 @@ Phone :                 01111207201
   */
 
 
-
 #include<iostream>
 #include<fstream>
 #include<iomanip>
@@ -406,6 +405,8 @@ class UpdateItem {
 		friend void updateItemsLogic();
 };
 
+/*********************************************** OWNER SHOW ITEM CLASS ***********************************************/
+
 class ShowItem {
 
 	private:
@@ -414,10 +415,10 @@ class ShowItem {
 	public:
 		void showOption() {
 			cout<<"-------------------"<<endl;
-			cout<<"1. Magazine\n 2. Book\n 3. Movie"<<endl;
+			cout<<" 1. Magazine\n 2. Book\n 3. Movie"<<endl;
 			cout<<"-------------------"<<endl;
 
-			cout<<"Which catergory of items you would like to see ? ";
+			cout<<"Which catergory of items you would like to see ? "<<endl;
 			cin>>selection;
 		}
 
@@ -583,7 +584,7 @@ void menuLogic() {
 			case 1 : cout<<"Reading from the file...."<<endl<<endl;
 				 	 cout<<"===================================="<<endl;
 				 	 cout<<"              LOGIN                 "<<endl;
-	             	 cout<<"===================================="<<endl<<endl;
+	             	 cout<<"===================================="<<endl;
 				 	 cout<<endl;
 
 				 	 loginUserValidationLogic();
@@ -591,7 +592,7 @@ void menuLogic() {
 				 
 			case 2 : cout<<"===================================="<<endl;
 				 	 cout<<"              REGISTER              "<<endl;
-		         	 cout<<"===================================="<<endl<<endl;
+		         	 cout<<"===================================="<<endl;
 					 cout<<endl;
 
 		         	 registerLogic();
@@ -599,7 +600,7 @@ void menuLogic() {
 
 			case 3 : cout<<"===================================="<<endl;
 				 	 cout<<"              VIEW ITEMS            "<<endl;
-		         	 cout<<"===================================="<<endl<<endl;
+		         	 cout<<"===================================="<<endl;
 					 cout<<endl;
 
 					 showItemLogic();
@@ -618,7 +619,7 @@ void menuLogic() {
 		         	 cout<<"=========================================="<<endl;
 					 cout<<endl;
 
-					 /*updateItemsLogic();*/
+					 //updateItemsLogic();
 					 break;
 			//case 3, 6
 		}
@@ -699,9 +700,8 @@ void insertNewItemsLogic() {
 				
 				case 1: insert_magazine_obj.itemDisplay();
 					
-					out_insert_file<<new_itemid<<"  "<<new_itemname<<"  "<<new_itemprice<<"  "<<
-								    new_itemunits<<"  "<<new_itemcompany<<"  "<<shop_itemyr
-								    <<shop_itemmonth<<endl;		     
+					out_insert_file<<new_itemid<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
+								    new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemyr<<setw(15)<<shop_itemmonth<<endl;		     
 					break;
 
 			 	case 2: insert_book_obj.itemDisplay();
@@ -729,6 +729,7 @@ void insertNewItemsLogic() {
 	}
 }
 
+/*********************************************** showItemLogic() ***********************************************/
 
 void showItemLogic() {
 	
@@ -742,11 +743,22 @@ void showItemLogic() {
 	ifstream in_show_file;
 
 	int show_itemid = 0, show_itemunits = 0;
-	string show_itemname, show_itemcompany;	//////////////////////////////
+	string show_itemname, show_itemcompany;	
 	float show_itemprice = 0;
 	int show_shop_itemyr = 0, show_shop_itemmonth = 0;
 	string show_shop_itemauthor;
 	string show_shop_itemactor;
+
+	show_itemid = insert_item_obj.insertgetId();
+	show_itemname = insert_item_obj.insertgetName();
+	show_itemprice = insert_item_obj.insertgetPrice();
+	show_itemunits = insert_item_obj.insertgetUnit();
+	show_itemcompany = insert_item_obj.insertgetCompany();
+
+	show_shop_itemyr = insert_magazine_obj.shopitem_yr;
+	show_shop_itemmonth = insert_magazine_obj.shopitem_month;
+	show_shop_itemauthor = insert_book_obj.shopitem_author;
+	show_shop_itemactor = insert_movie_obj.shopitem_actor;
 
 	
 	show_item_obj.showOption();
@@ -754,40 +766,80 @@ void showItemLogic() {
 	switch(show_item_obj.getOption()) {
 		
 		case 1: in_show_file.open("owner-magazine-insert.txt");
-				break;
-		case 2: in_show_file.open("owner-book-insert.txt");
-				break;
-		case 3: in_show_file.open("owner-movie-insert.txt");
-				break;
-	}
-	
-	if(in_show_file.is_open()) {
-		
-		show_itemid = insert_item_obj.insertgetId();
-		show_itemname = insert_item_obj.insertgetName();
-		show_itemprice = insert_item_obj.insertgetPrice();		/////////////////////////
-		show_itemunits = insert_item_obj.insertgetUnit();
-		show_itemcompany = insert_item_obj.insertgetCompany();
-
-		show_shop_itemyr = insert_magazine_obj.shopitem_yr;
-		show_shop_itemmonth = insert_magazine_obj.shopitem_month;
-		show_shop_itemauthor = insert_book_obj.shopitem_author;
-		show_shop_itemactor = insert_movie_obj.shopitem_actor;
-		
-		if(show_item_obj.getOption() == 1) {
-			
-				while(in_show_file>>show_itemid>>show_itemname>>show_itemprice>>
-				  show_itemunits>>show_itemcompany>>show_shop_itemyr>>
-				  show_shop_itemmonth) {
 				
-					cout<<show_itemid<<"  "<<show_itemname<<"  "<<show_itemprice<<"  "<<show_itemunits<"  "<<show_itemcompany
-					<<"  "<<show_shop_itemyr<<"  "<<show_shop_itemmonth<<endl;
+				if(in_show_file.is_open()) {
+
+						cout<<endl;
+						cout<<"----------------------------"<<endl;
+						cout<<"   Magazine Stock Details   "<<endl;
+						cout<<"----------------------------"<<endl;
+						
+						cout<<endl;
+						cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Year"<<setw(15)<<"Month"<<endl;
+						cout<<"--------------------------------------------------------------------------------------------"<<endl;					
+						while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+
+							cout<<show_itemid<<setw(15)<<show_itemname<<endl; 
+						}
+
+						in_show_file.close();
+				
+				} else {
+					cout<<"File is not found !";
 				}
-		}
+				
+				break;
+
+		case 2: in_show_file.open("owner-book-insert.txt");
 		
-	} else {
-		cout<<"File is not found !"<<endl;
-	}		
+				if(in_show_file.is_open()) {
+
+						cout<<endl;
+						cout<<"----------------------------"<<endl;
+						cout<<"     Book Stock Details     "<<endl;
+						cout<<"----------------------------"<<endl;
+						
+						cout<<endl;
+						cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
+						cout<<"--------------------------------------------------------------------------------------------"<<endl;					
+						while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+
+							cout<<show_itemid<<setw(15)<<show_itemname<<endl; 
+						}
+
+						in_show_file.close();
+				
+				} else {
+					cout<<"File is not found !";
+				}
+				
+				break;
+				
+		case 3: in_show_file.open("owner-movie-insert.txt");
+		
+				if(in_show_file.is_open()) {
+
+						cout<<endl;
+						cout<<"----------------------------"<<endl;
+						cout<<"     Movie Stock Details    "<<endl;
+						cout<<"----------------------------"<<endl;
+						
+						cout<<endl;
+						cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Actor"<<endl;
+						cout<<"--------------------------------------------------------------------------------------------"<<endl;					
+						while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+
+							cout<<show_itemid<<setw(15)<<show_itemname<<endl; 
+						}
+
+						in_show_file.close();
+				
+				} else {
+					cout<<"File is not found !";
+				}
+				
+				break;
+	}	
 }
 	
 
@@ -842,7 +894,7 @@ void showItemLogic() {
 
 
 	/////////////////////////	
-}*/
+}
 		
 /*********************************************** int main() ***********************************************/
 
