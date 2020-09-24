@@ -18,6 +18,15 @@ Phone               : 010-2311245
 
 using namespace std;
 
+/**DONE: Register, Login
+ * 
+ * TODO: shopping cart 
+ * 
+ * 
+ * */
+
+
+
 void custType();
 class Shopper{
 
@@ -29,6 +38,11 @@ class Shopper{
     public:
         //virtual void Register() {};
 
+        //default contructor
+        Shopper(){
+
+
+        }
 
         void reg_acc(){
 
@@ -48,7 +62,8 @@ class Shopper{
                 cin>>pwd;
             cout<<"Re-confirm your password: ";
                 cin>>cpwd;
-            test();
+            auto_genID();
+            //test();
 
             //if pwd and confirm pwd not same, error happens and user must retry until both same
                 while(pwd != cpwd){
@@ -108,11 +123,10 @@ class Shopper{
 
                 int _id;
             };
-                void test(){
+                void auto_genID(){
                 id_Gen idGen;
-                
 
-                cout<<"Your id is: " << idGen()<<endl;
+                cout<<"Your id is: "<<idGen()<<endl;
 
                 //return 0;
                 }
@@ -167,7 +181,13 @@ class Login{
         ifstream login_file;
 
     public:
-        
+
+        //default contructor
+        Login(){
+
+
+        }
+
         int openingmsg(){
 
             cout<<"===================================="<<endl<<"\t\tLOGIN"<<endl<<"===================================="<<endl;
@@ -247,14 +267,19 @@ class Login{
 };
 
 
-class Customer{
+class Customer:public Shopper{
 
     private:
         
     
     public:
 
-    
+        //default contructor
+        Customer(){
+
+
+    }
+
 };
 
 class MMUStudent:public Shopper{
@@ -264,6 +289,12 @@ class MMUStudent:public Shopper{
         string maj;
     
     public: 
+
+        //default contructor
+        MMUStudent(){
+
+
+        }
 
         void major(){
 
@@ -278,7 +309,7 @@ class MMUStudent:public Shopper{
             return maj;
         }
 
-        void updatereg(){
+        void updateregstud(){
 
             ofstream reg_file;
 
@@ -301,19 +332,56 @@ class MMUStudent:public Shopper{
 
 };
 
-class MMUStaff{
+class MMUStaff:public Shopper{
 
     private:
         
+        string dept;
     
     public: 
 
-        
+        //default contructor
+        MMUStaff(){
+
+
+        }
+
+        void department(){
+
+            cout<<"Enter the name of your department : ";
+                cin.ignore();
+                getline(cin, dept);
+        }
+
+        string dep(){
+
+            return dept;
+        }
+
+        void updateregstaff(){
+
+            ofstream reg_file;
+
+            reg_file.open("shopper-details.txt", std::ios_base::app);
+
+            if(!reg_file){
+
+                cout<<"File is not found"<<endl;
+            } else{
+
+                department();
+                dept = dep();
+
+                reg_file<<dept;
+            }
+
+            reg_file.close();
+        }
 
 };
 
 //class Mainmenu:public Shopper{
-void mainmenu(){
+/*void mainmenu(){
     //private:
     Shopper S;
     //test t;
@@ -337,7 +405,7 @@ void mainmenu(){
         }
 
     
-}
+}*/
 void custType(){
 
     int ctype;
@@ -356,16 +424,87 @@ void custType(){
                 MMUStudent stud;
 
                 //stud.major();
-                stud.updatereg();
+                stud.updateregstud();
             } else if(ctype=3){
 
+                MMUStaff staff;
 
+                staff.updateregstaff();
             } else{
 
                 cout<<"Kindly pick between 1-3 only.";
                 custType();
             }
 		}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+class ShopItem{
+
+    protected:
+
+
+    public:
+
+        //default constructor
+        ShopItem(){
+
+
+        }
+
+
+
+};
+
+class Book:public ShopItem{
+
+    private:
+
+
+    public:
+
+        //default constructor
+        Book(){
+
+
+        }
+
+
+};
+
+class Magazine:public ShopItem{
+
+    private:
+
+
+    public:
+        
+        //default constructor
+        Magazine(){
+
+
+        }
+
+};
+
+class Movie:public ShopItem{
+
+    private:
+
+
+    public:
+
+        //default constructor
+        Movie(){
+
+
+        }
+
+
+
+};
+
+
 
 
 
