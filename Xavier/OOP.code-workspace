@@ -11,8 +11,10 @@
 			"random": "cpp",
 			"ostream": "cpp",
 			"typeinfo": "cpp",
-			"*.tcc": "cpp"
+			"*.tcc": "cpp",
+			"fstream": "cpp"
 		},
-		"discord.enabled": true
+		"discord.enabled": true,
+		"compile-hero.disable-compile-files-on-did-save-code": true
 	}
 }
