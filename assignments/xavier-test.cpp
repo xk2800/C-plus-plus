@@ -24,14 +24,11 @@ class Shopper{
     protected:
         //string major;
         string uname, pwd, cpwd, address, name ;
-		int ctype;
+		int ctype, id;
+
     public:
         //virtual void Register() {};
-        
-        void opening(){
 
-            
-        }
 
         void reg_acc(){
 
@@ -44,21 +41,40 @@ class Shopper{
             cout<<"Customer type: "<<endl;
 			custType();
 
-
-            cout<<"Enter a username: ";
+            /*cout<<"Enter a username: ";
                 cin.ignore();
-                getline(cin, uname);
+                getline(cin, uname);*/
             cout<<endl<<"Enter a password: ";
                 cin>>pwd;
             cout<<"Re-confirm your password: ";
                 cin>>cpwd;
-            idGen();
+            test();
+
+            //if pwd and confirm pwd not same, error happens and user must retry until both same
+                while(pwd != cpwd){
+
+                    cout<<"Make sure both passwords are same. Kindly recheck and re-enter."<<endl;
+                    cout<<"Enter a password: ";
+                        cin>>pwd;
+                    cout<<"Re-confirm your password: ";
+                        cin>>cpwd;
+                }
         }
 
-        string getUsername(){
+        string getName(){
+
+            return name;
+        }
+        
+        string getAddress(){
+
+            return address;
+        }
+
+        /*string getUsername(){
 
             return uname;
-        }
+        }*/
 
         string getPwd(){
 
@@ -71,7 +87,7 @@ class Shopper{
         }
 
         //auto gen ID
-        int idGen(){
+        //int idGen(){
 
             struct id_Gen
             {
@@ -92,18 +108,22 @@ class Shopper{
 
                 int _id;
             };
-
+                void test(){
                 id_Gen idGen;
+                
 
                 cout<<"Your id is: " << idGen()<<endl;
 
-                return 0;
-        }
+                //return 0;
+                }
+
+        //}
 
         //Logic for registration part
         void registerLogic(){
 
             ofstream reg_file;
+            id_Gen idgen;
 
             //open file in append mode to update existing database of user info
             reg_file.open("shopper-details.txt", std::ios_base::app);
@@ -120,15 +140,18 @@ class Shopper{
 
                 reg_acc();
                 
-                uname = getUsername();
+                name = getName();
+                address = getAddress();
+                //uname = getUsername();
+                id = idgen();
                 pwd = getPwd();
-                cpwd = getCpwd();
+                //cpwd = getCpwd();
                 
 
                 cout<<endl;
                 cout<<"Register is completed and the data is saved !"<<endl<<endl;
 
-                reg_file<<uname<<setw(15)<<pwd<<setw(15)<<cpwd;
+                reg_file/*<<setw(15)<<uname*/<<setw(10)<<name<<setw(10)<<address<<setw(10)<<id<<setw(10)<<pwd<<endl;
             }
 
             reg_file.close();
@@ -140,7 +163,7 @@ class Shopper{
 class Login{
 
     private:
-        string uname, pwd;
+        string id, pwd;
         ifstream login_file;
 
     public:
@@ -152,18 +175,19 @@ class Login{
 
         int accLogin(){
 
-            cout<<"Enter your username: ";
-                cin.ignore();
-                getline(cin, uname);
+            cout<<"Enter your ID: ";
+                //cin.ignore();
+                //getline(cin, id);
+                cin>>id;
             
             cout<<"Enter your password: ";
                 cin>>pwd;
             
         }
 
-        string getUsername(){
+        string getID(){
 
-            return uname;
+            return id;
         }
 
         string getPwd(){
@@ -174,24 +198,24 @@ class Login{
         void loginUserLogic(){
 
 
-            string username, password;
+            string ID, password;
             int offset_name, offset_pwd;
             bool validate_name, validate_pwd;
 
             login_file.open("shopper-details.txt");
             openingmsg();
             accLogin();
-            uname = getUsername();
+            id = getID();
             pwd = getPwd();
 
             if(login_file.is_open()){
 
                 while(!login_file.eof()){
 
-                    getline(login_file, username);
+                    getline(login_file, ID);
                     getline(login_file, password);
 
-                    if((offset_name = uname.find(username, 0))!= string::npos && (offset_pwd = password.find(pwd, 0))!=string::npos){
+                    if((offset_name = id.find(ID, 0))!= string::npos && (offset_pwd = password.find(pwd, 0))!=string::npos){
 
                         validate_name = true; 
                         validate_pwd = true; break;
@@ -266,68 +290,15 @@ class MMUStudent:public Shopper{
                 cout<<"File is not found!"<<endl;
             } else{
 
-                //if file found when continue
-                /*cout<<"===================================="<<endl;
-                cout<<"\t\tREGISTER"<<endl;
-                cout<<"===================================="<<endl;
-
-                reg_acc();
-                
-                uname = getUsername();
-                pwd = getPwd();
-                cpwd = getCpwd();
-                
-
-                cout<<endl;
-                cout<<"Register is completed and the data is saved !"<<endl<<endl;*/
-
-                //reg_file<<uname<<setw(15)<<pwd<<setw(15)<<cpwd<<endl;
-
+                major();
                 maj = maje();
                 
-                reg_file<<endl<<setw(15)<<maj<<endl;
+                reg_file<</*endl<<setw(30)<<*/maj/*<<endl*/;
             }
 
             reg_file.close();
         }
 
-        /*void registerLogic(){
-
-            ofstream reg_file;
-
-            //open file in append mode to update existing database of user info
-            reg_file.open("shopper-details.txt", std::ios_base::app);
-
-            if(!reg_file){
-
-                cout<<"File is not found!"<<endl;
-            } else{
-
-                //if file found when continue
-                cout<<"===================================="<<endl;
-                cout<<"\t\tREGISTER"<<endl;
-                cout<<"===================================="<<endl;
-
-                reg_acc();
-                
-                
-
-                uname = getUsername();
-                pwd = getPwd();
-                cpwd = getCpwd();
-                maj = major();
-                
-
-                cout<<endl;
-                cout<<"Register is completed and the data is saved !"<<endl<<endl;
-
-                reg_file<<uname<<setw(15)<<pwd<<setw(15)<<cpwd<<maj<<endl;
-            }
-
-            reg_file.close();
-        }*/
-
-    //friend class Register;
 };
 
 class MMUStaff{
@@ -360,6 +331,9 @@ void mainmenu(){
 
             S.registerLogic();
 
+        }else if(choice==2){
+
+            L.loginUserLogic();
         }
 
     
@@ -381,7 +355,7 @@ void custType(){
 
                 MMUStudent stud;
 
-                stud.major();
+                //stud.major();
                 stud.updatereg();
             } else if(ctype=3){
 
@@ -393,68 +367,33 @@ void custType(){
             }
 		}
 
-/*class test:public Shopper{
-private:
-    string major;
-public:
-    void registerLogic(){
-
-            MMUStudent stu;
-
-            ofstream reg_file;
-
-            //open file in append mode to update existing database of user info
-            reg_file.open("shopper-details.txt", std::ios_base::app);
-
-            if(!reg_file){
-
-                cout<<"File is not found!"<<endl;
-            } else{
-
-                //if file found when continue
-                cout<<"===================================="<<endl;
-                cout<<"\t\tREGISTER"<<endl;
-                cout<<"===================================="<<endl;
-
-                reg_acc();
-                
-                
-
-                uname = getUsername();
-                pwd = getPwd();
-                cpwd = getCpwd();
-                stu.major();
-
-                cout<<endl;
-                cout<<"Register is completed and the data is saved !"<<endl<<endl;
-
-                reg_file<<uname<<setw(15)<<pwd<<setw(15)<<cpwd<<endl;
-            }
-
-            reg_file.close();
-        }
-
-
-};
-
-*/
 
 
 int main(){
     
     Shopper S;
     Login L;
-    int choice;
-    //login and register function call, the 2 classes and function put into 1 function
+    int choice, ctype;
+    
+    //login & reg
+        cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
+        cout<<"1. new here? Register an account."<<endl<<"2. Already a member? Login."<<endl;
+                cin>>choice;
     
 
-    mainmenu();
+        if(choice==1){
+
+            S.registerLogic();
+
+        }else if(choice==2){
+
+            L.loginUserLogic();
+        }
+    //login & reg end
+
+
 
 }
-
-
-
-
 
 /*Credits:
 
