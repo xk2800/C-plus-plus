@@ -166,6 +166,9 @@ class InsertNewItems {
 		}
 		
 		insertItemsInput() {
+			
+			cout<<endl;
+			
 			cout<<"How many new items you would like to add into system : ";
 			cin>>number;
 			cout<<endl;
@@ -767,6 +770,7 @@ void showItemLogic() {
 	InsertNewItems insert_item_obj;
 
 	ifstream in_show_file;
+	/*ofstream out_delete_file;*/
 
 	int show_itemid = 0;
 	string show_itemname;
@@ -779,6 +783,7 @@ void showItemLogic() {
 	switch(show_item_obj.getOption()) {
 		
 		case 1: in_show_file.open("owner-magazine-insert.txt");
+				/*out_delete_file.open("tmp_magazine.txt", std::ios_base::app);*/
 				
 				if(in_show_file.is_open()) {
 
@@ -792,10 +797,12 @@ void showItemLogic() {
 						cout<<"--------------------------------------------------------------------------------------------"<<endl;					
 						while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
 
-							cout<<show_itemid<<setw(15)<<show_itemname<<endl; 
+							cout<<show_itemid<<setw(15)<<show_itemname<<endl;
+							/*out_delete_file<<show_itemid<<setw(15)<<show_itemname<<endl;*/
 						}
 
 						in_show_file.close();
+						/*out_delete_file.close();*/
 				
 				} else {
 					cout<<"File is not found !";
@@ -869,17 +876,7 @@ void deleteItemsLogic() {
 
 	ShowItem show_item_obj;
 	InsertNewItems insert_item_obj;
-	/*Book insert_book_obj;
-	Movie insert_movie_obj;*/
-
-	/*int delete_itemid = 0, delete_itemunits = 0;
-	string delete_itemname, delete_itemcompany;
-	float delete_itemprice = 0;
-
-	int delete_shop_itemyr = 0, delete_shop_itemmonth = 0;
-	string delete_shop_itemauthor;
-	string delete_shop_itemactor;*/
-
+	
 	int delete_itemid = 0;
 	string delete_itemname;
 
@@ -891,8 +888,10 @@ void deleteItemsLogic() {
 	ofstream out_delete_file;
 	ifstream in_delete_file;
 
-	showItemLogic();
+	//showItemLogic();
 	
+	show_item_obj.showOption();
+
 	cout<<endl;
 	
 	delete_item_obj.deleteEnterByIdOption();
@@ -904,101 +903,97 @@ void deleteItemsLogic() {
 				 out_delete_file.open("tmp_magazine.txt", std::ios_base::app);
 
 				 if(in_delete_file.is_open()) {
-					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
 
+					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
+						
 						if(delete_itemid != deleteid) {
 							out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
 						}
 					} 
 						 
-					out_delete_file.close();
 					in_delete_file.close();
+					out_delete_file.close();
 
 					remove("owner-magazine-insert.txt");
 					rename("tmp_magazine.txt", "owner-magazine-insert.txt");
+
+				} else {
+					cout<<"File is not found !";
+					exit(1);
 				}
-				
+
 				break;
 
 		case 2 : in_delete_file.open("owner-book-insert.txt");
 				 out_delete_file.open("tmp_book.txt", std::ios_base::app);
-				 
-				 if(in_delete_file.is_open()) {
-					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
 
+				 if(in_delete_file.is_open()) {
+
+					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
+						
 						if(delete_itemid != deleteid) {
 							out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
 						}
 					} 
 						 
-					out_delete_file.close();
 					in_delete_file.close();
+					out_delete_file.close();
 
 					remove("owner-book-insert.txt");
 					rename("tmp_book.txt", "owner-book-insert.txt");
+
+				} else {
+					cout<<"File is not found !";
+					exit(1);
 				}
-				
+
 				break;
 
-
 		case 3 : in_delete_file.open("owner-movie-insert.txt");
-		         out_delete_file.open("tmp_movie.txt", std::ios_base::app);
-				 
-				 if(in_delete_file.is_open()) {
-					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
+				 out_delete_file.open("tmp_movie.txt", std::ios_base::app);
 
+				 if(in_delete_file.is_open()) {
+
+					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
+						
 						if(delete_itemid != deleteid) {
 							out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
 						}
 					} 
 						 
-					out_delete_file.close();
 					in_delete_file.close();
+					out_delete_file.close();
 
 					remove("owner-movie-insert.txt");
 					rename("tmp_movie.txt", "owner-movie-insert.txt");
+
+				} else {
+					cout<<"File is not found !";
+					exit(1);
 				}
 				
 				break;
 
+		default : cout<<"Operation failed !";
+				  exit(1);
+				  break;
+
 	}
+	
+	cout<<endl;
+	cout<<"Delete successfully ! Proceed to View Item to see the latest stock list"<<endl;		
 }
-	/*if(!out_delete_file) {
-		cout<<"File is not found !"<<endl;
-	} else {
+	
+/*********************************************** int main() ***********************************************/
+
+int main() {	
+	
+	menuLogic();
+	//deleteItemsLogic();
 		
-			delete_itemid = insert_new_obj.insertgetId();
-			delete_itemname = insert_new_obj.insertgetName();
-			delete_itemprice = insert_new_obj.insertgetPrice();
-			delete_itemunits = insert_new_obj.insertgetUnit();
-			delete_itemcompany = insert_new_obj.insertgetCompany();
+	return 0;
+}
 
-			delete_shop_itemyr = insert_magazine_obj.shopitem_yr;
-			delete_shop_itemmonth = insert_magazine_obj.shopitem_month;
-			delete_shop_itemauthor = insert_book_obj.shopitem_author;
-			delete_shop_itemactor = insert_movie_obj.shopitem_actor;
-
-			switch(show_item_obj.getOption()) {
-
-				case 1 : 
-						 
-						
-						 /*out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<setw(15)<<delete_itemprice<<setw(15)<<
-								          delete_itemunits<<setw(15)<<delete_itemcompany<<setw(15)<<delete_shop_itemyr<<setw(15)<<delete_shop_itemmonth<<endl;*/		     
-						 //break;
-
-				//case 2 : 
-						  /*out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<setw(15)<<delete_itemprice<<setw(15)<<
-								           delete_itemunits<<setw(15)<<delete_itemcompany<<setw(15)<<delete_shop_itemauthor<<endl;*/	     
-						 // break;
-
-				//case 3 :
-				
-						  /*out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<setw(15)<<delete_itemprice<<setw(15)<<
-								           delete_itemunits<<setw(15)<<delete_itemcompany<<setw(15)<<delete_shop_itemauthor<<endl;*/	     
-						 //break;
-			//}
-	//}	
 
 
 
@@ -1053,16 +1048,6 @@ void deleteItemsLogic() {
 
 	/////////////////////////	
 }
-		
-/*********************************************** int main() ***********************************************/
-
-int main() {	
-	
-	menuLogic();
-	//deleteItemsLogic();
-		
-	return 0;
-}
 
 
 // CREDIT : https://stackoverflow.com/questions/2393345/how-to-append-text-to-a-text-file-in-c
@@ -1070,6 +1055,7 @@ int main() {
 //			http://key-to-programming.blogspot.com/2015/01/program-for-auto-number-generator-auto.html
 //			https://www.educative.io/edpresso/what-is-a-cpp-abstract-class
 //          https://www.youtube.com/watch?v=1xH_w-bTOVc&list=LLKDL2NRkpulBjnktk_gDrsQ&index=1&t=1459s
+//			https://github.com/nouman-newworld/file-handling/blob/master/c%2B%2B%20file%20handling%202020
 //          https://www.systutorials.com/how-to-process-a-file-line-by-line-in-c/
 
 
