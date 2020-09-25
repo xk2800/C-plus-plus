@@ -18,35 +18,58 @@ Phone               : 010-2311245
 
 using namespace std;
 
+/**DONE: Register, Login
+ * 
+ * TODO: virtual function + view profile(user),         shopping cart 
+ * 
+ * 
+ * */
 
-class Register{
 
-    private:
-        string uname, pwd, cpwd, address, name;
-		int ctype;
+void loginmenu();
+void custType();
+class Shopper{
+
+    protected:
+        //string major;
+        string uname, pwd, cpwd, address, name ;
+		int ctype, id;
 
     public:
-        //enter credential for acc registration
-        void accRegister(){
+        //virtual void Register() {};
 
-			cout<<"Enter your name: ";
-				cin.ignore();
-				getline(cin, name);
-			cout<<"Enter your full address: ";
-				cin.ignore();
-				getline(cin, address);
-			cout<<"Customer type: "<<endl;
-			custType();
-            cout<<"Enter a username: ";
+        //default contructor
+        Shopper(){
+
+
+        }
+
+        //pure virtual function for profile
+        //virtual void shopperprofile() /*= 0*/;
+
+        //default registration IO
+        void reg_acc(){
+
+            cout<<"Enter your name: ";
                 cin.ignore();
-                getline(cin, uname);
+                getline(cin, name);
+            cout<<"Enter your full address: ";
+                cin.ignore();
+                getline(cin, address);
+            cout<<"Customer type: "<<endl;
+			custType();
+
+            /*cout<<"Enter a username: ";
+                cin.ignore();
+                getline(cin, uname);*/
             cout<<endl<<"Enter a password: ";
                 cin>>pwd;
             cout<<"Re-confirm your password: ";
                 cin>>cpwd;
-            idGen();
+            auto_genID();
+            //test();
 
-            //if pwd and confirm pwd not same, error happens and user must retry until both same
+                //validate password & confirm password input made by user
                 while(pwd != cpwd){
 
                     cout<<"Make sure both passwords are same. Kindly recheck and re-enter."<<endl;
@@ -57,11 +80,20 @@ class Register{
                 }
         }
 
-        //return input
-        string getUsername(){
+        string getName(){
+
+            return name;
+        }
+        
+        string getAddress(){
+
+            return address;
+        }
+
+        /*string getUsername(){
 
             return uname;
-        }
+        }*/
 
         string getPwd(){
 
@@ -73,32 +105,16 @@ class Register{
             return cpwd;
         }
 
-        //print customer type table
-		void custType(){
-
-			cout<<"1. Normal Customer (Non MMU)"<<endl;
-			cout<<"2. MMU Student"<<endl;
-			cout<<"3. MMU Staff"<<endl;
-            cout<<"Select a customer type: "<<endl;
-                cin>>ctype;
-            
-            if(ctype==2){
-
-                MMUStudent stud;
-
-                stud.major();
-            }
-		}
-
         //auto gen ID
-        int idGen(){
-
+        //int idGen(){
+            
+            //structure to auto generate user ID
             struct id_Gen
             {
                 id_Gen()
                 : _id (0)
                 {
-                    std::ifstream ifs("_id.txt");
+                    std::ifstream ifs("_id.txt"); //_id.txt file to save current running number
                     ifs>>_id;
                 }
 
@@ -112,20 +128,21 @@ class Register{
 
                 int _id;
             };
-
+                void auto_genID(){
                 id_Gen idGen;
 
-                cout<<"Your id is: " << idGen()<<endl;
+                cout<<"Your id is: "<<idGen()<<endl;
 
-                return 0;
-        }
+                //return 0;
+                }
 
+        //}
 
-
-        //Logic for registration part
+        //Logic(insert into txt file) for registration part
         void registerLogic(){
 
             ofstream reg_file;
+            id_Gen idgen;
 
             //open file in append mode to update existing database of user info
             reg_file.open("shopper-details.txt", std::ios_base::app);
@@ -133,39 +150,72 @@ class Register{
             if(!reg_file){
 
                 cout<<"File is not found!"<<endl;
-            } else{
+            } else{  //if file found, then continue
 
-                //if file found when continue
                 cout<<"===================================="<<endl;
                 cout<<"\t\tREGISTER"<<endl;
                 cout<<"===================================="<<endl;
 
-                accRegister();
-
-                uname = getUsername();
+                reg_acc();
+                
+                name = getName();
+                address = getAddress();
+                //uname = getUsername();
+                id = idgen();
                 pwd = getPwd();
-                cpwd = getCpwd();
+                //cpwd = getCpwd();
+                
 
                 cout<<endl;
                 cout<<"Register is completed and the data is saved !"<<endl<<endl;
 
-                reg_file<<uname<<setw(15)<<pwd<<setw(15)<<cpwd<<endl;
+                reg_file/*<<setw(15)<<uname*/<<setw(10)<<name<<setw(10)<<address<<setw(10)<<id<<setw(10)<<pwd<<endl;
             }
 
             reg_file.close();
         }
 
+        //pure virtual function for shopperprofile
+        void shopperprofile(){
+
+            ifstream file;
+
+            file.open("shopper-details.txt");
+
+            if(file.is_open()){
+
+                //cout<<name<<endl;
+
+                while(getline(file, name)){
+                    
+                    cout<<name<<endl;
+                }
+
+                file.close();
+            } else{
+
+                cout<<"File not found!";
+            }
+
+        }
+        
+        
 };
 
 class Login{
 
     private:
-        string uname, pwd;
-        Register Reg;
+        string id, pwd;
         ifstream login_file;
 
     public:
-        
+
+        //default contructor
+        Login(){
+
+
+        }
+
         int openingmsg(){
 
             cout<<"===================================="<<endl<<"\t\tLOGIN"<<endl<<"===================================="<<endl;
@@ -173,18 +223,20 @@ class Login{
 
         int accLogin(){
 
-            cout<<"Enter your username: ";
-                cin.ignore();
-                getline(cin, uname);
+            //IO user need to enter to login system
+            cout<<"Enter your ID: ";
+                //cin.ignore();
+                //getline(cin, id);
+                cin>>id;
             
             cout<<"Enter your password: ";
                 cin>>pwd;
             
         }
 
-        string getUsername(){
+        string getID(){
 
-            return uname;
+            return id;
         }
 
         string getPwd(){
@@ -192,27 +244,27 @@ class Login{
             return pwd;
         }
 
+        //validate user input with txt file
         void loginUserLogic(){
 
-
-            string username, password;
+            string ID, password;
             int offset_name, offset_pwd;
             bool validate_name, validate_pwd;
 
             login_file.open("shopper-details.txt");
             openingmsg();
             accLogin();
-            uname = getUsername();
+            id = getID();
             pwd = getPwd();
 
             if(login_file.is_open()){
 
                 while(!login_file.eof()){
 
-                    getline(login_file, username);
+                    getline(login_file, ID);
                     getline(login_file, password);
 
-                    if((offset_name = uname.find(username, 0))!= string::npos && (offset_pwd = password.find(pwd, 0))!=string::npos){
+                    if((offset_name = id.find(ID, 0))!= string::npos && (offset_pwd = password.find(pwd, 0))!=string::npos){
 
                         validate_name = true; 
                         validate_pwd = true; break;
@@ -243,84 +295,284 @@ class Login{
 
 };
 
-//function that contain controls and basic logic for register and login functions. Reason for this is to reduce clutter in main.
-void mainmenu(){
 
-    Register R;
-    Login L;
-    int choice;
-
-    cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
-    cout<<"1. new here? Register an account."<<endl<<"2. Already a member? Login."<<endl;
-        cin>>choice;
-
-        switch(choice){
-
-        case 1:
-            R.registerLogic();
-            
-            cout<<endl;
-        break;
-
-            //cout<<"Reading from the file...."<<endl<<endl;
-        
-        case 2:
-            L.loginUserLogic();
-        break;
-    }
-}
-
-
-class Customer{
+class Customer:public Shopper{
 
     private:
         
     
     public:
 
-    
+        //default contructor
+        Customer(){
+
+
+    }
+
 };
 
-class MMUStudent{
+class MMUStudent:public Shopper{
     
     private:
         
-        string major;
+        string maj;
     
     public: 
+
+        //default contructor
+        MMUStudent(){
+
+
+        }
 
         void major(){
 
             cout<<"Enter your major: ";
+                cin.ignore();
+                getline(cin, maj);
+
         }
 
-    friend class Register;
+        string maje(){
+
+            return maj;
+        }
+
+        void updateregstud(){
+
+            ofstream reg_file;
+
+            //open file in append mode to update existing database of user info
+            reg_file.open("shopper-details.txt", std::ios_base::app);
+
+            if(!reg_file){
+
+                cout<<"File is not found!"<<endl;
+            } else{
+
+                major();
+                maj = maje();
+                
+                reg_file<</*endl<<setw(30)<<*/maj/*<<endl*/;
+            }
+
+            reg_file.close();
+        }
+
 };
 
-class MMUStaff{
+class MMUStaff:public Shopper{
 
     private:
         
+        string dept;
     
     public: 
 
+        //default contructor
+        MMUStaff(){
+
+
+        }
+
+        void department(){
+
+            cout<<"Enter the name of your department : ";
+                cin.ignore();
+                getline(cin, dept);
+        }
+
+        string dep(){
+
+            return dept;
+        }
+
+        void updateregstaff(){
+
+            ofstream reg_file;
+
+            reg_file.open("shopper-details.txt", std::ios_base::app);
+
+            if(!reg_file){
+
+                cout<<"File is not found"<<endl;
+            } else{
+
+                department();
+                dept = dep();
+
+                reg_file<<dept;
+            }
+
+            reg_file.close();
+        }
+
+};
+
+//class Mainmenu:public Shopper{
+/*void mainmenu(){
+    //private:
+    Shopper S;
+    //test t;
+    Login L;
+    int choice, ctype;
+    
+
+    //public:
+        cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
+        cout<<"1. new here? Register an account."<<endl<<"2. Already a member? Login."<<endl;
+                cin>>choice;
+    
+
+        if(choice==1){
+
+            S.registerLogic();
+
+        }else if(choice==2){
+
+            L.loginUserLogic();
+        }
+
+    
+}*/
+void custType(){
+
+    int ctype;
+
+			cout<<"1. Normal Customer (Non MMU)"<<endl;
+			cout<<"2. MMU Student"<<endl;
+			cout<<"3. MMU Staff"<<endl;
+            cout<<"Select a customer type: "<<endl;
+                cin>>ctype;
+            
+            if(ctype==1){
+
+                
+            } else if(ctype==2){
+
+                MMUStudent stud;
+
+                //stud.major();
+                stud.updateregstud();
+            } else if(ctype==3){
+
+                MMUStaff staff;
+
+                staff.updateregstaff();
+            } else{
+
+                cout<<"Kindly pick between 1-3 only.";
+                custType();
+            }
+		}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+class ShopItem{
+
+    protected:
+
+
+    public:
+
+        //default constructor
+        ShopItem(){
+
+
+        }
+
+
+
+};
+
+class Book:public ShopItem{
+
+    private:
+
+
+    public:
+
+        //default constructor
+        Book(){
+
+
+        }
+
+
+};
+
+class Magazine:public ShopItem{
+
+    private:
+
+
+    public:
         
+        //default constructor
+        Magazine(){
+
+
+        }
+
+};
+
+class Movie:public ShopItem{
+
+    private:
+
+
+    public:
+
+        //default constructor
+        Movie(){
+
+
+        }
+
+
 
 };
 
 
-int main(){
+//////////////////////////////////////////////////////////
+//menu after success login
+void loginmenu(){
 
-    //login and register function call, the 2 classes and function put into 1 function
-    mainmenu();
-
+    cout<<"Main Menu"<<endl;
+    cout<<"1. View Profile"<<endl;
+    cout<<"2. View Shopping Cart"<<endl;
 
 
 }
 
 
+int main(){
+    
+    Shopper S;
+    Login L;
+    int choice, ctype;
+    
+    //login & reg
+        cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
+        cout<<"1. new here? Register an account."<<endl<<"2. Already a member? Login."<<endl;
+                cin>>choice;
+    
+
+        if(choice==1){
+
+            S.registerLogic();
+
+        }else if(choice==2){
+
+            L.loginUserLogic();
+            loginmenu();
+            //S.shopperprofile();
+        }
+    //login & reg end
 
 
+
+}
 
 /*Credits:
 
