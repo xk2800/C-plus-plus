@@ -31,10 +31,10 @@ void registerLogic();
 void loginUserValidationLogic();
 void loginPassValidationLogic();
 void menuLogic();
-void insertNewItemsLogic();
-void updateItemsLogic();
 void showItemLogic();
+void insertNewItemsLogic();
 void deleteItemsLogic();
+void updateItemsLogic();
 
 /*********************************************** REGISTER CLASS ***********************************************/
 
@@ -256,7 +256,8 @@ class Magazine: public ShopItem {
 			cout<<"Month of publication : ";
 			cin>>shopitem_month;
 			
-			cin.ignore();		}
+			cin.ignore();		
+		}
 
 	friend void insertNewItemsLogic();
 	friend void deleteItemsLogic();
@@ -324,8 +325,7 @@ class ShowItem {
 			cout<<"           Movie Stock              "<<endl;
 			cout<<"-----------------------------------"<<endl;
 		}
-
-	friend void showItemLogic();
+		
 	friend void deleteItemsLogic();
 };
 
@@ -347,7 +347,6 @@ class DeleteItem {
 			return delete_id;
 		}
 
-	friend void deleteItemsLogic();
 };
 
 /*********************************************** OWNER UPDATE ITEM CLASS ***********************************************/
@@ -376,8 +375,11 @@ class UpdateItem {
 			cout<<endl;
 		}
 
-		void updateItemsInput() {
+		int getupdateItemsCategoryNumber() {
+			return category_number;
+		}
 
+		void updateItemsInput() {
 			switch(category_number) {
 				case 1: 
 				case 2:
@@ -406,6 +408,10 @@ class UpdateItem {
 			cin>>category_details_number;
 
 			cin.ignore();			
+		}
+
+		int getupdateItemsCategoryDetailsNumber() {
+			return category_details_number;
 		}
 
 		void updateItemsAskInput() {
@@ -469,7 +475,37 @@ class UpdateItem {
 			}
 		}
 
-		friend void updateItemsLogic();
+		int getUpdateItemUnits() {
+			return update_item_units;
+		}
+
+		string getUpdateItemName() {
+			return update_item_name;
+		}
+
+		string getUpdateItemCompany() {
+			return update_item_company;
+		}
+
+		float getUpdateItemPrice() {
+			return update_item_price;
+		}
+
+		int getUpdateMagazineYr() {
+			return update_magazine_yr;
+		}
+
+		int getUpdateMagazineMonth() {
+			return update_magazine_month;
+		}
+
+		string getUpdateBookAuthor() {
+			return update_book_author;
+		}
+
+		string getUpdateMovieActor() {
+			return update_movie_actor;
+		}
 };
 
 /*********************************************** registerLogic() ***********************************************/
@@ -514,7 +550,7 @@ void loginUserValidationLogic() {
 	string username, oname;
 	int offset_name;
 	bool validate_name;
-	
+
 	in_log_file_user.open("owner-details.txt");
 
 	log_obj.usernameLogin();
@@ -644,7 +680,7 @@ void menuLogic() {
 		         	 cout<<"=========================================="<<endl;
 					 cout<<endl;
 
-					 //updateItemsLogic();
+					 updateItemsLogic();
 					 break;
 			
 			case 6 : cout<<"=========================================="<<endl;
@@ -983,6 +1019,20 @@ void deleteItemsLogic() {
 	cout<<endl;
 	cout<<"Delete successfully ! Proceed to View Item to see the latest stock list"<<endl;		
 }
+
+/*********************************************** updateItemLogic() ***********************************************/
+
+void updateItemsLogic() {
+
+	UpdateItem update_item_obj;
+
+	update_item_obj.updateItemsCategory();
+	update_item_obj.updateItemsInput();
+	update_item_obj.updateItemsAskInput();
+
+	//switch(update_item_obj.)
+}
+
 	
 /*********************************************** int main() ***********************************************/
 
@@ -1045,8 +1095,6 @@ int main() {
 
 	}
 
-
-	/////////////////////////	
 }
 
 
