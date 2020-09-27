@@ -1,8 +1,2 @@
-
-DITxavier khew     23456        57       666
-STAD     staff        mu        58       444
-        hg         g        59       777
-ui        uu         y        60        22
-        yy         t        61       123
-tm      rrrr     rreee        62        00
-y        dd         d        63        90
+dit    xavier     23456        -8         5
+qq       trt         t        -7         4

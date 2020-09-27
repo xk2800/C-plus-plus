@@ -36,7 +36,7 @@ class Shopper{
 		int ctype, id;
 
     public:
-        //virtual void Register() {};
+        //virtual void shopperprofile() = 0;
 
         //default contructor
         Shopper(){
@@ -176,7 +176,8 @@ class Shopper{
         }
 
         //pure virtual function for shopperprofile
-        void shopperprofile(){
+
+        /*void shopperprofile(){
 
             ifstream file;
 
@@ -197,9 +198,20 @@ class Shopper{
                 cout<<"File not found!";
             }
 
-        }
+        }*/
         
-        
+        //virtual void shopperprofile() = 0;
+        //virtual void shopperprofile() = 0;
+        //friend void mine();
+
+};
+//#endif
+class test:public Shopper{
+
+
+    public:
+        //virtual void shopperprofile() = 0;
+
 };
 
 class Login{
@@ -307,7 +319,32 @@ class Customer:public Shopper{
         Customer(){
 
 
-    }
+        }
+
+        void shopperprofile(){
+
+            ifstream file;
+
+            file.open("shopper-details.txt");
+
+            if(file.is_open()){
+
+                //cout<<name<<endl;
+
+                while(getline(file, name)){
+                    
+                    cout<<name<<endl;
+                }
+
+                file.close();
+            } else{
+
+                cout<<"File not found!";
+            }
+
+        }
+
+        //friend int main();
 
 };
 
@@ -359,6 +396,63 @@ class MMUStudent:public Shopper{
             reg_file.close();
         }
 
+
+        void shopperprofile(){
+
+            ifstream file;
+
+            file.open("shopper-details.txt");
+
+            if(file.is_open()){
+
+                //cout<<name<<endl;
+
+                while(getline(file, name)){
+                    
+                    cout<<name<<endl;
+                }
+
+                file.close();
+            } else{
+
+                cout<<"File not found!";
+            }
+
+        }
+        //friend int main();
+
+};
+
+class profile:public Shopper{
+
+    private:
+
+    public:
+
+     /*void shopperprofile(){
+
+            ifstream file;
+
+            file.open("shopper-details.txt");
+
+            if(file.is_open()){
+
+                //cout<<name<<endl;
+
+                while(getline(file, name)){
+                    
+                    cout<<"tester for virtual function"<<endl;
+                }
+
+                file.close();
+            } else{
+
+                cout<<"File not found!";
+            }
+
+        }
+
+        friend int main();*/
 };
 
 class MMUStaff:public Shopper{
@@ -368,6 +462,29 @@ class MMUStaff:public Shopper{
         string dept;
     
     public: 
+
+        void shopperprofile(){
+
+            ifstream file;
+
+            file.open("shopper-details.txt");
+
+            if(file.is_open()){
+
+                //cout<<name<<endl;
+
+                while(getline(file, name)){
+                    
+                    cout<<name<<endl;
+                }
+
+                file.close();
+            } else{
+
+                cout<<"File not found!";
+            }
+
+        }
 
         //default contructor
         MMUStaff(){
@@ -406,6 +523,8 @@ class MMUStaff:public Shopper{
 
             reg_file.close();
         }
+
+        friend int main();
 
 };
 
@@ -481,6 +600,8 @@ class ShopItem{
 
         }
 
+        virtual void itemDisplay()=0;
+
 
 
 };
@@ -533,6 +654,28 @@ class Movie:public ShopItem{
 
 };
 
+class ShoppingCart{
+
+    private:
+
+    ofstream cart_file;
+    string id, prod_name, author_name;
+    float prod_price;
+    int prod_units;
+
+
+    public:
+
+        void cart(){
+
+            cart_file.open("")
+
+        }
+
+
+};
+
+
 
 //////////////////////////////////////////////////////////
 //menu after success login
@@ -545,11 +688,17 @@ void loginmenu(){
 
 }
 
+void mine(){
+
+    
+}
 
 int main(){
     
+    //friend int main();
     Shopper S;
     Login L;
+    MMUStudent stud;
     int choice, ctype;
     
     //login & reg
@@ -565,9 +714,12 @@ int main(){
         }else if(choice==2){
 
             L.loginUserLogic();
-            loginmenu();
+            //loginmenu();
+            //stud.shopperprofile();
+            
             //S.shopperprofile();
         }
+    
     //login & reg end
 
 
