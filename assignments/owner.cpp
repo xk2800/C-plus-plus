@@ -23,7 +23,8 @@ Phone :                 01111207201
 #include<iomanip>
 #include<string>
 #include<cstdlib>
-#include<time.h>
+#include<ctime>
+//#include<time.h>
 #include<algorithm>
 using namespace std;
 
@@ -39,1064 +40,1109 @@ void updateItemsLogic();
 /*********************************************** REGISTER CLASS ***********************************************/
 
 class Register {
-	
-	private:
-		string oname;
-		string pass, cfrmpass;
-	
-	public:
-		void usernameRegister() {
-			cout<<"Set a username : ";
-			getline(cin, oname);
-			cout<<endl;	
-		}
-		
-		void passRegister() {
-			cout<<"Enter a password : ";
-			cin>>pass;
-			cout<<"Re-enter the password : ";
-			cin>>cfrmpass;	
-		
-			while(pass != cfrmpass) {
-				cout<<"The password you entered is not matched ! Please try again"<<endl<<endl;
-				cout<<"Enter a password : ";
-			    cin>>pass;
-			    cout<<"Re-enter the password : ";
-			    cin>>cfrmpass;	
-			}	
-		}
-		
-		string getUser() {
-			return oname;
-		}
-		
-		string getPass() {
-			return pass;
-		}	
-		
-		string getCfrmpass() {
-			return cfrmpass;
-		}		
+
+private:
+    string oname;
+    string pass, cfrmpass;
+
+public:
+    void usernameRegister() {
+        cout<<"Set a username : ";
+        getline(cin, oname);
+        cout<<endl;
+    }
+
+    void passRegister() {
+        cout<<"Enter a password : ";
+        cin>>pass;
+        cout<<"Re-enter the password : ";
+        cin>>cfrmpass;
+
+        while(pass != cfrmpass) {
+            cout<<"The password you entered is not matched ! Please try again"<<endl<<endl;
+            cout<<"Enter a password : ";
+            cin>>pass;
+            cout<<"Re-enter the password : ";
+            cin>>cfrmpass;
+        }
+    }
+
+    string getUser() {
+        return oname;
+    }
+
+    string getPass() {
+        return pass;
+    }
+
+    string getCfrmpass() {
+        return cfrmpass;
+    }
 };
 
 /*********************************************** LOGIN CLASS ***********************************************/
 
 class Login {
-	
-	private:
-		string username;
-		string pass;
-		
-	public:
-		usernameLogin() {	
-			cout<<"Enter your username : ";
-			cin.ignore();
-			getline(cin, username);
-		}
-		
-		passLogin() {
-			cout<<"Enter your password : ";
-			cin>>pass;
-		}
-		
-		string getUser() {
-			return username;
-		}
-		
-		string getPass() {
-			return pass;
-		}		
+
+private:
+    string username;
+    string pass;
+
+public:
+    void usernameLogin() {
+        cout<<"Enter your username : ";
+        cin.ignore();
+        getline(cin, username);
+    }
+
+    void passLogin() {
+        cout<<"Enter your password : ";
+        cin>>pass;
+    }
+
+    string getUser() {
+        return username;
+    }
+
+    string getPass() {
+        return pass;
+    }
 };
 
 /*********************************************** OWNER MENU CLASS ***********************************************/
 
 class Menu {
-	
-	private:
-		int selection;
-		
-	public:
-		menuDisplay() {
-			cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
-			cout<<"          WELCOME TO MMU SHOPPING KIOSK OWNER SYSTEM          "<<endl;
-			cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
-			cout<<endl<<endl;
-			cout<<" 1. Login "<<endl; 				/***/
-			cout<<" 2. Register "<<endl;			/***/
-			cout<<" 3. View Items "<<endl;
-			cout<<" 4. Insert New Items "<<endl;	/***/
-			cout<<" 5. Update Information Of Items "<<endl;
-			cout<<" 6. Delete Items "<<endl;
-			cout<<" 0. Exit "<<endl;
-		}
-		
-		menuSelection() {
-			cout<<endl;
-			cout<<"Please choose an operation to proceed !"<<endl;
-			cin>>selection;
-			
-			cin.ignore();
-		}
-				
-		friend void menuLogic();	
+
+private:
+    int selection;
+
+public:
+    void menuDisplay() {
+        cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+        cout<<"          WELCOME TO MMU SHOPPING KIOSK OWNER SYSTEM          "<<endl;
+        cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+        cout<<endl<<endl;
+        cout<<" 1. Login "<<endl; 				/***/
+        cout<<" 2. Register "<<endl;			/***/
+        cout<<" 3. View Items "<<endl;
+        cout<<" 4. Insert New Items "<<endl;	/***/
+        cout<<" 5. Update Information Of Items "<<endl;
+        cout<<" 6. Delete Items "<<endl;
+        cout<<" 0. Exit "<<endl;
+    }
+
+    void menuSelection() {
+        cout<<endl;
+        cout<<"Please choose an operation to proceed !"<<endl;
+        cin>>selection;
+
+        cin.ignore();
+    }
+
+    friend void menuLogic();
 };
 
 /*********************************************** OWNER INSERT ITEM CLASS ***********************************************/
 
 class InsertNewItems {
 
-	private:
-		int new_item_units, number, category_number, /*rand_number*/id ;
-		string new_item_name, new_item_company;
-		float new_item_price;
+private:
+    int new_item_units, number, category_number, /*rand_number*/id ;
+    string new_item_name, new_item_company;
+    float new_item_price;
 
-	public:
-		insertItemsCategory() {
-			cout<<"----------------------"<<endl;
-			cout<<"    Item Categories    "<<endl;
-			cout<<"----------------------"<<endl;
-			cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl<<endl;
-			
-			cout<<"Please choose a category that you would like to insert new items"<<endl;
-			cin>>category_number;
-		}
+public:
+    void insertItemsCategory() {
+        cout<<"----------------------"<<endl;
+        cout<<"    Item Categories    "<<endl;
+        cout<<"----------------------"<<endl;
+        cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl<<endl;
 
-		int insertgetCatergoryNumber() {
-			return category_number;
-		}
-		
-		insertItemsInput() {
-			
-			cout<<endl;
-			
-			cout<<"How many new items you would like to add into system : ";
-			cin>>number;
-			cout<<endl;
+        cout<<"Please choose a category that you would like to insert new items"<<endl;
+        cin>>category_number;
+    }
 
-			cin.ignore();
-		}
+    int insertgetCatergoryNumber() {
+        return category_number;
+    }
 
-		int insertgetNumber() {
-			return number;
-		}
+    void insertItemsInput() {
 
-		insertItemsMenuDetails() {
-			cout<<"Product ID : ";
-			cin>>id;
+        cout<<endl;
 
-			cin.ignore();
-			
-			cout<<"Product name : ";
-			getline(cin, new_item_name);
+        cout<<"How many new items you would like to add into system : ";
+        cin>>number;
+        cout<<endl;
 
-			cout<<"Product price : ";
-			cin>>new_item_price;
-			cout<<"Number of product units available : ";
-			cin>>new_item_units;
-			
-			cin.ignore();
+        cin.ignore();
+    }
 
-			cout<<"Name of the company which produces the item : ";
-			getline(cin, new_item_company);
-			
-		}
+    int insertgetNumber() {
+        return number;
+    }
 
-		int insertgetId() {
-			return id;
-		}
+    void insertItemsMenuDetails() {
+        cout<<"Product ID : ";
+        cin>>id;
 
-		string insertgetName() {
-			return new_item_name;
-		}
+        cin.ignore();
 
-		float insertgetPrice() {
-			return new_item_price;
-		}
+        cout<<"Product name : ";
+        getline(cin, new_item_name);
 
-		int insertgetUnit() {
-			return new_item_units;
-		}
+        cout<<"Product price : ";
+        cin>>new_item_price;
+        cout<<"Number of product units available : ";
+        cin>>new_item_units;
 
-		string insertgetCompany() {
-			return new_item_company;
-		}
+        cin.ignore();
 
-		/*insertRandGenerate() {
-			srand(time(NULL));
-			rand_number = rand()%20;
-		}*/
+        cout<<"Name of the company which produces the item : ";
+        getline(cin, new_item_company);
 
-		/*getInsertRandGenerate() {
-			return rand_number;
-		}*/
+    }
 
-		friend void insertNewItemsLogic();
+    int insertgetId() {
+        return id;
+    }
+
+    string insertgetName() {
+        return new_item_name;
+    }
+
+    float insertgetPrice() {
+        return new_item_price;
+    }
+
+    int insertgetUnit() {
+        return new_item_units;
+    }
+
+    string insertgetCompany() {
+        return new_item_company;
+    }
+
+    /*insertRandGenerate() {
+        srand(time(NULL));
+        rand_number = rand()%20;
+    }*/
+
+    /*getInsertRandGenerate() {
+        return rand_number;
+    }*/
+
+    friend void insertNewItemsLogic();
 
 };
 class ShopItem {
 
-	protected: 
-		friend void insertNewItemsLogic();
-		friend void deleteItemsLogic();
-		int shopitem_yr = 0, shopitem_month = 0;
-		string shopitem_author;
-		string shopitem_actor;
+protected:
+    friend void insertNewItemsLogic();
+    friend void deleteItemsLogic();
+    int shopitem_yr = 0, shopitem_month = 0;
+    string shopitem_author;
+    string shopitem_actor;
 
-	public:
-		virtual void itemDisplay() = 0;
+public:
+    virtual void itemDisplay() = 0;
 
 };
 
 class Magazine: public ShopItem {
 
-	public:
-		void itemDisplay() {
-			cout<<"Year of publication : ";
-			cin>>shopitem_yr;
-			cout<<"Month of publication : ";
-			cin>>shopitem_month;
-			
-			cin.ignore();		
-		}
+public:
+    void itemDisplay() {
+        cout<<"Year of publication : ";
+        cin>>shopitem_yr;
+        cout<<"Month of publication : ";
+        cin>>shopitem_month;
 
-	friend void insertNewItemsLogic();
-	friend void deleteItemsLogic();
+        cin.ignore();
+    }
+
+    friend void insertNewItemsLogic();
+    friend void deleteItemsLogic();
+    friend void updateItemsLogic();
 };
 
 class Book: public ShopItem {
 
-	public:
-		void itemDisplay() {
-			cout<<"Name of the author : ";
-			getline(cin, shopitem_author);
-		}
+public:
+    void itemDisplay() {
+        cout<<"Name of the author : ";
+        getline(cin, shopitem_author);
+    }
 
-	friend void insertNewItemsLogic();
-	friend void deleteItemsLogic();
+    friend void insertNewItemsLogic();
+    friend void deleteItemsLogic();
+    friend void updateItemsLogic();
 };
 
 class Movie: public ShopItem {
-	
-	public:
-		void itemDisplay() {
-			cout<<"Name of the actor : ";
-			getline(cin, shopitem_actor);
-		}
 
-	friend void insertNewItemsLogic();
-	friend void deleteItemsLogic();
+public:
+    void itemDisplay() {
+        cout<<"Name of the actor : ";
+        getline(cin, shopitem_actor);
+    }
+
+    friend void insertNewItemsLogic();
+    friend void deleteItemsLogic();
+    friend void updateItemsLogic();
 };
 
 /*********************************************** OWNER SHOW ITEM CLASS ***********************************************/
 
 class ShowItem {
 
-	private:
-		int selection;
-	
-	public:
-		void showOption() {
-			cout<<"-------------------"<<endl;
-			cout<<" 1. Magazine\n 2. Book\n 3. Movie"<<endl;
-			cout<<"-------------------"<<endl;
+private:
+    int selection;
 
-			cout<<"Which catergory of items you would like to see ? "<<endl;
-			cin>>selection;
-		}
+public:
+    void showOption() {
+        cout<<"-------------------"<<endl;
+        cout<<" 1. Magazine\n 2. Book\n 3. Movie"<<endl;
+        cout<<"-------------------"<<endl;
 
-		int getOption() {
-			return selection;
-		}
-		
-		void showMagazine() {
-			cout<<"-----------------------------------"<<endl;
-			cout<<"           Magazine Stock          "<<endl;
-			cout<<"-----------------------------------"<<endl;
-		}
+        cout<<"Which catergory of items you would like to see ? "<<endl;
+        cin>>selection;
+    }
 
-		void showBook() {
-			cout<<"-----------------------------------"<<endl;
-			cout<<"           Book Stock              "<<endl;
-			cout<<"-----------------------------------"<<endl;
-		}
+    int getOption() {
+        return selection;
+    }
 
-		void showMovie() {
-			cout<<"-----------------------------------"<<endl;
-			cout<<"           Movie Stock              "<<endl;
-			cout<<"-----------------------------------"<<endl;
-		}
-		
-	friend void deleteItemsLogic();
+    void showMagazine() {
+        cout<<"-----------------------------------"<<endl;
+        cout<<"           Magazine Stock          "<<endl;
+        cout<<"-----------------------------------"<<endl;
+    }
+
+    void showBook() {
+        cout<<"-----------------------------------"<<endl;
+        cout<<"           Book Stock              "<<endl;
+        cout<<"-----------------------------------"<<endl;
+    }
+
+    void showMovie() {
+        cout<<"-----------------------------------"<<endl;
+        cout<<"           Movie Stock              "<<endl;
+        cout<<"-----------------------------------"<<endl;
+    }
+
+    friend void deleteItemsLogic();
 };
 
 /*********************************************** OWNER DELETE ITEM CLASS ***********************************************/
 
 class DeleteItem {
 
-	private:
-		int delete_id;
+private:
+    int delete_id;
 
-	public:
+public:
 
-		void deleteEnterByIdOption() {
-			cout<<"Enter the ID of the product that you wish to delete from the stock list"<<endl;
-			cin>>delete_id;
-		}
+    void deleteEnterByIdOption() {
+        cout<<"Enter the ID of the product that you wish to delete from the stock list"<<endl;
+        cin>>delete_id;
+    }
 
-		int getDeleteId() {
-			return delete_id;
-		}
+    int getDeleteId() {
+        return delete_id;
+    }
 
 };
 
 /*********************************************** OWNER UPDATE ITEM CLASS ***********************************************/
 
 class UpdateItem {
-	
-	private:
-		int category_number, category_details_number ;
-		int update_item_units = 0;
-		string update_item_name, update_item_company;
-		float update_item_price = 0;
 
-		int update_magazine_yr = 0, update_magazine_month = 0;
-		string update_book_author, update_movie_actor;
+private:
+    int category_number, category_details_number, update_id = 0 ;
+    int update_item_units = 0;
+    string update_item_name, update_item_company;
+    float update_item_price = 0;
 
-	public:
-		void updateItemsCategory() {
-			cout<<"----------------------"<<endl;
-			cout<<"    Item Categories    "<<endl;
-			cout<<"----------------------"<<endl;
-			cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl<<endl;
-			
-			cout<<"Please choose a category that you would like update the items"<<endl;
-			cin>>category_number;
-			
-			cout<<endl;
-		}
+    int update_magazine_yr = 0, update_magazine_month = 0;
+    string update_book_author, update_movie_actor;
 
-		int getupdateItemsCategoryNumber() {
-			return category_number;
-		}
+public:
+    void updateItemsCategory() {
+        cout<<"----------------------"<<endl;
+        cout<<"    Item Categories    "<<endl;
+        cout<<"----------------------"<<endl;
+        cout<<" 1. Magazine "<<endl<<" 2. Book "<<endl<<" 3. Movie "<<endl<<endl;
 
-		void updateItemsInput() {
-			switch(category_number) {
-				case 1: 
-				case 2:
-				case 3: cout<<"[1] Name of product"<<endl;
-						cout<<"[2] Price of product"<<endl;
-						cout<<"[3] Units available of product"<<endl;
-						cout<<"[4] Name of the manufacture"<<endl;
-						break;
-			}
+        cout<<"Please choose a category that you would like update the items"<<endl;
+        cin>>category_number;
 
-			switch(category_number) {
-				case 1: cout<<"[5] Publication year"<<endl;
-						cout<<"[6] Publication month"<<endl;
-						break;
-				case 2: cout<<"[5] Author name"<<endl;
-						break;
-				case 3: cout<<"[5] Actor name"<<endl;
-						break;
+        cin.ignore();
 
-				default: cout<<"Please choose a appopriate category to update ! Try again later"<<endl;
-						 exit(1);
-			}
+        cout<<endl;
+    }
 
-			cout<<endl;
-			cout<<"What are the element of the item you would like to update ? [1 - 6]"<<endl;
-			cin>>category_details_number;
+    int getupdateItemsCategoryNumber() {
+        return category_number;
+    }
 
-			cin.ignore();			
-		}
+    void updateItemsInput() {
+        switch(category_number) {
+            case 1:
+            case 2:
+            case 3: cout<<"New name of the product : ";
+                getline(cin, update_item_name);
+                cout<<"New price of product : ";
+                cin >> update_item_price;
+                cout<<"New units available of product : ";
+                cin >> update_item_units;
 
-		int getupdateItemsCategoryDetailsNumber() {
-			return category_details_number;
-		}
+                cin.ignore();
 
-		void updateItemsAskInput() {
-			switch(category_number) {
-		
-				case 1 : 
-				case 2 :
-				case 3 : switch(category_details_number) {
-					 
-					 		case 1: cout<<"Enter the new product name : "; 
-									getline(cin, update_item_name);
-							 		break;
+                cout<<"New name of the manufacture : ";
+                getline(cin, update_item_company);
 
-					 		case 2: cout<<"Enter the new product price : ";
-					 				cin>>update_item_price;
-									break;
+                break;
+        }
 
-					 		case 3: cout<<"Enter the new product units : ";
-					 		 		cin>>update_item_units;
-									break;
+        switch(category_number) {
+            case 1: cout<<"New publication year : ";
+                cin >> update_magazine_yr;
+                cout<<"New publication month : ";
+                cin >> update_magazine_month;
+                break;
 
-					 		case 4: cout<<"Enter the new product manufacture : ";
-					 		 		getline(cin, update_item_company);
-									break;
+            case 2: cout<<"New author name : ";
+                getline(cin, update_book_author);
+                break;
+            case 3: cout<<"New actor name : ";
+                getline(cin, update_movie_actor);
+                break;
 
-						}
-			}
-	
-			switch(category_number) {
-		
-				case 1 : switch(category_details_number) { 
-					 		
-							 case 5: cout<<"Enter the new publication year : ";
-					 		 		 cin>>update_magazine_yr;
-							 		 break;	
+            default: cout<<"Please choose a appopriate category to update ! Try again later"<<endl;
+                exit(1);
+        }
+        cout<<endl;
 
-					 		 case 6: cout<<"Enter the new publication month : ";
-					 				 cin>>update_magazine_month;
-								     break;	
-				 		 }
+    }
 
-				 		 break;
-		
-				case 2 : switch(category_details_number) {
-					 		
-							 case 5: cout<<"Enter the new author name : ";
-					 		 		 getline(cin, update_book_author);
-							 		 break;
-				 		 }
-				 
-				         break;
-				
-				case 3 : switch(category_details_number) {
+    void updateEnterByIdOption() {
+        cout<<"Enter the ID of the product that you wish to update in the stock list : ";
+        cin>>update_id;
 
-					 		 case 5: cout<<"Enter the new actor name : ";
-					 				 getline(cin, update_movie_actor);
-									 break;
-				 		 }
-				 
-				 		 break;
-			}
-		}
+        cin.ignore();
+    }
 
-		int getUpdateItemUnits() {
-			return update_item_units;
-		}
+    int getUpdateId() {
+        return update_id;
+    }
 
-		string getUpdateItemName() {
-			return update_item_name;
-		}
+    string updategetItemName() {
+        return update_item_name;
+    }
 
-		string getUpdateItemCompany() {
-			return update_item_company;
-		}
+    float updategetItemPrice() {
+        return update_item_price;
+    }
 
-		float getUpdateItemPrice() {
-			return update_item_price;
-		}
+    int updategetItemUnit() {
+        return update_item_units;
+    }
 
-		int getUpdateMagazineYr() {
-			return update_magazine_yr;
-		}
+    string updategetItemCompany() {
+        return update_item_company;
+    }
 
-		int getUpdateMagazineMonth() {
-			return update_magazine_month;
-		}
+    int updategetItemYr() {
+        return update_magazine_yr;
+    }
 
-		string getUpdateBookAuthor() {
-			return update_book_author;
-		}
+    int updategetItemMonth() {
+        return update_magazine_month;
+    }
 
-		string getUpdateMovieActor() {
-			return update_movie_actor;
-		}
+    string updategetItemAuthor() {
+        return update_book_author;
+    }
+
+    string updategetItemActor() {
+        return update_movie_actor;
+    }
 };
 
 /*********************************************** registerLogic() ***********************************************/
 
 void registerLogic() {
-	
-	Register reg_obj;
-	ofstream out_reg_file;
-	
-	string oname;
-	string password, cfrmpassword;
-	
-	out_reg_file.open("owner-details.txt", std::ios_base::app);
 
-	if(!out_reg_file) {
-		cout<<"File is not found !"<<endl;
-	} else {
-		
-		reg_obj.usernameRegister();
-		reg_obj.passRegister();
-		
-		oname = reg_obj.getUser();
-		password = reg_obj.getPass();
-		cfrmpassword = reg_obj.getCfrmpass();
-		
-		cout<<endl;
-		cout<<"Register is completed and the data is saved !"<<endl<<endl;
-		
-		out_reg_file<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl;		
-	}
-			
-	out_reg_file.close();
+    Register reg_obj;
+    ofstream out_reg_file;
+
+    string oname;
+    string password, cfrmpassword;
+
+    out_reg_file.open("owner-details.txt", std::ios_base::app);
+
+    if(!out_reg_file) {
+        cout<<"File is not found !"<<endl;
+    } else {
+
+        reg_obj.usernameRegister();
+        reg_obj.passRegister();
+
+        oname = reg_obj.getUser();
+        password = reg_obj.getPass();
+        cfrmpassword = reg_obj.getCfrmpass();
+
+        cout<<endl;
+        cout<<"Register is completed and the data is saved !"<<endl<<endl;
+
+        out_reg_file<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl;
+    }
+
+    out_reg_file.close();
 }
 
 /*********************************************** loginUserValidationLogic() ***********************************************/
 
 void loginUserValidationLogic() {
-	
-	Login log_obj;
-	ifstream in_log_file_user;
 
-	string username, oname;
-	int offset_name;
-	bool validate_name;
+    Login log_obj;
+    ifstream in_log_file_user;
 
-	in_log_file_user.open("owner-details.txt");
+    string username, oname;
+    int offset_name;
+    bool validate_name;
 
-	log_obj.usernameLogin();
-	username = log_obj.getUser();
-	
-	if(in_log_file_user.is_open()) {
+    in_log_file_user.open("owner-details.txt");
 
-		while(!in_log_file_user.eof()) {
-			
-			getline(in_log_file_user, oname);
-			
-			if((offset_name = oname.find(username, 0))!= string::npos) {	
-				validate_name = true;
-				break;
-			} else {
-				validate_name = false;	
-			}
-		}
-		
-		if (validate_name == true) {
-			cout<<"Username is matched ! You can proceed to enter your password "<<endl<<endl;
-			loginPassValidationLogic();
-		} else {
-			cout<<"Name is incorrect or not found ! Please exit the program and try again "<<endl<<endl;
-			exit(1);
-		}
-	
-		in_log_file_user.close();
-	} else {
-		cout<<"File is not found !";
-	}		
+    log_obj.usernameLogin();
+    username = log_obj.getUser();
+
+    if(in_log_file_user.is_open()) {
+
+        while(!in_log_file_user.eof()) {
+
+            getline(in_log_file_user, oname);
+
+            if((offset_name = oname.find(username, 0))!= string::npos) {
+                validate_name = true;
+                break;
+            } else {
+                validate_name = false;
+            }
+        }
+
+        if (validate_name == true) {
+            cout<<"Username is matched ! You can proceed to enter your password "<<endl<<endl;
+            loginPassValidationLogic();
+        } else {
+            cout<<"Name is incorrect or not found ! Please exit the program and try again "<<endl<<endl;
+            exit(1);
+        }
+
+        in_log_file_user.close();
+    } else {
+        cout<<"File is not found !";
+    }
 }
 
 /*********************************************** loginPassValidationLogic() ***********************************************/
 
 void loginPassValidationLogic() {
-	
-	Login log_obj;
-	ifstream in_log_file_user;
 
-	string pass, password;
-	int offset_pass;
-	bool validate_pass;
-	
-	in_log_file_user.open("owner-details.txt");
+    Login log_obj;
+    ifstream in_log_file_user;
 
-	log_obj.passLogin();
-	pass = log_obj.getPass();
-	
-	if(in_log_file_user.is_open()) {
+    string pass, password;
+    int offset_pass;
+    bool validate_pass;
 
-		while(!in_log_file_user.eof()) {
-			
-	/**/		getline(in_log_file_user, password);
-			
-			if((offset_pass = password.find(pass, 0))!= string::npos) {	
-				validate_pass = true;
-				break;
-			} else {
-				validate_pass = false;	
-			}	
-		}
-		
-		if(validate_pass == true) {
-			cout<<"Password is matched !"<<endl<<endl;
-		} else {
-			cout<<"Password incorrect ! Please try again later"<<endl<<endl;
-			exit(1);	
-		}
-	
-		in_log_file_user.close();
-	}
+    in_log_file_user.open("owner-details.txt");
+
+    log_obj.passLogin();
+    pass = log_obj.getPass();
+
+    if(in_log_file_user.is_open()) {
+
+        while(!in_log_file_user.eof()) {
+
+            /**/		getline(in_log_file_user, password);
+
+            if((offset_pass = password.find(pass, 0))!= string::npos) {
+                validate_pass = true;
+                break;
+            } else {
+                validate_pass = false;
+            }
+        }
+
+        if(validate_pass == true) {
+            cout<<"Password is matched !"<<endl<<endl;
+        } else {
+            cout<<"Password incorrect ! Please try again later"<<endl<<endl;
+            exit(1);
+        }
+
+        in_log_file_user.close();
+    }
 }
 
 /*********************************************** menuLogic() ***********************************************/
 
 void menuLogic() {
-	
-	Menu menu_obj;
-	char proceed;
-	
-	do {
-		menu_obj.menuDisplay();
-		menu_obj.menuSelection();
-		cout<<endl;
-		
-		switch(menu_obj.selection) {
-			case 0 : cout<<"Thank you for using !";
-					 exit(0);
-				 	 break;
-				 		
-			case 1 : cout<<"Reading from the file...."<<endl<<endl;
-				 	 cout<<"===================================="<<endl;
-				 	 cout<<"              LOGIN                 "<<endl;
-	             	 cout<<"===================================="<<endl;
-				 	 cout<<endl;
 
-				 	 loginUserValidationLogic();
-				 	 break;
-				 
-			case 2 : cout<<"===================================="<<endl;
-				 	 cout<<"              REGISTER              "<<endl;
-		         	 cout<<"===================================="<<endl;
-					 cout<<endl;
+    Menu menu_obj;
+    char proceed;
 
-		         	 registerLogic();
-				 	 break;
+    do {
+        menu_obj.menuDisplay();
+        menu_obj.menuSelection();
+        cout<<endl;
 
-			case 3 : cout<<"===================================="<<endl;
-				 	 cout<<"              VIEW ITEMS            "<<endl;
-		         	 cout<<"===================================="<<endl;
-					 cout<<endl;
+        switch(menu_obj.selection) {
+            case 0 : cout<<"Thank you for using !";
+                exit(0);
+                break;
 
-					 showItemLogic();
-					 break;
-				 
-			case 4 : cout<<"=========================================="<<endl;
-				 	 cout<<"              INSERT NEW ITEMS            "<<endl;
-		         	 cout<<"=========================================="<<endl;
-					 cout<<endl;
+            case 1 : cout<<"Reading from the file...."<<endl<<endl;
+                cout<<"===================================="<<endl;
+                cout<<"              LOGIN                 "<<endl;
+                cout<<"===================================="<<endl;
+                cout<<endl;
 
-					 insertNewItemsLogic();
-					 break;
+                loginUserValidationLogic();
+                break;
 
-			case 5 : cout<<"=========================================="<<endl;
-				 	 cout<<"              UPDATE ITEMS                "<<endl;
-		         	 cout<<"=========================================="<<endl;
-					 cout<<endl;
+            case 2 : cout<<"===================================="<<endl;
+                cout<<"              REGISTER              "<<endl;
+                cout<<"===================================="<<endl;
+                cout<<endl;
 
-					 updateItemsLogic();
-					 break;
-			
-			case 6 : cout<<"=========================================="<<endl;
-				 	 cout<<"              DELETE ITEMS                "<<endl;
-		         	 cout<<"=========================================="<<endl;
-					 cout<<endl;
+                registerLogic();
+                break;
 
-					 deleteItemsLogic();
-					 break;
-		}
-	
-		cout<<endl;
-		cout<<"Would you like to continue ? [ Y / N ]"<<endl;
-		cin>>proceed;
-		cout<<endl;
-	
-		//cin.ignore();
+            case 3 : cout<<"===================================="<<endl;
+                cout<<"              VIEW ITEMS            "<<endl;
+                cout<<"===================================="<<endl;
+                cout<<endl;
 
-	} while (proceed == 'Y' || proceed == 'y');
-	
-	cout<<endl;
-	cout<<"Thank you for using !";	
+                showItemLogic();
+                break;
+
+            case 4 : cout<<"=========================================="<<endl;
+                cout<<"              INSERT NEW ITEMS            "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                insertNewItemsLogic();
+                break;
+
+            case 5 : cout<<"=========================================="<<endl;
+                cout<<"              UPDATE ITEMS                "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                updateItemsLogic();
+                break;
+
+            case 6 : cout<<"=========================================="<<endl;
+                cout<<"              DELETE ITEMS                "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                deleteItemsLogic();
+                break;
+        }
+
+        cout<<endl;
+        cout<<"Would you like to continue ? [ Y / N ]"<<endl;
+        cin>>proceed;
+        cout<<endl;
+
+        //cin.ignore();
+
+    } while (proceed == 'Y' || proceed == 'y');
+
+    cout<<endl;
+    cout<<"Thank you for using !";
 }
 
 /*********************************************** insertNewItemsLogic() ***********************************************/
 
 void insertNewItemsLogic() {
-	
-	InsertNewItems insert_new_obj;
-	
-	Magazine insert_magazine_obj;
-	Book insert_book_obj;
-	Movie insert_movie_obj;
 
-	ofstream out_insert_file;
+    InsertNewItems insert_new_obj;
 
-	int new_itemid = 0, new_itemunits = 0;
-	string new_itemname, new_itemcompany;
-	float new_itemprice = 0;
+    Magazine insert_magazine_obj;
+    Book insert_book_obj;
+    Movie insert_movie_obj;
 
-	int shop_itemyr = 0, shop_itemmonth = 0;
-	string shop_itemauthor;
-	string shop_itemactor;
+    ofstream out_insert_file;
 
-	/*int random_number;*/
+    int new_itemid = 0, new_itemunits = 0;
+    string new_itemname, new_itemcompany;
+    float new_itemprice = 0;
 
-	insert_new_obj.insertItemsCategory();
-	
-	switch(insert_new_obj.category_number) {
-		
-		case 1 : out_insert_file.open("owner-magazine-insert.txt", std::ios_base::app);
-				 break;
-		case 2 : out_insert_file.open("owner-book-insert.txt", std::ios_base::app);
-				 break;
-		case 3:  out_insert_file.open("owner-movie-insert.txt", std::ios_base::app);
-				 break;
-		default: cout<<"The option is unavailable at the moment ! Please try again later";
-				 exit(1);
-	}
+    int shop_itemyr = 0, shop_itemmonth = 0;
+    string shop_itemauthor;
+    string shop_itemactor;
 
-	if(!out_insert_file) {
-		cout<<"File is not found !"<<endl;
-	} else {
-		
-		insert_new_obj.insertItemsInput();
+    /*int random_number;*/
 
-		for(int x=0; x<insert_new_obj.insertgetNumber(); x++) {
+    insert_new_obj.insertItemsCategory();
 
-			insert_new_obj.insertItemsMenuDetails();
+    switch(insert_new_obj.category_number) {
 
-			/*random_number = insert_new_obj.getInsertRandGenerate();*/
+        case 1 : out_insert_file.open("owner-magazine-insert.txt", std::ios_base::app);
+            break;
+        case 2 : out_insert_file.open("owner-book-insert.txt", std::ios_base::app);
+            break;
+        case 3:  out_insert_file.open("owner-movie-insert.txt", std::ios_base::app);
+            break;
+        default: cout<<"The option is unavailable at the moment ! Please try again later";
+            exit(1);
+    }
 
-			new_itemid = insert_new_obj.id;
-			new_itemname = insert_new_obj.new_item_name;
-			new_itemprice = insert_new_obj.new_item_price;
-			new_itemunits = insert_new_obj.new_item_units;
-			new_itemcompany = insert_new_obj.new_item_company;
+    if(!out_insert_file) {
+        cout<<"File is not found !"<<endl;
+    } else {
 
-			shop_itemyr = insert_magazine_obj.shopitem_yr;
-			shop_itemmonth = insert_magazine_obj.shopitem_month;
-			shop_itemauthor = insert_book_obj.shopitem_author;
-			shop_itemactor = insert_movie_obj.shopitem_actor;
-			
-			switch(insert_new_obj.category_number) {
-				
-				case 1: insert_magazine_obj.itemDisplay();
-					
-					out_insert_file<<new_itemid<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
-								    new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemyr<<setw(15)<<shop_itemmonth<<endl;		     
-					break;
+        insert_new_obj.insertItemsInput();
 
-			 	case 2: insert_book_obj.itemDisplay();
-					 	
-						out_insert_file<<new_itemid<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
-								       new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemauthor<<endl;	 
-					 	break;
-				
-			 	case 3: insert_movie_obj.itemDisplay();
+        for(int x=0; x<insert_new_obj.insertgetNumber(); x++) {
 
-						out_insert_file<<new_itemid<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
-								       new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemactor<<endl;
-					 	break;
+            insert_new_obj.insertItemsMenuDetails();
 
-			 	default: cout<<"The option is unavailable at the moment ! Please try again later";
-			  	      	 exit(1);
-			  	      	 break;
-			}
-			
-			cout<<endl;
-			cout<<"Insertion of new products is completed and the data is saved !"<<endl<<endl;	
-		}
+            /*random_number = insert_new_obj.getInsertRandGenerate();*/
 
-		out_insert_file.close();
-	}
+            new_itemid = insert_new_obj.id;
+            new_itemname = insert_new_obj.new_item_name;
+            new_itemprice = insert_new_obj.new_item_price;
+            new_itemunits = insert_new_obj.new_item_units;
+            new_itemcompany = insert_new_obj.new_item_company;
+
+            shop_itemyr = insert_magazine_obj.shopitem_yr;
+            shop_itemmonth = insert_magazine_obj.shopitem_month;
+            shop_itemauthor = insert_book_obj.shopitem_author;
+            shop_itemactor = insert_movie_obj.shopitem_actor;
+
+            switch(insert_new_obj.category_number) {
+
+                case 1: insert_magazine_obj.itemDisplay();
+
+                    out_insert_file<<new_itemid<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
+                                   new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemyr<<setw(15)<<shop_itemmonth<<endl;
+                    break;
+
+                case 2: insert_book_obj.itemDisplay();
+
+                    out_insert_file<<new_itemid<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
+                                   new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemauthor<<endl;
+                    break;
+
+                case 3: insert_movie_obj.itemDisplay();
+
+                    out_insert_file<<new_itemid<<setw(15)<<new_itemname<<setw(15)<<new_itemprice<<setw(15)<<
+                                   new_itemunits<<setw(15)<<new_itemcompany<<setw(15)<<shop_itemactor<<endl;
+                    break;
+
+                default: cout<<"The option is unavailable at the moment ! Please try again later";
+                    exit(1);
+                    break;
+            }
+
+            cout<<endl;
+            cout<<"Insertion of new products is completed and the data is saved !"<<endl<<endl;
+        }
+
+        out_insert_file.close();
+    }
 }
 
 /*********************************************** showItemLogic() ***********************************************/
 
 void showItemLogic() {
-	
-	ShowItem show_item_obj;
-	
-	InsertNewItems insert_item_obj;
 
-	ifstream in_show_file;
-	/*ofstream out_delete_file;*/
+    ShowItem show_item_obj;
 
-	int show_itemid = 0;
-	string show_itemname;
+    InsertNewItems insert_item_obj;
 
-	show_itemid = insert_item_obj.insertgetId();
-	show_itemname = insert_item_obj.insertgetName();
-	
-	show_item_obj.showOption();
+    ifstream in_show_file;
+    /*ofstream out_delete_file;*/
 
-	switch(show_item_obj.getOption()) {
-		
-		case 1: in_show_file.open("owner-magazine-insert.txt");
-				/*out_delete_file.open("tmp_magazine.txt", std::ios_base::app);*/
-				
-				if(in_show_file.is_open()) {
+    int show_itemid = 0;
+    string show_itemname;
 
-						cout<<endl;
-						cout<<"----------------------------"<<endl;
-						cout<<"   Magazine Stock Details   "<<endl;
-						cout<<"----------------------------"<<endl;
-						
-						cout<<endl;
-						cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Year"<<setw(15)<<"Month"<<endl;
-						cout<<"--------------------------------------------------------------------------------------------"<<endl;					
-						while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+    show_itemid = insert_item_obj.insertgetId();
+    show_itemname = insert_item_obj.insertgetName();
 
-							cout<<show_itemid<<setw(15)<<show_itemname<<endl;
-							/*out_delete_file<<show_itemid<<setw(15)<<show_itemname<<endl;*/
-						}
+    show_item_obj.showOption();
 
-						in_show_file.close();
-						/*out_delete_file.close();*/
-				
-				} else {
-					cout<<"File is not found !";
-				}
-				
-				break;
+    switch(show_item_obj.getOption()) {
 
-		case 2: in_show_file.open("owner-book-insert.txt");
-		
-				if(in_show_file.is_open()) {
+        case 1: in_show_file.open("owner-magazine-insert.txt");
+            /*out_delete_file.open("tmp_magazine.txt", std::ios_base::app);*/
 
-						cout<<endl;
-						cout<<"----------------------------"<<endl;
-						cout<<"     Book Stock Details     "<<endl;
-						cout<<"----------------------------"<<endl;
-						
-						cout<<endl;
-						cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
-						cout<<"--------------------------------------------------------------------------------------------"<<endl;					
-						while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+            if(in_show_file.is_open()) {
 
-							cout<<show_itemid<<setw(15)<<show_itemname<<endl; 
-						}
+                cout<<endl;
+                cout<<"----------------------------"<<endl;
+                cout<<"   Magazine Stock Details   "<<endl;
+                cout<<"----------------------------"<<endl;
 
-						in_show_file.close();
-				
-				} else {
-					cout<<"File is not found !";
-				}
-				
-				break;
-				
-		case 3: in_show_file.open("owner-movie-insert.txt");
-		
-				if(in_show_file.is_open()) {
+                cout<<endl;
+                cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Year"<<setw(15)<<"Month"<<endl;
+                cout<<"--------------------------------------------------------------------------------------------"<<endl;
+                while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
 
-						cout<<endl;
-						cout<<"----------------------------"<<endl;
-						cout<<"     Movie Stock Details    "<<endl;
-						cout<<"----------------------------"<<endl;
-						
-						cout<<endl;
-						cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Actor"<<endl;
-						cout<<"--------------------------------------------------------------------------------------------"<<endl;					
-						while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+                    cout<<show_itemid<<setw(15)<<show_itemname<<endl;
+                    /*out_delete_file<<show_itemid<<setw(15)<<show_itemname<<endl;*/
+                }
 
-							cout<<show_itemid<<setw(15)<<show_itemname<<endl; 
-						}
+                in_show_file.close();
+                /*out_delete_file.close();*/
 
-						in_show_file.close();
-				
-				} else {
-					cout<<"File is not found !";
-				}
-				
-				break;
-	}	
+            } else {
+                cout<<"File is not found !";
+            }
+
+            break;
+
+        case 2: in_show_file.open("owner-book-insert.txt");
+
+            if(in_show_file.is_open()) {
+
+                cout<<endl;
+                cout<<"----------------------------"<<endl;
+                cout<<"     Book Stock Details     "<<endl;
+                cout<<"----------------------------"<<endl;
+
+                cout<<endl;
+                cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
+                cout<<"--------------------------------------------------------------------------------------------"<<endl;
+                while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+
+                    cout<<show_itemid<<setw(15)<<show_itemname<<endl;
+                }
+
+                in_show_file.close();
+
+            } else {
+                cout<<"File is not found !";
+            }
+
+            break;
+
+        case 3: in_show_file.open("owner-movie-insert.txt");
+
+            if(in_show_file.is_open()) {
+
+                cout<<endl;
+                cout<<"----------------------------"<<endl;
+                cout<<"     Movie Stock Details    "<<endl;
+                cout<<"----------------------------"<<endl;
+
+                cout<<endl;
+                cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Actor"<<endl;
+                cout<<"--------------------------------------------------------------------------------------------"<<endl;
+                while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
+
+                    cout<<show_itemid<<setw(15)<<show_itemname<<endl;
+                }
+
+                in_show_file.close();
+
+            } else {
+                cout<<"File is not found !";
+            }
+
+            break;
+    }
 }
-	
+
 /*********************************************** deleteItemLogic() ***********************************************/
 
 void deleteItemsLogic() {
 
-	/**
-	  * Get all data from our file i.e record.txt
-	  * Write data into temp file
-	  * Use rename() and remove()
-	  */
+    /**
+      * Get all data from our file i.e record.txt
+      * Write data into temp file
+      * Use rename() and remove()
+      */
 
-	DeleteItem delete_item_obj;
+    DeleteItem delete_item_obj;
 
-	ShowItem show_item_obj;
-	InsertNewItems insert_item_obj;
-	
-	int delete_itemid = 0;
-	string delete_itemname;
+    ShowItem show_item_obj;
+    InsertNewItems insert_item_obj;
 
-	delete_itemid = insert_item_obj.insertgetId();
-	delete_itemname = insert_item_obj.insertgetName();
-	
-	int deleteid;
+    int delete_itemid = 0;
+    string delete_itemname;
 
-	ofstream out_delete_file;
-	ifstream in_delete_file;
+    delete_itemid = insert_item_obj.insertgetId();
+    delete_itemname = insert_item_obj.insertgetName();
 
-	//showItemLogic();
-	
-	show_item_obj.showOption();
+    int deleteid;
 
-	cout<<endl;
-	
-	delete_item_obj.deleteEnterByIdOption();
-	deleteid = delete_item_obj.getDeleteId();
+    ofstream out_delete_file;
+    ifstream in_delete_file;
 
-	switch(show_item_obj.getOption()) {
-		
-		case 1 : in_delete_file.open("owner-magazine-insert.txt");
-				 out_delete_file.open("tmp_magazine.txt", std::ios_base::app);
+    //showItemLogic();
 
-				 if(in_delete_file.is_open()) {
+    show_item_obj.showOption();
 
-					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
-						
-						if(delete_itemid != deleteid) {
-							out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
-						}
-					} 
-						 
-					in_delete_file.close();
-					out_delete_file.close();
+    cout<<endl;
 
-					remove("owner-magazine-insert.txt");
-					rename("tmp_magazine.txt", "owner-magazine-insert.txt");
+    delete_item_obj.deleteEnterByIdOption();
+    deleteid = delete_item_obj.getDeleteId();
 
-				} else {
-					cout<<"File is not found !";
-					exit(1);
-				}
+    switch(show_item_obj.getOption()) {
 
-				break;
+        case 1 : in_delete_file.open("owner-magazine-insert.txt");
+            out_delete_file.open("tmp_magazine.txt", std::ios_base::app);
 
-		case 2 : in_delete_file.open("owner-book-insert.txt");
-				 out_delete_file.open("tmp_book.txt", std::ios_base::app);
+            if(in_delete_file.is_open()) {
 
-				 if(in_delete_file.is_open()) {
+                while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
 
-					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
-						
-						if(delete_itemid != deleteid) {
-							out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
-						}
-					} 
-						 
-					in_delete_file.close();
-					out_delete_file.close();
+                    if(delete_itemid != deleteid) {
+                        out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
+                    }
+                }
 
-					remove("owner-book-insert.txt");
-					rename("tmp_book.txt", "owner-book-insert.txt");
+                in_delete_file.close();
+                out_delete_file.close();
 
-				} else {
-					cout<<"File is not found !";
-					exit(1);
-				}
+                remove("owner-magazine-insert.txt");
+                rename("tmp_magazine.txt", "owner-magazine-insert.txt");
 
-				break;
+            } else {
+                cout<<"File is not found !";
+                exit(1);
+            }
 
-		case 3 : in_delete_file.open("owner-movie-insert.txt");
-				 out_delete_file.open("tmp_movie.txt", std::ios_base::app);
+            break;
 
-				 if(in_delete_file.is_open()) {
+        case 2 : in_delete_file.open("owner-book-insert.txt");
+            out_delete_file.open("tmp_book.txt", std::ios_base::app);
 
-					while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
-						
-						if(delete_itemid != deleteid) {
-							out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
-						}
-					} 
-						 
-					in_delete_file.close();
-					out_delete_file.close();
+            if(in_delete_file.is_open()) {
 
-					remove("owner-movie-insert.txt");
-					rename("tmp_movie.txt", "owner-movie-insert.txt");
+                while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
 
-				} else {
-					cout<<"File is not found !";
-					exit(1);
-				}
-				
-				break;
+                    if(delete_itemid != deleteid) {
+                        out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
+                    }
+                }
 
-		default : cout<<"Operation failed !";
-				  exit(1);
-				  break;
+                in_delete_file.close();
+                out_delete_file.close();
 
-	}
-	
-	cout<<endl;
-	cout<<"Delete successfully ! Proceed to View Item to see the latest stock list"<<endl;		
+                remove("owner-book-insert.txt");
+                rename("tmp_book.txt", "owner-book-insert.txt");
+
+            } else {
+                cout<<"File is not found !";
+                exit(1);
+            }
+
+            break;
+
+        case 3 : in_delete_file.open("owner-movie-insert.txt");
+            out_delete_file.open("tmp_movie.txt", std::ios_base::app);
+
+            if(in_delete_file.is_open()) {
+
+                while(in_delete_file>>delete_itemid , getline(in_delete_file, delete_itemname)) {
+
+                    if(delete_itemid != deleteid) {
+                        out_delete_file<<delete_itemid<<setw(15)<<delete_itemname<<endl;
+                    }
+                }
+
+                in_delete_file.close();
+                out_delete_file.close();
+
+                remove("owner-movie-insert.txt");
+                rename("tmp_movie.txt", "owner-movie-insert.txt");
+
+            } else {
+                cout<<"File is not found !";
+                exit(1);
+            }
+
+            break;
+
+        default : cout<<"Operation failed !";
+            exit(1);
+            break;
+
+    }
+
+    cout<<endl;
+    cout<<"Delete successfully ! Proceed to View Item to see the latest stock list"<<endl;
 }
 
 /*********************************************** updateItemLogic() ***********************************************/
 
 void updateItemsLogic() {
 
-	UpdateItem update_item_obj;
+    UpdateItem update_item_obj;
+    InsertNewItems insert_item_obj;
+    Movie insert_movie_obj;
+    Magazine insert_magazine_obj;
+    Book insert_book_obj;
 
-	update_item_obj.updateItemsCategory();
-	update_item_obj.updateItemsInput();
-	update_item_obj.updateItemsAskInput();
+    ofstream out_update_file;
+    ifstream in_update_file;
 
-	//switch(update_item_obj.)
+    int update_itemreadid = 0;
+    string update_itemreadname;
+
+    update_itemreadid = insert_item_obj.insertgetId();
+    update_itemreadname = insert_item_obj.insertgetName();
+
+    string update_itemreadcompany, update_bookreadauthor, update_moviereadactor;
+    int update_itemreadunits = 0, update_magazinereadyr = 0, update_magazinereadmonth = 0;
+    float update_itemreadprice = 0;
+
+    update_itemreadprice = insert_item_obj.insertgetPrice();
+    update_itemreadunits = insert_item_obj.insertgetUnit();
+    update_itemreadcompany = insert_item_obj.insertgetCompany();
+    update_magazinereadyr = insert_magazine_obj.shopitem_yr;
+    update_magazinereadmonth = insert_magazine_obj.shopitem_month;
+    update_bookreadauthor = insert_book_obj.shopitem_author;
+    update_moviereadactor = insert_book_obj.shopitem_actor;
+
+    string update_itemname, update_itemcompany, update_bookauthor, update_movieactor;
+    int update_itemid, update_itemunits, update_magazineyr, update_magazinemonth;
+    float update_itemprice;
+
+    update_item_obj.updateItemsCategory();
+    update_item_obj.updateEnterByIdOption();
+    update_itemid = update_item_obj.getUpdateId();
+
+    cout << endl;
+
+    update_item_obj.updateItemsInput();
+
+    update_itemname = update_item_obj.updategetItemName();
+    update_itemprice = update_item_obj.updategetItemPrice();
+    update_itemunits = update_item_obj.updategetItemUnit();
+    update_itemcompany = update_item_obj.updategetItemCompany();
+    update_magazineyr = update_item_obj.updategetItemYr();
+    update_magazinemonth = update_item_obj.updategetItemMonth();
+    update_bookauthor = update_item_obj.updategetItemAuthor();
+    update_movieactor = update_item_obj.updategetItemActor();
+
+    switch (update_item_obj.getupdateItemsCategoryNumber()) {
+
+        case 1 :
+            in_update_file.open("owner-magazine-insert.txt");
+            out_update_file.open("temp_updatemag.txt", std::ios_base::app);
+
+            if (in_update_file.is_open()) {
+
+                while (in_update_file >> update_itemreadid, getline(in_update_file, update_itemreadname)) {
+
+                    if (update_itemreadid == update_itemid) {
+                        out_update_file<<update_itemreadid<<setw(15)<<update_itemname<<setw(15)
+                                        <<update_itemprice<<setw(15)
+                                        <<update_itemunits<<setw(15)<<update_itemcompany << setw(15)
+                                        <<update_magazineyr<<setw(15)
+                                        <<update_magazinemonth << endl;
+                    } else {
+                        out_update_file<<update_itemreadid<<setw(15)<<update_itemreadname<<endl;
+                    }
+                }
+
+                out_update_file.close();
+                in_update_file.close();
+
+                remove("owner-magazine-insert.txt");
+                rename("temp_updatemag.txt", "owner-magazine-insert.txt");
+
+            } else {
+                cout<<"File is not found !";
+                exit(1);
+            }
+
+            break;
+
+        case 2 :
+            in_update_file.open("owner-book-insert.txt");
+            out_update_file.open("temp_updatebook.txt", std::ios_base::app);
+
+            if (in_update_file.is_open()) {
+
+                while (in_update_file >> update_itemreadid, getline(in_update_file, update_itemreadname)) {
+
+                    if (update_itemreadid == update_itemid) {
+                        out_update_file<<update_itemreadid<<setw(15)<<update_itemname<<setw(15)
+                                        <<update_itemprice<<setw(15)
+                                        <<update_itemunits<<setw(15)<<update_itemcompany<<setw(15)
+                                        <<update_bookauthor<<endl;
+                    } else {
+                        out_update_file<<update_itemreadid<<setw(15)<<update_itemreadname<<endl;
+                    }
+                }
+
+                out_update_file.close();
+                in_update_file.close();
+
+                remove("owner-book-insert.txt");
+                rename("temp_updatebook.txt", "owner-book-insert.txt");
+
+            } else {
+                cout<<"File is not found !";
+                exit(1);
+            }
+
+            break;
+
+        case 3 :
+            in_update_file.open("owner-movie-insert.txt");
+            out_update_file.open("temp_updatemovie.txt", std::ios_base::app);
+
+            if (in_update_file.is_open()) {
+
+                while (in_update_file >> update_itemreadid, getline(in_update_file, update_itemreadname)) {
+
+                    if (update_itemreadid == update_itemid) {
+                        out_update_file <<update_itemreadid<<setw(15)<<update_itemname<<setw(15)
+                                        <<update_itemprice<<setw(15)
+                                        <<update_itemunits<<setw(15)<<update_itemcompany<<setw(15)
+                                        <<update_bookauthor<<endl;
+                    } else {
+                        out_update_file<<update_itemreadid<<setw(15)<<update_itemreadname<<endl;
+                    }
+                }
+
+                out_update_file.close();
+                in_update_file.close();
+
+                remove("owner-movie-insert.txt");
+                rename("temp_updatemovie.txt", "owner-movie-insert.txt");
+
+            } else {
+                cout<<"File is not found !";
+                exit(1);
+            }
+
+            break;
+    }
 }
 
-	
+
 /*********************************************** int main() ***********************************************/
 
-int main() {	
-	
-	menuLogic();
-	//deleteItemsLogic();
-		
-	return 0;
-}
+    int main() {
 
+        menuLogic();
+        //deleteItemsLogic();
 
+        return 0;
+    }
 
-
-/*********************************************** updateItemLogic() ***********************************************/
-
-/*void updateItemsLogic() {
-
-	InsertNewItems insert_item_obj;
-	UpdateItem update_item_obj;
-	
-	Magazine insert_magazine_obj;
-	Book insert_book_obj;
-	Movie insert_movie_obj;
-
-	ifstream in_update_file;	// read the file
-	ofstream out_update_file;	// update the file
-
-	/*int rand_no = insert_item_obj.getInsertRandGenerate();
-	int newid = insert_item_obj.id;
-	int new_itemunits = insert_item_obj.new_item_units;		//oname.find()
-	string new_itemcompany = insert_item_obj.new_item_company;
-	string new_itemname = insert_item_obj.new_item_name;
-	float new_itemprice = insert_item_obj.new_item_price;
-	int shop_itemyr = insert_magazine_obj.shopitem_yr;
-	int shop_itemmonth = insert_magazine_obj.shopitem_month;
-	string shop_itemauthor = insert_book_obj.shopitem_author;
-	string shop_itemactor = insert_movie_obj.shopitem_actor;
-
-	int update_itemunits = update_item_obj.update_item_units;		//find(user key in to update)
-	string update_itemname = update_item_obj.update_item_name;
-	string update_itemcompany = update_item_obj.update_item_company;
-	float update_itemprice = update_item_obj.update_item_price;
-	int shopupdate_itemyr = update_item_obj.update_magazine_yr; 
-	int shopupdate_itemmonth = update_item_obj.update_magazine_month;
-	string shopupdate_itemauthor = update_item_obj.update_book_author;
-	string shopupdate_itemactor = update_item_obj.update_movie_actor;
-
-										
-	update_item_obj.updateItemsCategory();
-	update_item_obj.updateItemsInput();
-	update_item_obj.updateItemsAskInput();
-
-	cout<<endl;
-
-	if(update_item_obj.category_number == 1) {
-		
-		in_update_file.open("owner-magazine-insert.txt");
-		out_update_file.open("owner-magazine-update.txt", std::ios_base::app);
-
-	}
-
-}
-
+//**clion git push 1st test**
 
 // CREDIT : https://stackoverflow.com/questions/2393345/how-to-append-text-to-a-text-file-in-c
 //          https://www.youtube.com/watch?v=s3-DmI1ZWxE&t=151s
@@ -1107,4 +1153,7 @@ int main() {
 //          https://www.systutorials.com/how-to-process-a-file-line-by-line-in-c/
 
 
-/***random gen number issue***/
+/** * random gen number issue
+    * negative numb issue
+    * login / register before using
+    */
