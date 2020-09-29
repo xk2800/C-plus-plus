@@ -1237,7 +1237,9 @@ int main() {
 //          https://www.systutorials.com/how-to-process-a-file-line-by-line-in-c/
 
 
-/** * random gen number issue ( X )
-    * negative numb issue ( X )
-    * login / register before using ( X )
-    */
+/*    TODO  1) random gen number issue ( X ) */
+/*    TODO  2) negative numb issue ( X ) */
+/*    TODO  3) login / register before using ( X ) */
+/*    TODO  4) display only 10 items per page */
+/*    TODO  5) analyze sales of shopper and generate a report */
+/*    TODO  6) able to change username / password */
