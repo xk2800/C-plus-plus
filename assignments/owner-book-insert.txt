@@ -1,0 +1,2 @@
+2          prod2           15.5             68           com2          auth1     
+3          prod3           18.5             69           com3          auth2         

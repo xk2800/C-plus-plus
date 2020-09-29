@@ -59,9 +59,10 @@ class Shopper{
             cout<<"Customer type: "<<endl;
 			custType();
 
-            /*cout<<"Enter a username: ";
-                cin.ignore();
-                getline(cin, uname);*/
+            cout<<"Enter a username (No space): ";
+                //cin.ignore();
+                //getline(cin, uname);
+                cin>>uname;
             cout<<endl<<"Enter a password: ";
                 cin>>pwd;
             cout<<"Re-confirm your password: ";
@@ -90,10 +91,10 @@ class Shopper{
             return address;
         }
 
-        /*string getUsername(){
+        string getUsername(){
 
             return uname;
-        }*/
+        }
 
         string getPwd(){
 
@@ -160,7 +161,7 @@ class Shopper{
                 
                 name = getName();
                 address = getAddress();
-                //uname = getUsername();
+                uname = getUsername();
                 id = idgen();
                 pwd = getPwd();
                 //cpwd = getCpwd();
@@ -169,7 +170,9 @@ class Shopper{
                 cout<<endl;
                 cout<<"Register is completed and the data is saved !"<<endl<<endl;
 
-                reg_file/*<<setw(15)<<uname*/<<setw(10)<<name<<setw(10)<<address<<setw(10)<<id<<setw(10)<<pwd<<endl;
+                //reg_file<<"|"<<setw(15)<<uname<<"|"<<setw(15)<<name<<"|"<<setw(15)<<address<<"|"<<setw(15)<<id<<""<<setw(15)<<pwd<<" |"<<endl;
+                reg_file<<setw(15)<<uname<<setw(15)<<name<<setw(15)<<address<<setw(15)<<id<<setw(15)<<pwd<<endl;
+
             }
 
             reg_file.close();
@@ -215,69 +218,55 @@ class test:public Shopper{
 };
 
 class Login{
-
     private:
-        string id, pwd;
+        string uname, pwd;
+        //Register Reg;
         ifstream login_file;
-
     public:
-
-        //default contructor
-        Login(){
-
-
-        }
-
+        
         int openingmsg(){
-
             cout<<"===================================="<<endl<<"\t\tLOGIN"<<endl<<"===================================="<<endl;
         }
-
         int accLogin(){
-
-            //IO user need to enter to login system
-            cout<<"Enter your ID: ";
-                //cin.ignore();
-                //getline(cin, id);
-                cin>>id;
+            cout<<"Enter your username: ";
+                cin.ignore();
+                getline(cin, uname);
             
             cout<<"Enter your password: ";
                 cin>>pwd;
             
         }
-
-        string getID(){
-
-            return id;
+        string getUsername(){
+            return uname;
         }
-
         string getPwd(){
-
             return pwd;
         }
-
-        //validate user input with txt file
         void loginUserLogic(){
-
-            string ID, password;
+            string username, password;
             int offset_name, offset_pwd;
             bool validate_name, validate_pwd;
 
             login_file.open("shopper-details.txt");
+
             openingmsg();
             accLogin();
-            id = getID();
+
+            uname = getUsername();
             pwd = getPwd();
 
             if(login_file.is_open()){
 
                 while(!login_file.eof()){
 
-                    getline(login_file, ID);
+                    getline(login_file, username);
+                    //cin>>username;
                     getline(login_file, password);
+                    
+                    //cin>>password;
 
-                    if((offset_name = id.find(ID, 0))!= string::npos && (offset_pwd = password.find(pwd, 0))!=string::npos){
-
+                    if((offset_name = uname.find(username, 0))!= string::npos && (offset_pwd = password.find(pwd, 0))!=string::npos){
+                        
                         validate_name = true; 
                         validate_pwd = true; break;
                     } else{
@@ -285,9 +274,7 @@ class Login{
                         validate_name = false;
                         validate_pwd = false;
                     }
-
                 }
-
                 if(validate_name == true && validate_pwd == true){
 
                     cout<<"Username and password matched!"<<endl<<endl;
@@ -296,7 +283,6 @@ class Login{
                     cout<<"Password incorrect ! Please try again"<<endl<<endl;
                     exit(1);
                 }
-
             } else {
 
                 cout<<"File is not found! ";
@@ -306,6 +292,7 @@ class Login{
         }
 
 };
+
 
 
 class Customer:public Shopper{
@@ -390,7 +377,7 @@ class MMUStudent:public Shopper{
                 major();
                 maj = maje();
                 
-                reg_file<</*endl<<setw(30)<<*/maj/*<<endl*/;
+                reg_file<<" | "<</*endl<<setw(30)<<*/maj/*<<endl*/;
             }
 
             reg_file.close();
@@ -528,32 +515,7 @@ class MMUStaff:public Shopper{
 
 };
 
-//class Mainmenu:public Shopper{
-/*void mainmenu(){
-    //private:
-    Shopper S;
-    //test t;
-    Login L;
-    int choice, ctype;
-    
 
-    //public:
-        cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
-        cout<<"1. new here? Register an account."<<endl<<"2. Already a member? Login."<<endl;
-                cin>>choice;
-    
-
-        if(choice==1){
-
-            S.registerLogic();
-
-        }else if(choice==2){
-
-            L.loginUserLogic();
-        }
-
-    
-}*/
 void custType(){
 
     int ctype;
@@ -600,7 +562,7 @@ class ShopItem{
 
         }
 
-        virtual void itemDisplay()=0;
+        virtual void itemDisplay() const=0;
 
 
 
@@ -620,12 +582,17 @@ class Book:public ShopItem{
         }
 
 
+        //virtual void itemDisplay();
+
 };
 
 class Magazine:public ShopItem{
 
     private:
 
+    int itemid;
+    string itemname;
+    ifstream read_mag_file;
 
     public:
         
@@ -635,12 +602,29 @@ class Magazine:public ShopItem{
 
         }
 
+        void itemDisplay(){
+
+            read_mag_file.open("owner-magazine-insert.txt");
+
+            while(read_mag_file>>itemid, getline(read_mag_file, itemname)){
+
+                cout<<itemid/*<<setw(15)*/<<itemname<<endl;
+            }
+
+
+        }
+
+        virtual void itemDisplay() const;
+
 };
 
 class Movie:public ShopItem{
 
     private:
 
+    int itemid;
+    string itemname;
+    ifstream read_mov_file;
 
     public:
 
@@ -650,12 +634,23 @@ class Movie:public ShopItem{
 
         }
 
+        void itemDisplay(){
 
+            read_mov_file.open("owner-movie-insert.txt");
+
+            while(read_mov_file>>itemid, getline(read_mov_file, itemname)){
+
+                cout<<itemid<<itemname<<endl;
+            }
+
+        }
+
+        //virtual void itemDisplay();
 
 };
 
 class ShoppingCart{
-
+//no need PVF
     private:
 
     ofstream cart_file;
@@ -666,27 +661,93 @@ class ShoppingCart{
 
     public:
 
-        void cart(){
+        void current_cart(){
 
-            cart_file.open("")
+            cart_file.open("cart ");
+
+        }
+
+        void history(){
+
 
         }
 
 
 };
 
-
-
-//////////////////////////////////////////////////////////
-//menu after success login
-void loginmenu(){
-
-    cout<<"Main Menu"<<endl;
-    cout<<"1. View Profile"<<endl;
-    cout<<"2. View Shopping Cart"<<endl;
+void ShopItem::itemDisplay() const{
 
 
 }
+
+//////////////////////////////////////////////////////////
+class l_menu:public ShopItem{
+//menu after success login
+
+    public:
+        void loginmenu(){
+
+            int choice, prod_choice;
+            //Book book;
+
+            ShoppingCart scart;
+            //Book book;
+
+
+            cout<<"Main Menu"<<endl;
+            cout<<"1. View Profile"<<endl;
+            cout<<"2. View Shopping Cart"<<endl;
+            cout<<"3. View Order History"<<endl;
+            cout<<"4. View Product"<<endl;
+                cin>>choice;
+
+
+            switch(choice){
+
+                case 1: 
+
+                    break;
+
+                case 2: 
+                    scart.current_cart();
+                    break;
+                
+                case 3:
+                    scart.history();
+                    break;
+
+                case 4:
+                    cout<<"Select type of product"<<endl;
+                    cout<<"1. Book"<<endl;
+                    cout<<"2. Magazine"<<endl;
+                    cout<<"3. Movie"<<endl;
+                        cin>>prod_choice;
+
+                        switch(prod_choice){
+
+                            case 1:
+
+                                break;
+
+                            case 2:
+                                    itemDisplay();
+                                break;
+                            
+                            case 3:
+
+                                break;
+
+
+                        }
+
+                    break;
+
+            }
+
+
+        }
+
+};
 
 void mine(){
 
@@ -698,7 +759,12 @@ int main(){
     //friend int main();
     Shopper S;
     Login L;
-    MMUStudent stud;
+    //MMUStudent stud;
+    //l_menu log_menu;
+
+    //Magazine mag;
+    //Movie mov;
+
     int choice, ctype;
     
     //login & reg
@@ -716,6 +782,11 @@ int main(){
             L.loginUserLogic();
             //loginmenu();
             //stud.shopperprofile();
+            
+
+            
+
+
             
             //S.shopperprofile();
         }
