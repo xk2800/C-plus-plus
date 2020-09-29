@@ -27,7 +27,7 @@ using namespace std;
 
 
 void loginmenu();
-void custType();
+//void custType();
 class Shopper{
 
     protected:
@@ -41,11 +41,7 @@ class Shopper{
         //default contructor
         Shopper(){
 
-
         }
-
-        //pure virtual function for profile
-        //virtual void shopperprofile() /*= 0*/;
 
         //default registration IO
         void reg_acc(){
@@ -56,8 +52,7 @@ class Shopper{
             cout<<"Enter your full address: ";
                 cin.ignore();
                 getline(cin, address);
-            cout<<"Customer type: "<<endl;
-			custType();
+			//custType();
 
             cout<<"Enter a username (No space): ";
                 //cin.ignore();
@@ -178,49 +173,15 @@ class Shopper{
             reg_file.close();
         }
 
-        //pure virtual function for shopperprofile
-
-        /*void shopperprofile(){
-
-            ifstream file;
-
-            file.open("shopper-details.txt");
-
-            if(file.is_open()){
-
-                //cout<<name<<endl;
-
-                while(getline(file, name)){
-                    
-                    cout<<name<<endl;
-                }
-
-                file.close();
-            } else{
-
-                cout<<"File not found!";
-            }
-
-        }*/
         
-        //virtual void shopperprofile() = 0;
-        //virtual void shopperprofile() = 0;
-        //friend void mine();
+        virtual void displayProfile()=0;
 
-};
-//#endif
-class test:public Shopper{
-
-
-    public:
-        //virtual void shopperprofile() = 0;
 
 };
 
 class Login{
     private:
         string uname, pwd;
-        //Register Reg;
         ifstream login_file;
     public:
         
@@ -293,8 +254,6 @@ class Login{
 
 };
 
-
-
 class Customer:public Shopper{
 
     private:
@@ -307,8 +266,10 @@ class Customer:public Shopper{
 
 
         }
+        
 
-        void shopperprofile(){
+        //pure virtual function for display user profile
+        void displayProfile(){
 
             ifstream file;
 
@@ -330,8 +291,6 @@ class Customer:public Shopper{
             }
 
         }
-
-        //friend int main();
 
 };
 
@@ -377,69 +336,18 @@ class MMUStudent:public Shopper{
                 major();
                 maj = maje();
                 
-                reg_file<<" | "<</*endl<<setw(30)<<*/maj/*<<endl*/;
+                reg_file<</*endl<<setw(30)<<*/maj/*<<endl*/;
             }
 
             reg_file.close();
         }
 
 
-        void shopperprofile(){
+        void displayProfile(){
 
-            ifstream file;
-
-            file.open("shopper-details.txt");
-
-            if(file.is_open()){
-
-                //cout<<name<<endl;
-
-                while(getline(file, name)){
-                    
-                    cout<<name<<endl;
-                }
-
-                file.close();
-            } else{
-
-                cout<<"File not found!";
-            }
-
-        }
-        //friend int main();
-
-};
-
-class profile:public Shopper{
-
-    private:
-
-    public:
-
-     /*void shopperprofile(){
-
-            ifstream file;
-
-            file.open("shopper-details.txt");
-
-            if(file.is_open()){
-
-                //cout<<name<<endl;
-
-                while(getline(file, name)){
-                    
-                    cout<<"tester for virtual function"<<endl;
-                }
-
-                file.close();
-            } else{
-
-                cout<<"File not found!";
-            }
 
         }
 
-        friend int main();*/
 };
 
 class MMUStaff:public Shopper{
@@ -511,41 +419,13 @@ class MMUStaff:public Shopper{
             reg_file.close();
         }
 
-        friend int main();
+        void displayProfile(){
+
+            
+        }
 
 };
 
-
-void custType(){
-
-    int ctype;
-
-			cout<<"1. Normal Customer (Non MMU)"<<endl;
-			cout<<"2. MMU Student"<<endl;
-			cout<<"3. MMU Staff"<<endl;
-            cout<<"Select a customer type: "<<endl;
-                cin>>ctype;
-            
-            if(ctype==1){
-
-                
-            } else if(ctype==2){
-
-                MMUStudent stud;
-
-                //stud.major();
-                stud.updateregstud();
-            } else if(ctype==3){
-
-                MMUStaff staff;
-
-                staff.updateregstaff();
-            } else{
-
-                cout<<"Kindly pick between 1-3 only.";
-                custType();
-            }
-		}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -562,7 +442,7 @@ class ShopItem{
 
         }
 
-        virtual void itemDisplay() const=0;
+        virtual void itemDisplay()=0;
 
 
 
@@ -572,17 +452,31 @@ class Book:public ShopItem{
 
     private:
 
+    int itemid;
+    string itemname;
+    ifstream read_book_file;
 
     public:
 
         //default constructor
         Book(){
 
+        }//finish output then move to display profile
+        
+        void itemDisplay(){
+
+            read_book_file.open("owner-book-insert.txt");
+
+            cout<<"Item ID"<<"Item Name"<<endl;
+            cout<<"-------------------------------------------------"<<endl;
+
+            while(read_book_file>>itemid, getline(read_book_file, itemname)){
+
+                
+                cout<<itemid<<itemname<<endl;
+            }
 
         }
-
-
-        //virtual void itemDisplay();
 
 };
 
@@ -597,10 +491,10 @@ class Magazine:public ShopItem{
     public:
         
         //default constructor
-        Magazine(){
+        /*Magazine(){
 
 
-        }
+        }*/
 
         void itemDisplay(){
 
@@ -614,7 +508,7 @@ class Magazine:public ShopItem{
 
         }
 
-        virtual void itemDisplay() const;
+        //virtual void itemDisplay() const;
 
 };
 
@@ -675,20 +569,67 @@ class ShoppingCart{
 
 };
 
-void ShopItem::itemDisplay() const{
+/*void ShopItem::itemDisplay() const{
 
 
 }
+*/
+
+void custType(){
+
+    int ctype;
+            
+            
+            cout<<"Customer type: "<<endl;
+			cout<<"1. Normal Customer (Non MMU)"<<endl;
+			cout<<"2. MMU Student"<<endl;
+			cout<<"3. MMU Staff"<<endl;
+            cout<<"Select a customer type: "<<endl;
+                cin>>ctype;
+            
+            if(ctype==1){
+                
+                Customer normal;
+
+                Shopper *cust = &normal;
+                    cust->registerLogic();
+            } else if(ctype==2){
+
+                MMUStudent student;
+
+                Shopper *stud = &student;
+                stud->registerLogic();
+
+                student.updateregstud();
+            } else if(ctype==3){
+
+                MMUStaff staf;
+
+                Shopper *staff = &staf;
+                staff->registerLogic();
+
+                staf.updateregstaff();
+            } else{
+
+                cout<<"Kindly pick between 1-3 only.";
+                custType();
+            }
+}
+
 
 //////////////////////////////////////////////////////////
-class l_menu:public ShopItem{
+//class l_menu/*:public ShopItem*/{
 //menu after success login
 
-    public:
+    //public:
         void loginmenu(){
 
             int choice, prod_choice;
             //Book book;
+            
+            Book b;
+            Magazine m;
+
 
             ShoppingCart scart;
             //Book book;
@@ -723,14 +664,16 @@ class l_menu:public ShopItem{
                     cout<<"3. Movie"<<endl;
                         cin>>prod_choice;
 
-                        switch(prod_choice){
+                        /*switch(prod_choice){
 
                             case 1:
-
+                                    ShopItem *book = &b;
+                                    book->itemDisplay();
                                 break;
 
                             case 2:
-                                    itemDisplay();
+                                    ShopItem *mag = &m;
+                                    mag->itemDisplay();
                                 break;
                             
                             case 3:
@@ -738,6 +681,16 @@ class l_menu:public ShopItem{
                                 break;
 
 
+                        }*/
+
+                        if(prod_choice==1){
+
+                            ShopItem *book = &b;
+                                    book->itemDisplay();
+                        }else if(prod_choice==2){
+
+                                    ShopItem *mag = &m;
+                                    mag->itemDisplay();
                         }
 
                     break;
@@ -747,23 +700,16 @@ class l_menu:public ShopItem{
 
         }
 
-};
 
-void mine(){
-
-    
-}
 
 int main(){
     
-    //friend int main();
-    Shopper S;
+    //Shopper S;
     Login L;
-    //MMUStudent stud;
-    //l_menu log_menu;
-
-    //Magazine mag;
-    //Movie mov;
+    Customer normal;
+    MMUStudent student;
+    MMUStaff staff;
+    
 
     int choice, ctype;
     
@@ -775,12 +721,13 @@ int main(){
 
         if(choice==1){
 
-            S.registerLogic();
+            custType();
+            
 
         }else if(choice==2){
 
             L.loginUserLogic();
-            //loginmenu();
+            loginmenu();
             //stud.shopperprofile();
             
 
