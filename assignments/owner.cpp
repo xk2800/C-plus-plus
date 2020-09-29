@@ -136,6 +136,11 @@ public:
         cout<<"Please choose an operation to proceed !"<<endl;
         cin>>selection;
 
+        if(selection<0 ||selection>6) {
+            cout<<"Please enter an appropriate selection !";
+            exit(1);
+        }
+
         cin.ignore();
     }
 
@@ -160,6 +165,11 @@ public:
 
         cout<<"Please choose a category that you would like to insert new items"<<endl;
         cin>>category_number;
+
+        if(category_number<0 || category_number>4) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
     }
 
     int insertgetCatergoryNumber() {
@@ -172,6 +182,12 @@ public:
 
         cout<<"How many new items you would like to add into system : ";
         cin>>number;
+
+        if(number<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
+
         cout<<endl;
 
         cin.ignore();
@@ -200,6 +216,11 @@ public:
 
         cout<<"Name of the company which produces the item : ";
         getline(cin, new_item_company);
+
+        if(new_item_price<0 || new_item_units<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
 
     }
 
@@ -298,6 +319,11 @@ public:
 
         cout<<"Which category of items you would like to see ? "<<endl;
         cin>>selection;
+
+        if(selection<0 || selection>4) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
     }
 
     int getOption() {
@@ -337,6 +363,11 @@ public:
     void deleteEnterByIdOption() {
         cout<<"Enter the ID of the product that you wish to delete from the stock list"<<endl;
         cin>>delete_id;
+
+        if(delete_id<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
     }
 
     int getDeleteId() {
@@ -368,6 +399,11 @@ public:
         cout<<"Please choose a category that you would like update the items"<<endl;
         cin>>category_number;
 
+        if(category_number<0 || category_number>4) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
+
         cin.ignore();
 
         cout<<endl;
@@ -387,6 +423,11 @@ public:
                 cin >> update_item_price;
                 cout<<"New units available of product : ";
                 cin >> update_item_units;
+
+                if(update_item_price<0 || update_item_units<0) {
+                    cout<<"Invalid input ! Please try again later";
+                    exit(1);
+                }
 
                 cin.ignore();
 
@@ -420,6 +461,11 @@ public:
     void updateEnterByIdOption() {
         cout<<"Enter the ID of the product that you wish to update in the stock list : ";
         cin>>update_id;
+
+        if(update_id<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
 
         cin.ignore();
     }
@@ -1149,6 +1195,6 @@ int main() {
 
 
 /** * random gen number issue ( X )
-    * negative numb issue
+    * negative numb issue ( X )
     * login / register before using
     */
