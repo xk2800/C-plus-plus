@@ -23,7 +23,6 @@ Phone :                 01111207201
 #include<iomanip>
 #include<string>
 #include<stdlib.h>
-//#include<ctime>
 #include<time.h>
 #include<algorithm>
 using namespace std;
@@ -31,11 +30,13 @@ using namespace std;
 void registerLogic();
 void loginUserValidationLogic();
 void loginPassValidationLogic();
-void menuLogic();
+void signupDisplayLogic();
+void menuDisplayLogic();
 void showItemLogic();
 void insertNewItemsLogic();
 void deleteItemsLogic();
 void updateItemsLogic();
+
 
 /*********************************************** REGISTER CLASS ***********************************************/
 
@@ -114,32 +115,59 @@ public:
 class Menu {
 
 private:
-    int selection;
+    int signin_selection, menu_selection;
 
 public:
+    void signInDisplay() {
+        cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+        cout<<"          WELCOME TO MMU SHOPPING KIOSK OWNER SYSTEM          "<<endl;
+        cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+        cout<<endl<<endl;
+        cout<<"--- Welcome to the system ! Before accessing to the system's features and all it's resources, owner can either ---"<<endl<<endl;
+        cout<<" 1. Login "<<endl;
+        cout<<" 2. Register "<<endl;
+    }
+
     void menuDisplay() {
         cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
         cout<<"          WELCOME TO MMU SHOPPING KIOSK OWNER SYSTEM          "<<endl;
         cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
         cout<<endl<<endl;
-        cout<<" 1. Login "<<endl; 				/***/
-        cout<<" 2. Register "<<endl;			/***/
-        cout<<" 3. View Items "<<endl;
-        cout<<" 4. Insert New Items "<<endl;	/***/
-        cout<<" 5. Update Information Of Items "<<endl;
-        cout<<" 6. Delete Items "<<endl;
+        cout<<" 1. View Items "<<endl;
+        cout<<" 2. Insert New Items "<<endl;
+        cout<<" 3. Update Information Of Items "<<endl;
+        cout<<" 4. Delete Items "<<endl;
         cout<<" 0. Exit "<<endl;
+    }
+
+    void signinSelection() {
+        cout<<endl;
+        cout<<"Please choose an operation to proceed !"<<endl;
+        cin>>signin_selection;
+
+        if(signin_selection<0 ||signin_selection>2) {
+            cout<<"Please enter an appropriate selection !";
+            exit(1);
+        }
+
+        cin.ignore();
     }
 
     void menuSelection() {
         cout<<endl;
         cout<<"Please choose an operation to proceed !"<<endl;
-        cin>>selection;
+        cin>>menu_selection;
+
+        if(menu_selection<0 ||menu_selection>4) {
+            cout<<"Please enter an appropriate selection !";
+            exit(1);
+        }
 
         cin.ignore();
     }
 
-    friend void menuLogic();
+    friend void signupDisplayLogic();
+    friend void menuDisplayLogic();
 };
 
 /*********************************************** OWNER INSERT ITEM CLASS ***********************************************/
@@ -160,6 +188,11 @@ public:
 
         cout<<"Please choose a category that you would like to insert new items"<<endl;
         cin>>category_number;
+
+        if(category_number<0 || category_number>4) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
     }
 
     int insertgetCatergoryNumber() {
@@ -172,6 +205,12 @@ public:
 
         cout<<"How many new items you would like to add into system : ";
         cin>>number;
+
+        if(number<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
+
         cout<<endl;
 
         cin.ignore();
@@ -200,6 +239,11 @@ public:
 
         cout<<"Name of the company which produces the item : ";
         getline(cin, new_item_company);
+
+        if(new_item_price<0 || new_item_units<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
 
     }
 
@@ -298,6 +342,11 @@ public:
 
         cout<<"Which category of items you would like to see ? "<<endl;
         cin>>selection;
+
+        if(selection<0 || selection>4) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
     }
 
     int getOption() {
@@ -337,6 +386,11 @@ public:
     void deleteEnterByIdOption() {
         cout<<"Enter the ID of the product that you wish to delete from the stock list"<<endl;
         cin>>delete_id;
+
+        if(delete_id<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
     }
 
     int getDeleteId() {
@@ -368,6 +422,11 @@ public:
         cout<<"Please choose a category that you would like update the items"<<endl;
         cin>>category_number;
 
+        if(category_number<0 || category_number>4) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
+
         cin.ignore();
 
         cout<<endl;
@@ -387,6 +446,11 @@ public:
                 cin >> update_item_price;
                 cout<<"New units available of product : ";
                 cin >> update_item_units;
+
+                if(update_item_price<0 || update_item_units<0) {
+                    cout<<"Invalid input ! Please try again later";
+                    exit(1);
+                }
 
                 cin.ignore();
 
@@ -420,6 +484,11 @@ public:
     void updateEnterByIdOption() {
         cout<<"Enter the ID of the product that you wish to update in the stock list : ";
         cin>>update_id;
+
+        if(update_id<0) {
+            cout<<"Invalid input ! Please try again later";
+            exit(1);
+        }
 
         cin.ignore();
     }
@@ -461,6 +530,72 @@ public:
     }
 };
 
+/*********************************************** menuDisplayLogic() ***********************************************/
+
+void menuDisplayLogic() {
+
+    Menu menu_obj;
+    char proceed;
+
+    do {
+
+        cout<<endl;
+        menu_obj.menuDisplay();
+        menu_obj.menuSelection();
+        cout<<endl;
+
+        switch(menu_obj.menu_selection) {
+            case 1 : cout<<"===================================="<<endl;
+                cout<<"              VIEW ITEMS            "<<endl;
+                cout<<"===================================="<<endl;
+                cout<<endl;
+
+                showItemLogic();
+                break;
+
+            case 2 : cout<<"=========================================="<<endl;
+                cout<<"              INSERT NEW ITEMS            "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                insertNewItemsLogic();
+                break;
+
+            case 3 : cout<<"=========================================="<<endl;
+                cout<<"              UPDATE ITEMS                "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                updateItemsLogic();
+                break;
+
+            case 4 : cout<<"=========================================="<<endl;
+                cout<<"              DELETE ITEMS                "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                deleteItemsLogic();
+                break;
+
+            case 0 : cout<<"Thank you for using !";
+                exit(0);
+                break;
+
+        }
+
+        cout<<endl;
+        cout<<"Would you like to continue ? [ Y / N ]"<<endl;
+        cin>>proceed;
+        cout<<endl;
+
+    } while (proceed == 'Y' || proceed == 'y');
+
+    //cin.ignore();
+
+    cout<<endl;
+    cout<<"Thank you for using !";
+}
+
 /*********************************************** registerLogic() ***********************************************/
 
 void registerLogic() {
@@ -485,7 +620,7 @@ void registerLogic() {
         cfrmpassword = reg_obj.getCfrmpass();
 
         cout<<endl;
-        cout<<"Register is completed and the data is saved !"<<endl<<endl;
+        cout<<"Register is completed and the data is saved ! You can now proceed to log into the existing account"<<endl<<endl;
 
         out_reg_file<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl;
     }
@@ -569,6 +704,7 @@ void loginPassValidationLogic() {
 
         if(validate_pass == true) {
             cout<<"Password is matched !"<<endl<<endl;
+            menuDisplayLogic();
         } else {
             cout<<"Password incorrect ! Please try again later"<<endl<<endl;
             exit(1);
@@ -578,85 +714,38 @@ void loginPassValidationLogic() {
     }
 }
 
-/*********************************************** menuLogic() ***********************************************/
+/*********************************************** signupDisplayLogic() ***********************************************/
 
-void menuLogic() {
+void signupDisplayLogic() {
 
     Menu menu_obj;
     char proceed;
 
-    do {
-        menu_obj.menuDisplay();
-        menu_obj.menuSelection();
-        cout<<endl;
-
-        switch(menu_obj.selection) {
-            case 0 : cout<<"Thank you for using !";
-                exit(0);
-                break;
-
-            case 1 : cout<<"Reading from the file...."<<endl<<endl;
-                cout<<"===================================="<<endl;
-                cout<<"              LOGIN                 "<<endl;
-                cout<<"===================================="<<endl;
-                cout<<endl;
-
-                loginUserValidationLogic();
-                break;
-
-            case 2 : cout<<"===================================="<<endl;
-                cout<<"              REGISTER              "<<endl;
-                cout<<"===================================="<<endl;
-                cout<<endl;
-
-                registerLogic();
-                break;
-
-            case 3 : cout<<"===================================="<<endl;
-                cout<<"              VIEW ITEMS            "<<endl;
-                cout<<"===================================="<<endl;
-                cout<<endl;
-
-                showItemLogic();
-                break;
-
-            case 4 : cout<<"=========================================="<<endl;
-                cout<<"              INSERT NEW ITEMS            "<<endl;
-                cout<<"=========================================="<<endl;
-                cout<<endl;
-
-                insertNewItemsLogic();
-                break;
-
-            case 5 : cout<<"=========================================="<<endl;
-                cout<<"              UPDATE ITEMS                "<<endl;
-                cout<<"=========================================="<<endl;
-                cout<<endl;
-
-                updateItemsLogic();
-                break;
-
-            case 6 : cout<<"=========================================="<<endl;
-                cout<<"              DELETE ITEMS                "<<endl;
-                cout<<"=========================================="<<endl;
-                cout<<endl;
-
-                deleteItemsLogic();
-                break;
-        }
-
-        cout<<endl;
-        cout<<"Would you like to continue ? [ Y / N ]"<<endl;
-        cin>>proceed;
-        cout<<endl;
-
-        //cin.ignore();
-
-    } while (proceed == 'Y' || proceed == 'y');
-
+    menu_obj.signInDisplay();
+    menu_obj.signinSelection();
     cout<<endl;
-    cout<<"Thank you for using !";
+
+    switch(menu_obj.signin_selection) {
+        case 1 : cout<<"===================================="<<endl;
+                 cout<<"              LOGIN                 "<<endl;
+                 cout<<"===================================="<<endl;
+                 cout<<endl;
+
+                 loginUserValidationLogic();
+
+                 cout<<"Reading from the file...."<<endl<<endl;
+                 break;
+
+        case 2 : cout<<"===================================="<<endl;
+                 cout<<"              REGISTER              "<<endl;
+                 cout<<"===================================="<<endl;
+                 cout<<endl;
+
+                 registerLogic();
+                 break;
+    }
 }
+
 
 /*********************************************** insertNewItemsLogic() ***********************************************/
 
@@ -1131,7 +1220,7 @@ void updateItemsLogic() {
 
 int main() {
 
-    menuLogic();
+    signupDisplayLogic();
     //deleteItemsLogic();
 
     return 0;
@@ -1148,7 +1237,9 @@ int main() {
 //          https://www.systutorials.com/how-to-process-a-file-line-by-line-in-c/
 
 
-/** * random gen number issue ( X )
-    * negative numb issue
-    * login / register before using
-    */
+/*    TODO  1) random gen number issue ( X ) */
+/*    TODO  2) negative numb issue ( X ) */
+/*    TODO  3) login / register before using ( X ) */
+/*    TODO  4) display only 10 items per page */
+/*    TODO  5) analyze sales of shopper and generate a report */
+/*    TODO  6) able to change username / password */
