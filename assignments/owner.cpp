@@ -36,6 +36,7 @@ void showItemLogic();
 void insertNewItemsLogic();
 void deleteItemsLogic();
 void updateItemsLogic();
+void changeInfoLogic();
 
 
 /*********************************************** REGISTER CLASS ***********************************************/
@@ -137,6 +138,7 @@ public:
         cout<<" 2. Insert New Items "<<endl;
         cout<<" 3. Update Information Of Items "<<endl;
         cout<<" 4. Delete Items "<<endl;
+        cout<<" 5. Change Username or Password "<<endl;
         cout<<" 0. Exit "<<endl;
     }
 
@@ -158,7 +160,7 @@ public:
         cout<<"Please choose an operation to proceed !"<<endl;
         cin>>menu_selection;
 
-        if(menu_selection<0 ||menu_selection>4) {
+        if(menu_selection<0 ||menu_selection>5) {
             cout<<"Please enter an appropriate selection !";
             exit(1);
         }
@@ -530,6 +532,33 @@ public:
     }
 };
 
+/*********************************************** OWNER CHANGE USERNAME / PASS CLASS ***********************************************/
+
+class ChangeInfo {
+
+    private:
+        int change_selection;
+
+    public:
+        void changeSelection() {
+            cout<<"-------------------------"<<endl;
+            cout<<"1. Username\n2. Password"<<endl;
+            cout<<"-------------------------"<<endl<<endl;
+            cout<<"Please enter your selection ? : ";
+            cin>>change_selection;
+
+            if(change_selection<0 || change_selection>2) {
+                cout<<"Invalid selection ! Try again later";
+                exit(1);
+            }
+        }
+
+        int changegetSelection() {
+            return change_selection;
+        }
+
+};
+
 /*********************************************** menuDisplayLogic() ***********************************************/
 
 void menuDisplayLogic() {
@@ -575,6 +604,14 @@ void menuDisplayLogic() {
                 cout<<endl;
 
                 deleteItemsLogic();
+                break;
+
+            case 5 :  cout<<"=========================================="<<endl;
+                cout<<"          CHANGE PASS / USERNAME          "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                changeInfoLogic();
                 break;
 
             case 0 : cout<<"Thank you for using !";
@@ -727,22 +764,22 @@ void signupDisplayLogic() {
 
     switch(menu_obj.signin_selection) {
         case 1 : cout<<"===================================="<<endl;
-                 cout<<"              LOGIN                 "<<endl;
-                 cout<<"===================================="<<endl;
-                 cout<<endl;
+            cout<<"              LOGIN                 "<<endl;
+            cout<<"===================================="<<endl;
+            cout<<endl;
 
-                 loginUserValidationLogic();
+            loginUserValidationLogic();
 
-                 cout<<"Reading from the file...."<<endl<<endl;
-                 break;
+            cout<<"Reading from the file...."<<endl<<endl;
+            break;
 
         case 2 : cout<<"===================================="<<endl;
-                 cout<<"              REGISTER              "<<endl;
-                 cout<<"===================================="<<endl;
-                 cout<<endl;
+            cout<<"              REGISTER              "<<endl;
+            cout<<"===================================="<<endl;
+            cout<<endl;
 
-                 registerLogic();
-                 break;
+            registerLogic();
+            break;
     }
 }
 
@@ -1213,6 +1250,45 @@ void updateItemsLogic() {
 
     cout<<endl;
     cout<<"Update successfully ! Proceed to View Item to see the latest stock list"<<endl;
+}
+
+/*********************************************** changeInfoLogic() ***********************************************/
+
+void changeInfoLogic() {
+
+    ChangeInfo change_info_obj;
+    Register reg_obj;
+
+    ofstream out_change_file;
+    ifstream in_change_file;
+
+    string change_inforead_username, change_inforead_pass, change_inforead_cfrmpass;
+
+    change_inforead_username = reg_obj.getUser();
+    change_inforead_pass = reg_obj.getPass();
+    change_inforead_cfrmpass = reg_obj.getCfrmpass();
+
+    change_info_obj.changeSelection();
+
+    in_change_file.open("owner-details.txt");
+    out_change_file.open("owner-details-temp.txt");
+
+    switch(change_info_obj.changegetSelection()) {
+
+        //test
+
+        case 1 :
+        case 2 : if(in_change_file.is_open()) {
+
+                    while(getline(in_change_file, change_inforead_username)) {
+
+                        in_change_file>>change_inforead_username>>change_inforead_pass>>change_inforead_cfrmpass;
+                        cout<<change_inforead_username<<"  "<<change_inforead_pass<<"  "<<change_inforead_cfrmpass<<endl;
+                    }
+                 }
+                 break;
+
+    }
 }
 
 
