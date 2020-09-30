@@ -65,7 +65,7 @@ class Circle : public BasicShape
       Circle( long x, long y, double rad )
          : centreX( x ), centreY( y ), radius( rad )
       {
-         ...
+         calcArea();
       }
 
       long getCentreX() 
@@ -81,7 +81,7 @@ class Circle : public BasicShape
       void calcArea()	
       {
          double temp = 3.14159 * radius * radius;
-         ...
+         setArea(temp);
       }
 };
 
@@ -96,7 +96,7 @@ public:
    Rectangle(long w, long l)
       : width( w ), length( l )
    {
-      ...
+      calcArea();
    }
 
    long getWidth() 
@@ -112,7 +112,7 @@ public:
    void calcArea() 
    {
       double temp = length * width;
-      ...
+      setArea(temp);
    }
 };
 

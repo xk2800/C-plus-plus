@@ -508,7 +508,6 @@ class Magazine:public ShopItem{
 
         }
 
-        //virtual void itemDisplay() const;
 
 };
 
@@ -539,7 +538,6 @@ class Movie:public ShopItem{
 
         }
 
-        //virtual void itemDisplay();
 
 };
 
@@ -569,11 +567,6 @@ class ShoppingCart{
 
 };
 
-/*void ShopItem::itemDisplay() const{
-
-
-}
-*/
 
 void custType(){
 
