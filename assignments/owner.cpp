@@ -19,9 +19,11 @@ Phone :                 01111207201
 
 
 #include<iostream>
+#include<stdio.h>
 #include<fstream>
 #include<iomanip>
 #include<string>
+#include<string.h>
 #include<stdlib.h>
 #include<time.h>
 #include<algorithm>
@@ -46,9 +48,15 @@ class Register {
 private:
     string oname;
     string pass, cfrmpass;
+    int rand_numb = 0;
 
 public:
     void usernameRegister() {
+        srand(time(NULL));
+        rand_numb = rand()%20;
+
+        cout<<"Your ID : "<<rand_numb<<endl;
+
         cout<<"Set a username : ";
         getline(cin, oname);
         cout<<endl;
@@ -67,6 +75,10 @@ public:
             cout<<"Re-enter the password : ";
             cin>>cfrmpass;
         }
+    }
+
+    int getId() {
+        return rand_numb;
     }
 
     string getUser() {
@@ -139,7 +151,7 @@ public:
         cout<<" 3. Update Information Of Items "<<endl;
         cout<<" 4. Delete Items "<<endl;
         cout<<" 5. Change Username or Password "<<endl;
-        cout<<" 0. Exit "<<endl;
+        cout<<" 0. Log Out "<<endl;
     }
 
     void signinSelection() {
@@ -537,7 +549,8 @@ public:
 class ChangeInfo {
 
     private:
-        int change_selection;
+        int change_selection, change_id;
+        string change_username, change_password, change_password_cfrm;
 
     public:
         void changeSelection() {
@@ -546,6 +559,8 @@ class ChangeInfo {
             cout<<"-------------------------"<<endl<<endl;
             cout<<"Please enter your selection ? : ";
             cin>>change_selection;
+
+            cin.ignore();
 
             if(change_selection<0 || change_selection>2) {
                 cout<<"Invalid selection ! Try again later";
@@ -557,6 +572,54 @@ class ChangeInfo {
             return change_selection;
         }
 
+        void changeUsername() {
+            cout<<"Enter your staff ID : ";
+            cin>>change_id;
+
+            cout<<endl;
+            cin.ignore();
+
+            cout<<"Enter your new username : ";
+            getline(cin, change_username);
+        }
+
+        void changePassword() {
+            cout<<"Enter your staff ID : ";
+            cin>>change_id;
+
+            cout<<endl;
+            cin.ignore();
+
+            cout<<"Enter your new password : ";
+            getline(cin, change_password);
+            cout<<"Enter again the new password : ";
+            getline(cin, change_password_cfrm);
+
+            while(change_password != change_password_cfrm) {
+                cout<<endl;
+                cout<<"The password you entered is not matched ! Please try again"<<endl<<endl;
+                cout<<"Enter your new password : ";
+                getline(cin, change_password);
+                cout<<"Enter again the new password : ";
+                getline(cin, change_password_cfrm);
+            }
+        }
+
+        int changegetPresentId() {
+            return change_id;
+        }
+
+        string changegetUsername() {
+            return change_username;
+        }
+
+        string changegetPassword() {
+            return change_password;
+        }
+
+        string changegeCfrmPassword() {
+            return change_password_cfrm;
+        }
 };
 
 /*********************************************** menuDisplayLogic() ***********************************************/
@@ -642,6 +705,7 @@ void registerLogic() {
 
     string oname;
     string password, cfrmpassword;
+    int id = 0;
 
     out_reg_file.open("owner-details.txt", std::ios_base::app);
 
@@ -652,6 +716,7 @@ void registerLogic() {
         reg_obj.usernameRegister();
         reg_obj.passRegister();
 
+        id = reg_obj.getId();
         oname = reg_obj.getUser();
         password = reg_obj.getPass();
         cfrmpassword = reg_obj.getCfrmpass();
@@ -659,7 +724,7 @@ void registerLogic() {
         cout<<endl;
         cout<<"Register is completed and the data is saved ! You can now proceed to log into the existing account"<<endl<<endl;
 
-        out_reg_file<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl;
+        out_reg_file<<id<<setw(15)<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl;
     }
 
     out_reg_file.close();
@@ -739,7 +804,7 @@ void loginPassValidationLogic() {
             }
         }
 
-        if(validate_pass == true) {
+        if(validate_pass) {
             cout<<"Password is matched !"<<endl<<endl;
             menuDisplayLogic();
         } else {
@@ -1262,43 +1327,92 @@ void changeInfoLogic() {
     ofstream out_change_file;
     ifstream in_change_file;
 
-    string change_inforead_username, change_inforead_pass, change_inforead_cfrmpass;
+    int change_readid;
+    string oname, password, cfrmpassword;
+    string change_info_username, change_info_pass, change_info_cfrmpass;
+    int change_info_id_present;
 
-    change_inforead_username = reg_obj.getUser();
-    change_inforead_pass = reg_obj.getPass();
-    change_inforead_cfrmpass = reg_obj.getCfrmpass();
+    /*int change_offset_name;
+    bool get_name*/;
+
+    change_readid = reg_obj.getId();
+    oname = reg_obj.getUser();
+    password = reg_obj.getPass();
+    cfrmpassword = reg_obj.getCfrmpass();
+
+    /*change_info_pass = change_info_obj.changegetPassword();
+    change_info_cfrmpass = change_info_obj.changegeCfrmPassword();*/
+
+    /*change_info_pass_present = change_info_obj.changegetPresentPass();*/
 
     change_info_obj.changeSelection();
 
     in_change_file.open("owner-details.txt");
-    out_change_file.open("owner-details-temp.txt");
+    out_change_file.open("owner-details-temp.txt", std::ios_base::app);
 
     switch(change_info_obj.changegetSelection()) {
 
-        //test
-
-        case 1 :
-        case 2 : if(in_change_file.is_open()) {
-
-                    while(getline(in_change_file, change_inforead_username)) {
-
-                        in_change_file>>change_inforead_username>>change_inforead_pass>>change_inforead_cfrmpass;
-                        cout<<change_inforead_username<<"  "<<change_inforead_pass<<"  "<<change_inforead_cfrmpass<<endl;
-                    }
-                 }
+        case 1 : change_info_obj.changeUsername();
+                 change_info_id_present = change_info_obj.changegetPresentId();
+                 change_info_username = change_info_obj.changegetUsername();
                  break;
 
+        case 2 : change_info_obj.changePassword();
+                 change_info_id_present = change_info_obj.changegetPresentId();
+                 change_info_pass = change_info_obj.changegetPassword();
+                 change_info_cfrmpass = change_info_obj.changegeCfrmPassword();
+                 break;
+
+        default : cout<<"Invalid input !"<<endl<<endl;
+                  break;
+    }
+
+    if(in_change_file.is_open()) {
+
+        while (in_change_file>>change_readid>>oname>>password>>cfrmpassword) {
+
+            if(change_info_obj.changegetSelection() == 1) {
+                if(change_readid == change_info_id_present) {
+                    out_change_file << change_readid<< setw(15) << change_info_username << setw(15) << password << setw(15) << cfrmpassword<<endl;
+                } else {
+                    out_change_file << change_readid << setw(15) << oname << setw(15) << password << setw(15) << cfrmpassword<<endl;
+                }
+
+                cout<<endl;
+                cout<<"Username is updated !"<<endl;
+
+            } else {
+                if(change_readid == change_info_id_present) {
+                    out_change_file << change_readid<< setw(15) << oname << setw(15) << change_info_pass  << setw(15) << change_info_cfrmpass<<endl;
+                } else {
+                    out_change_file << change_readid << setw(15) << oname << setw(15) << password << setw(15) << cfrmpassword<<endl;
+                }
+
+                cout<<endl;
+                cout<<"Password is updated !"<<endl;
+
+            }
+        }
+
+        out_change_file.close();
+        in_change_file.close();
+
+        remove("owner-details.txt");
+        rename("owner-details-temp.txt", "owner-details.txt");
+
+    } else {
+        cout << "File not found";
+        exit(1);
     }
 }
-
 
 /*********************************************** int main() ***********************************************/
 
 int main() {
 
     signupDisplayLogic();
-    //deleteItemsLogic();
 
+    //deleteItemsLogic();
     return 0;
 }
 
@@ -1306,11 +1420,12 @@ int main() {
 
 // CREDIT : https://stackoverflow.com/questions/2393345/how-to-append-text-to-a-text-file-in-c
 //          https://www.youtube.com/watch?v=s3-DmI1ZWxE&t=151s
-//			http://key-to-programming.blogspot.com/2015/01/program-for-auto-number-generator-auto.html
-//			https://www.educative.io/edpresso/what-is-a-cpp-abstract-class
-//          https://www.youtube.com/watch?v=1xH_w-bTOVc&list=LLKDL2NRkpulBjnktk_gDrsQ&index=1&t=1459s
 //			https://github.com/nouman-newworld/file-handling/blob/master/c%2B%2B%20file%20handling%202020
 //          https://www.systutorials.com/how-to-process-a-file-line-by-line-in-c/
+//          https://stackoverflow.com/questions/20739453/using-getline-with-file-input-in-c
+//          https://www.youtube.com/watch?v=1xH_w-bTOVc&list=LLKDL2NRkpulBjnktk_gDrsQ&index=1&t=1459s
+//          https://www.educative.io/edpresso/what-is-a-cpp-abstract-class
+//			http://key-to-programming.blogspot.com/2015/01/program-for-auto-number-generator-auto.html
 
 
 /*    TODO  1) random gen number issue ( X ) */
