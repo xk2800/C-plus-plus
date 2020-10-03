@@ -53,7 +53,88 @@ The area of shape 1 is 3.14159
 using namespace std;
 
 // Insert the class definition of BasicShape, Circle and Rectangle from Q1
-...
+class BasicShape
+{
+   private:
+      double area;
+
+   public:
+      double getArea() 
+      {
+         return area;
+      }
+
+      virtual void calcArea()
+      {
+         cout << "Not possible to calculate the area of a basic shape" << endl;
+      }
+
+      void setArea( double a ) 
+      {
+         area = a;
+      }
+};
+
+class Circle : public BasicShape
+{
+   private:
+      long centreX;
+      long centreY;
+      double radius;
+   public:
+      Circle( long x, long y, double rad )
+         : centreX( x ), centreY( y ), radius( rad )
+      {
+         calcArea();
+      }
+
+      long getCentreX() 
+      {
+         return centreX;
+      }
+
+      long getCentreY() 
+      {
+         return centreY;
+      }
+
+      void calcArea()	
+      {
+         double temp = 3.14159 * radius * radius;
+         setArea(temp);
+      }
+};
+
+
+class Rectangle : public BasicShape
+{
+private:
+   long width;
+   long length;
+
+public:
+   Rectangle(long w, long l)
+      : width( w ), length( l )
+   {
+      calcArea();
+   }
+
+   long getWidth() 
+   {
+      return width;
+   }
+
+   long getLength() 
+   {
+      return length;
+   }
+
+   void calcArea() 
+   {
+      double temp = length * width;
+      setArea(temp);
+   }
+};
 
 int main()
 {
@@ -78,7 +159,8 @@ int main()
          cin >> y;
          cout << "Please enter the radius of the circle: ";
          cin >> rad;
-         ....
+         shapes[i]=new Circle(x, y, rad);
+         shapes[i]->calcArea();
       }
       else
       {
@@ -86,7 +168,7 @@ int main()
          cin >> length;
          cout << "Please enter the width of the rectangle: ";
          cin >> width;
-         ...
+         shapes[i]=new Rectangle(width, length);
       }
       cout << endl << endl;
    }
@@ -94,7 +176,12 @@ int main()
    cout << "Areas of shapes displayed in reverse order.";    
    cout << endl;
    
-   ....
+   for(int i=NUMBER_OF_OBJECTS-1; i>=0; i--){
+
+      cout<<"The area of shape "<<i+1<<" is "<<shapes[i]->getArea()<<endl;
+   }
+
+   delete [] shapes;
 
    return 0;
 }
