@@ -1,2 +1,1 @@
- Shopper *stud = &student;
-                stud->registerLogic();
+uname
