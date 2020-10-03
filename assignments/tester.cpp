@@ -636,7 +636,7 @@ class SCbook:public ShoppingCart{
                     cout<<"File cannot be found"<<endl;     exit(0);
                 } else{
 
-                    cout<<"Enter product ID: "; cin>>itemid;
+                    cout<<"Enter product ID: ";  cin.ignore();  getline(cin,itemid);
 
                     book_item_file.open("owner-book-insert.txt");
                     //magazine_item_file.open("owner-magazine-insert.txt");
@@ -650,33 +650,56 @@ class SCbook:public ShoppingCart{
                             //while(!book_item_file.eof()){
                                 ////getline(book_item_file, line);
                                 
-                            while(getline(book_item_file, line)){   //
-                            
-                                if(pos = line.find(itemid)!=string::npos){
-                                    /*cout<<"ITEMID: "<<itemid;
-                                    break;*/
-                                    
-                                    if(pos<2){
-                                        validate =true;
-                                        gcl = line;
-                                    }
-                                    
-                                    //getline(book_item_file, search);
-                                    //break;
+                            // while(getline(book_item_file, line)){   //
 
-                                }else{
-                                    //cout<<"NOT FOUND";  exit(0);
-                                    validate = false;
+                            //     if(pos = line.find(itemid)!=string::npos){
+                            //         /*cout<<"ITEMID: "<<itemid;
+                            //         break;*/
+                                    
+                            //         if(pos<2){
+                            //             validate =true;
+                            //             gcl = line;
+                            //         }
+                                    
+                            //         //getline(book_item_file, search);
+                            //         //break;
+
+                            //     }else{
+                            //         //cout<<"NOT FOUND";  exit(0);
+                            //         validate = false;
+                            //     }
+
+                            //cout << "open" << endl;
+                            //cout << itemid << endl;
+
+                            while(getline(book_item_file, line)) {
+
+                                pos = line.find(itemid);
+
+                                //cout << pos << endl;
+
+                                if(pos != string::npos) {
+
+                                    if(pos < 3){
+
+                                        gcl = line;
+
+                                    }
+
                                 }
+
                             }
 
-                            if(validate==true){
+                            cout << gcl << endl;
+                        }
+
+                            /*if(validate==true){
                                 //while(getline(book_item_file, search)){
                                 cout<<"ITEMID"<<gcl;
                                 //}
                             }else{
                                 cout<<"NOT FOUND";
-                            }
+                            }*/
                         }
                         
                         
@@ -685,9 +708,9 @@ class SCbook:public ShoppingCart{
 
                         //cout<<id;
                     }
-
+                    book_item_file.close();
                 }
-        }
+        //}
 
 };
 
