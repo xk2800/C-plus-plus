@@ -132,9 +132,7 @@ class Shopper{
             //cred_file.open("D://" + username + "cred-details.txt", std::ios_base::app);
 
             if(!reg_file){
-
-                cout<<"File cannot be found"<<endl;
-                exit(0);
+                cout<<"File cannot be found"<<endl;     exit(0);
             }
             else{  //continue if file found/has/can be created
 
@@ -577,13 +575,192 @@ class MMUStaff:public Shopper{
 
 };
 
+
+//////////////////////////////////////////////////////////////////////////
+class ShoppingCart{
+
+    protected:
+
+    ofstream cart_file;
+    ifstream book_item_file, magazine_item_file, movie_item_file;
+    string username, itemid, id;
+
+    public:
+
+        void current_cart(){
+            
+            cout<<"Enter username: ";   cin.ignore();   getline(cin, username);
+
+            cart_file.open(username+"cart.txt");
+
+            /*if(!cart_file){
+                cout<<"File cannot be found"<<endl;     exit(0);
+            } else{
+
+                cout<<"Enter product ID: "; cin>>itemid;
+
+                book_item_file.open("owner-book-insert.txt");
+                magazine_item_file.open("owner-magazine-insert.txt");
+                movie_item_file.open("owner-movie-insert.txt");
+
+                if(!book_item_file){
+                    cout<<"File cannot be found"<<endl;     exit(0);
+                }else{
+
+                    getline(book_item_file, id);
+
+
+                    cout<<id;
+                }
+
+            }*/
+            
+        }
+
+
+};
+class SCbook:public ShoppingCart{
+
+    private:
+
+    //int offset;
+    string line, gcl;
+    bool validate;
+    size_t pos;
+
+    public:
+
+        void book_cart(){
+
+            if(!cart_file){
+                    cout<<"File cannot be found"<<endl;     exit(0);
+                } else{
+
+                    cout<<"Enter product ID: "; cin>>itemid;
+
+                    book_item_file.open("owner-book-insert.txt");
+                    //magazine_item_file.open("owner-magazine-insert.txt");
+                    //movie_item_file.open("owner-movie-insert.txt");
+
+                    if(!book_item_file){
+                        cout<<"File cannot be found"<<endl;     exit(0);
+                    }else{
+                        
+                        if(book_item_file.is_open()){
+                            //while(!book_item_file.eof()){
+                                ////getline(book_item_file, line);
+                                
+                            while(getline(book_item_file, line)){   //
+                            
+                                if(pos = line.find(itemid)!=string::npos){
+                                    /*cout<<"ITEMID: "<<itemid;
+                                    break;*/
+                                    
+                                    if(pos<2){
+                                        validate =true;
+                                        gcl = line;
+                                    }
+                                    
+                                    //getline(book_item_file, search);
+                                    //break;
+
+                                }else{
+                                    //cout<<"NOT FOUND";  exit(0);
+                                    validate = false;
+                                }
+                            }
+
+                            if(validate==true){
+                                //while(getline(book_item_file, search)){
+                                cout<<"ITEMID"<<gcl;
+                                //}
+                            }else{
+                                cout<<"NOT FOUND";
+                            }
+                        }
+                        
+                        
+                        //getline(book_item_file, id);
+
+
+                        //cout<<id;
+                    }
+
+                }
+        }
+
+};
+
+class SCmovie:public ShoppingCart{
+
+    private:
+
+    int offset;
+    string line, itemname;
+
+    public:
+
+        void movie_cart(){
+
+            if(!cart_file){
+                    cout<<"File cannot be found"<<endl;     exit(0);
+                } else{
+
+                    cout<<"Enter product ID: "; cin>>itemid;
+
+                    book_item_file.open("owner-book-insert.txt");
+                    //magazine_item_file.open("owner-magazine-insert.txt");
+                    //movie_item_file.open("owner-movie-insert.txt");
+
+                    if(!book_item_file){
+                        cout<<"File cannot be found"<<endl;     exit(0);
+                    }else{
+                        
+                        while(book_item_file>>itemid, getline(book_item_file, itemname)){
+                            cout<<itemid<<itemname<<endl;
+                        }
+
+
+
+                        /*if(book_item_file.is_open()){
+                            while(!book_item_file.eof()){
+
+                                getline(book_item_file, line);
+                                //book_item_file>>line;
+                                //getline(book_item_file, itemid);
+                                
+                                if((offset = line.find(itemid, 0)) != string::npos){
+                                    
+                                    //while(book_item_file>>itemid){
+                                    //getline(book_item_file, itemid);
+                                    cout<<"FOUND: "<<itemid<<endl;
+                                    //}
+                                }
+                            }
+                        }*/
+                        
+                        
+                        //getline(book_item_file, id);
+
+
+                        //cout<<id;
+                    }
+
+                }
+        }
+
+};
+
+
 ////////////////////////////////////////////////////////////////
 class ShopItem{
 
     protected:
 
     int itemid;
-    string itemname;
+    string itemname, add;
+
+    ShoppingCart SC;
 
     public:
 
@@ -600,6 +777,7 @@ class Book:public ShopItem{
     private:
 
     ifstream read_book_file;
+    SCbook SCb;
 
     public:
 
@@ -612,13 +790,21 @@ class Book:public ShopItem{
 
         read_book_file.open("owner-book-insert.txt");
 
-        cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
+        cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
         cout<<"----------------------------------------------------------------------------------"<<endl;
 
             while(read_book_file>>itemid, getline(read_book_file, itemname)){
 
                 
                 cout<<itemid<<itemname<<endl;
+            }
+
+            cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
+            if(add=="Y" || add=="y"){
+                SCb.book_cart();
+            } else{
+
+
             }
 
         }
@@ -642,11 +828,19 @@ class Magazine:public ShopItem{
 
             read_mag_file.open("owner-magazine-insert.txt");
 
-            cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Year"<<setw(15)<<"Month"<<endl;
+            cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Year"<<setw(15)<<"Month"<<endl;
             cout<<"-------------------------------------------------------------------------------------------------"<<endl;
             while(read_mag_file>>itemid, getline(read_mag_file, itemname)){
 
                 cout<<itemid/*<<setw(15)*/<<itemname<<endl;
+            }
+
+            cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
+            if(add=="Y" || add=="y"){
+                SC.current_cart();
+            } else{
+
+
             }
 
         }
@@ -658,6 +852,7 @@ class Movie:public ShopItem{
     private:
 
     ifstream read_mov_file;
+    SCmovie SCm;
 
     public:
 
@@ -668,7 +863,7 @@ class Movie:public ShopItem{
 
     void item_Display(){
             
-            cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Actor"<<endl;
+            cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Actor"<<endl;
             cout<<"-------------------------------------------------------------------------------------------------"<<endl;
             read_mov_file.open("owner-movie-insert.txt");
 
@@ -677,32 +872,17 @@ class Movie:public ShopItem{
                 cout<<itemid<<itemname<<endl;
             }
 
+            cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
+            if(add=="Y" || add=="y"){
+                SCm.movie_cart();
+            } else{
+
+
+            }
+
         }
 };
 
-
-//////////////////////////////////////////////////////////////////////////
-class ShoppingCart{
-
-    private:
-
-    ofstream cart_file;
-    string username;
-
-    public:
-
-        void current_cart(){
-            
-            cout<<"Enter username: ";   cin.ignore();   getline(cin, username);
-
-            cart_file.open(username+"cart.txt");
-
-            
-        }
-
-
-
-};
 
 
 //////////////////////////////////////////////////////////////////////////
