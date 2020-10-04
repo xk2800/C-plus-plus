@@ -382,21 +382,6 @@ class MMUStudent:public Shopper{
         } else{
             
             test_main();
-
-            /*cout<<"Enter your username : "; cin>>username;
-            getline(read_profile, un);
-            //if((uname = username.find(un,0))!=string::npos){
-            if(un != username){
-                getline(read_profile, username);
-                    cout<<username<<endl;
-                //cout<<"Sorry, no record found";
-            }else{
-                /*getline(read_profile, username);
-                    cout<<username<<endl;
-                cout<<"Sorry, no record found";*/
-            //}
-            //}
-            //read_profile.close();
         }
     }
 
@@ -581,39 +566,35 @@ class ShoppingCart{
 
     protected:
 
+    //used in other classes
     ofstream cart_file;
     ifstream book_item_file, magazine_item_file, movie_item_file;
-    string username, itemid, id;
+    string username, itemid, id, output;
+
+    //used in other classes
+    string line, gcl;
+    bool validate;
+    size_t pos;
+
+    //used on in this class
+    int prod_selection;
 
     public:
 
-        void current_cart(){
+        int current_cart(){
             
             cout<<"Enter username: ";   cin.ignore();   getline(cin, username);
 
-            cart_file.open(username+"cart.txt");
+            cart_file.open(username+"-cart.txt");
 
-            /*if(!cart_file){
-                cout<<"File cannot be found"<<endl;     exit(0);
+            if(!cart_file){
+                cout<<"File cannot be found"<<endl; exit(0);
             } else{
 
-                cout<<"Enter product ID: "; cin>>itemid;
-
-                book_item_file.open("owner-book-insert.txt");
-                magazine_item_file.open("owner-magazine-insert.txt");
-                movie_item_file.open("owner-movie-insert.txt");
-
-                if(!book_item_file){
-                    cout<<"File cannot be found"<<endl;     exit(0);
-                }else{
-
-                    getline(book_item_file, id);
+                cout<<prod_selection;
+            }
 
 
-                    cout<<id;
-                }
-
-            }*/
             
         }
 
@@ -639,87 +620,83 @@ class SCbook:public ShoppingCart{
                     cout<<"Enter product ID: ";  cin.ignore();  getline(cin,itemid);
 
                     book_item_file.open("owner-book-insert.txt");
-                    //magazine_item_file.open("owner-magazine-insert.txt");
-                    //movie_item_file.open("owner-movie-insert.txt");
 
                     if(!book_item_file){
                         cout<<"File cannot be found"<<endl;     exit(0);
                     }else{
                         
                         if(book_item_file.is_open()){
-                            //while(!book_item_file.eof()){
-                                ////getline(book_item_file, line);
-                                
-                            // while(getline(book_item_file, line)){   //
-
-                            //     if(pos = line.find(itemid)!=string::npos){
-                            //         /*cout<<"ITEMID: "<<itemid;
-                            //         break;*/
-                                    
-                            //         if(pos<2){
-                            //             validate =true;
-                            //             gcl = line;
-                            //         }
-                                    
-                            //         //getline(book_item_file, search);
-                            //         //break;
-
-                            //     }else{
-                            //         //cout<<"NOT FOUND";  exit(0);
-                            //         validate = false;
-                            //     }
-
-                            //cout << "open" << endl;
-                            //cout << itemid << endl;
-
                             while(getline(book_item_file, line)) {
 
                                 pos = line.find(itemid);
-
-                                //cout << pos << endl;
 
                                 if(pos != string::npos) {
 
                                     if(pos < 3){
 
-                                        gcl = line;
-
+                                        output = line;
                                     }
-
                                 }
-
                             }
-
-                            cout << gcl << endl;
+                            cout << output << endl;
                         }
-
-                            /*if(validate==true){
-                                //while(getline(book_item_file, search)){
-                                cout<<"ITEMID"<<gcl;
-                                //}
-                            }else{
-                                cout<<"NOT FOUND";
-                            }*/
-                        }
-                        
-                        
-                        //getline(book_item_file, id);
-
-
-                        //cout<<id;
                     }
-                    book_item_file.close();
                 }
-        //}
+            book_item_file.close();
+        }
 
 };
 
+class SCMagazine:public ShoppingCart{
+
+    private:
+
+    public:
+
+        void magazine_cart(){
+
+            if(!cart_file){
+                cout<<"File cannot be found"<<endl; exit(0);
+            } else{
+
+                    cout<<"Enter product ID: "; cin>>itemid;
+
+                    magazine_item_file.open("owner-movie-insert.txt");
+                    
+                    if(!magazine_item_file){
+                        cout<<"File cannot be found"<<endl;     exit(0);
+                    }else{
+                        
+                        if(magazine_item_file.is_open()){
+                            while(getline(magazine_item_file, line)) {
+
+                                pos = line.find(itemid);
+
+                                if(pos != string::npos) {
+
+                                    if(pos < 3){
+
+                                        output = line;
+                                    }
+                                }
+                            }
+                            cout << output << endl;
+                        }
+                    }
+            }
+            magazine_item_file.close();
+        }
+
+};
 class SCmovie:public ShoppingCart{
 
     private:
 
-    int offset;
-    string line, itemname;
+    //int offset;
+    //string line, itemname;
+    string line, gcl;
+    bool validate;
+    size_t pos;
 
     public:
 
@@ -731,47 +708,31 @@ class SCmovie:public ShoppingCart{
 
                     cout<<"Enter product ID: "; cin>>itemid;
 
-                    book_item_file.open("owner-book-insert.txt");
-                    //magazine_item_file.open("owner-magazine-insert.txt");
-                    //movie_item_file.open("owner-movie-insert.txt");
-
-                    if(!book_item_file){
+                    movie_item_file.open("owner-movie-insert.txt");
+                    
+                    if(!magazine_item_file){
                         cout<<"File cannot be found"<<endl;     exit(0);
                     }else{
                         
-                        while(book_item_file>>itemid, getline(book_item_file, itemname)){
-                            cout<<itemid<<itemname<<endl;
-                        }
+                        if(movie_item_file.is_open()){
+                            while(getline(movie_item_file, line)) {
 
+                                pos = line.find(itemid);
 
+                                if(pos != string::npos) {
 
-                        /*if(book_item_file.is_open()){
-                            while(!book_item_file.eof()){
+                                    if(pos < 3){
 
-                                getline(book_item_file, line);
-                                //book_item_file>>line;
-                                //getline(book_item_file, itemid);
-                                
-                                if((offset = line.find(itemid, 0)) != string::npos){
-                                    
-                                    //while(book_item_file>>itemid){
-                                    //getline(book_item_file, itemid);
-                                    cout<<"FOUND: "<<itemid<<endl;
-                                    //}
+                                        output = line;
+                                    }
                                 }
                             }
-                        }*/
-                        
-                        
-                        //getline(book_item_file, id);
-
-
-                        //cout<<id;
+                            cout << output << endl;
+                        }
                     }
-
                 }
+            movie_item_file.close();
         }
-
 };
 
 
@@ -800,6 +761,8 @@ class Book:public ShopItem{
     private:
 
     ifstream read_book_file;
+
+    ShoppingCart sc;
     SCbook SCb;
 
     public:
@@ -824,7 +787,8 @@ class Book:public ShopItem{
 
             cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
             if(add=="Y" || add=="y"){
-                SCb.book_cart();
+                //SCb.book_cart();
+                sc.current_cart();
             } else{
 
 
@@ -909,7 +873,7 @@ class Movie:public ShopItem{
 
 
 //////////////////////////////////////////////////////////////////////////
-void cust_Type(){
+void cust_Type(){   //for register part, user pick what type of customer (profile) they are
 
     int custtype;
     
@@ -957,7 +921,7 @@ void cust_Type(){
 }
 
 
-void after_login_menu(){
+void after_login_menu(){    //diplayed after account authenication successful from login section
 
     int selection, prod_selection, uname;
     string confirm, search, username, un;
@@ -969,6 +933,7 @@ void after_login_menu(){
     Book b;
     Magazine mag;
     Movie mv;
+    ShoppingCart sc;
 
     
     //menu start
@@ -976,7 +941,7 @@ void after_login_menu(){
     cout<<"1. View Profile"<<endl;
     cout<<"2. View Shopping Cart"<<endl;
     cout<<"3. View Order History"<<endl;
-    cout<<"4. View Product"<<endl;
+    cout<<"4. View Product and Purchase Product"<<endl;
         cin>>selection;
 
     switch(selection){
@@ -1022,24 +987,33 @@ void after_login_menu(){
             if(prod_selection==1){
 
                 ShopItem *book = &b;
-                book->item_Display();
+                book->item_Display(); //goes directly to book class
 
             } else if(prod_selection==2){
 
                 ShopItem *magazine = &mag;
-                magazine->item_Display();
+                magazine->item_Display();   //goes directly to mag class
 
             } else if(prod_selection==3){
 
                 ShopItem *movie = &mv;
-                movie->item_Display();
+                movie->item_Display();  //goes directly to mov class
             }
+
+            sc.current_cart();
+            prod_selection = sc.current_cart();
+        
 
         break;
 
     }
 
 }
+
+// int get_prod_selection(){
+
+//     return prod_selection;
+// }
 
 
 int main(){
