@@ -38,6 +38,7 @@ void insertNewItemsLogic();
 void deleteItemsLogic();
 void updateItemsLogic();
 void changeInfoLogic();
+void salesAnalyzingLogic();
 
 
 /*********************************************** REGISTER CLASS ***********************************************/
@@ -150,7 +151,7 @@ public:
         cout<<" 3. Update Information Of Items "<<endl;
         cout<<" 4. Delete Items "<<endl;
         cout<<" 5. Update Profile "<<endl;
-        cout<<" 6. "
+        cout<<" 6. Sales Analyzing"<<endl;
         cout<<" 0. Log Out "<<endl;
     }
 
@@ -622,6 +623,42 @@ class ChangeInfo {
         }
 };
 
+/*********************************************** OWNER SALES ANALYZING CLASS ***********************************************/
+
+class SalesAnalyzing {
+
+    private:
+        int sales_selection;
+
+    public:
+        void salesViewMode() {
+            cout<<"---------------------"<<endl;
+            cout<<"1. By product name"<<endl;
+            cout<<"2. By company name"<<endl;
+            cout<<"3. By item type"<<endl;
+            cout<<"---------------------"<<endl;
+
+            cin>>sales_selection;
+        }
+
+        void salesViewDetails() {
+            switch(sales_selection) {
+
+                case 1 : cout<<"Product ID"<<"\t"<<"Product Name"<<"\t"<<"Sales Unit"<<"\t"<<"Unit Price"<<"\t"<<"Total Sales Amount (RM)"<<endl;
+                         cout<<"-----------------------------------------------------------------------------------------------------------------"<<endl;
+                         break;
+                case 2 : cout<<"Product ID"<<"\t"<<"Product Manufacture"<<"\t"<<"Sales Unit"<<"\t"<<"Unit Price"<<"\t"<<"Total Sales Amount (RM)"<<endl;
+                         cout<<"-----------------------------------------------------------------------------------------------------------------"<<endl;
+                         break;
+                case 3 : cout<<"Product ID"<<"\t"<<"Item Type"<<"\t"<<"Sales Unit"<<"\t"<<"Unit Price"<<"\t"<<"Total Sales Amount (RM)"<<endl;
+                         cout<<"-----------------------------------------------------------------------------------------------------------------"<<endl;
+                         break;
+                default : cout<<"Invalid selection ! Please try again later"<<endl;
+                          break;
+            }
+        }
+};
+
 /*********************************************** menuDisplayLogic() ***********************************************/
 
 void menuDisplayLogic() {
@@ -676,6 +713,16 @@ void menuDisplayLogic() {
 
                 changeInfoLogic();
                 break;
+
+
+            case 6 : cout<<"=========================================="<<endl;
+                cout<<"            SALES ANALYZING               "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                salesAnalyzingLogic();
+                break;
+
 
             case 0 : cout<<"Thank you for using !";
                 exit(0);
@@ -1408,6 +1455,12 @@ void changeInfoLogic() {
         cout << "File not found";
         exit(1);
     }
+}
+
+/*********************************************** salesAnalyzingLogic() ***********************************************/
+
+void salesAnalyzingLogic() {
+
 }
 
 /*********************************************** int main() ***********************************************/
