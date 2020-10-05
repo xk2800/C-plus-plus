@@ -23,7 +23,6 @@ Phone :                 01111207201
 #include<fstream>
 #include<iomanip>
 #include<string>
-#include<string.h>
 #include<stdlib.h>
 #include<time.h>
 #include<algorithm>
@@ -39,6 +38,7 @@ void insertNewItemsLogic();
 void deleteItemsLogic();
 void updateItemsLogic();
 void changeInfoLogic();
+void salesAnalyzingLogic();
 
 
 /*********************************************** REGISTER CLASS ***********************************************/
@@ -150,7 +150,8 @@ public:
         cout<<" 2. Insert New Items "<<endl;
         cout<<" 3. Update Information Of Items "<<endl;
         cout<<" 4. Delete Items "<<endl;
-        cout<<" 5. Change Username or Password "<<endl;
+        cout<<" 5. Update Profile "<<endl;
+        cout<<" 6. Sales Analyzing"<<endl;
         cout<<" 0. Log Out "<<endl;
     }
 
@@ -172,7 +173,7 @@ public:
         cout<<"Please choose an operation to proceed !"<<endl;
         cin>>menu_selection;
 
-        if(menu_selection<0 ||menu_selection>5) {
+        if(menu_selection<0 ||menu_selection>6) {
             cout<<"Please enter an appropriate selection !";
             exit(1);
         }
@@ -622,6 +623,42 @@ class ChangeInfo {
         }
 };
 
+/*********************************************** OWNER SALES ANALYZING CLASS ***********************************************/
+
+class SalesAnalyzing {
+
+    private:
+        int sales_selection;
+
+    public:
+        void salesViewMode() {
+            cout<<"---------------------"<<endl;
+            cout<<"1. By product name"<<endl;
+            cout<<"2. By company name"<<endl;
+            cout<<"3. By item type"<<endl;
+            cout<<"---------------------"<<endl;
+
+            cin>>sales_selection;
+        }
+
+        void salesViewDetails() {
+            switch(sales_selection) {
+
+                case 1 : cout<<"Product ID"<<"\t"<<"Product Name"<<"\t"<<"Sales Unit"<<"\t"<<"Unit Price"<<"\t"<<"Total Sales Amount (RM)"<<endl;
+                         cout<<"-----------------------------------------------------------------------------------------------------------------"<<endl;
+                         break;
+                case 2 : cout<<"Product ID"<<"\t"<<"Product Manufacture"<<"\t"<<"Sales Unit"<<"\t"<<"Unit Price"<<"\t"<<"Total Sales Amount (RM)"<<endl;
+                         cout<<"-----------------------------------------------------------------------------------------------------------------"<<endl;
+                         break;
+                case 3 : cout<<"Product ID"<<"\t"<<"Item Type"<<"\t"<<"Sales Unit"<<"\t"<<"Unit Price"<<"\t"<<"Total Sales Amount (RM)"<<endl;
+                         cout<<"-----------------------------------------------------------------------------------------------------------------"<<endl;
+                         break;
+                default : cout<<"Invalid selection ! Please try again later"<<endl;
+                          break;
+            }
+        }
+};
+
 /*********************************************** menuDisplayLogic() ***********************************************/
 
 void menuDisplayLogic() {
@@ -670,12 +707,22 @@ void menuDisplayLogic() {
                 break;
 
             case 5 :  cout<<"=========================================="<<endl;
-                cout<<"          CHANGE PASS / USERNAME          "<<endl;
+                cout<<"          UPDATE PROFILE INFORMATION          "<<endl;
                 cout<<"=========================================="<<endl;
                 cout<<endl;
 
                 changeInfoLogic();
                 break;
+
+
+            case 6 : cout<<"=========================================="<<endl;
+                cout<<"            SALES ANALYZING               "<<endl;
+                cout<<"=========================================="<<endl;
+                cout<<endl;
+
+                salesAnalyzingLogic();
+                break;
+
 
             case 0 : cout<<"Thank you for using !";
                 exit(0);
@@ -722,7 +769,7 @@ void registerLogic() {
         cfrmpassword = reg_obj.getCfrmpass();
 
         cout<<endl;
-        cout<<"Register is completed and the data is saved ! You can now proceed to log into the existing account"<<endl<<endl;
+        cout<<"Register is completed and the data is saved ! You can now access the system features"<<endl<<endl;
 
         out_reg_file<<id<<setw(15)<<oname<<setw(15)<<password<<setw(15)<<cfrmpassword<<endl;
     }
@@ -806,7 +853,7 @@ void loginPassValidationLogic() {
 
         if(validate_pass) {
             cout<<"Password is matched !"<<endl<<endl;
-            menuDisplayLogic();
+            //menuDisplayLogic();
         } else {
             cout<<"Password incorrect ! Please try again later"<<endl<<endl;
             exit(1);
@@ -1147,6 +1194,7 @@ void deleteItemsLogic() {
                 remove("owner-movie-insert.txt");
                 rename("tmp_movie.txt", "owner-movie-insert.txt");
 
+
             } else {
                 cout<<"File is not found !";
                 exit(1);
@@ -1332,32 +1380,27 @@ void changeInfoLogic() {
     string change_info_username, change_info_pass, change_info_cfrmpass;
     int change_info_id_present;
 
-    /*int change_offset_name;
-    bool get_name*/;
 
     change_readid = reg_obj.getId();
     oname = reg_obj.getUser();
     password = reg_obj.getPass();
     cfrmpassword = reg_obj.getCfrmpass();
 
-    /*change_info_pass = change_info_obj.changegetPassword();
-    change_info_cfrmpass = change_info_obj.changegeCfrmPassword();*/
-
-    /*change_info_pass_present = change_info_obj.changegetPresentPass();*/
-
     change_info_obj.changeSelection();
 
     in_change_file.open("owner-details.txt");
-    out_change_file.open("owner-details-temp.txt", std::ios_base::app);
+    out_change_file.open("owner-detail-temp.txt", std::ios_base::app);
 
     switch(change_info_obj.changegetSelection()) {
 
-        case 1 : change_info_obj.changeUsername();
+        case 1 :
+                 change_info_obj.changeUsername();
                  change_info_id_present = change_info_obj.changegetPresentId();
                  change_info_username = change_info_obj.changegetUsername();
                  break;
 
-        case 2 : change_info_obj.changePassword();
+        case 2 :
+                 change_info_obj.changePassword();
                  change_info_id_present = change_info_obj.changegetPresentId();
                  change_info_pass = change_info_obj.changegetPassword();
                  change_info_cfrmpass = change_info_obj.changegeCfrmPassword();
@@ -1378,27 +1421,35 @@ void changeInfoLogic() {
                     out_change_file << change_readid << setw(15) << oname << setw(15) << password << setw(15) << cfrmpassword<<endl;
                 }
 
-                cout<<endl;
-                cout<<"Username is updated !"<<endl;
-
             } else {
                 if(change_readid == change_info_id_present) {
                     out_change_file << change_readid<< setw(15) << oname << setw(15) << change_info_pass  << setw(15) << change_info_cfrmpass<<endl;
                 } else {
                     out_change_file << change_readid << setw(15) << oname << setw(15) << password << setw(15) << cfrmpassword<<endl;
                 }
-
-                cout<<endl;
-                cout<<"Password is updated !"<<endl;
-
             }
         }
 
         out_change_file.close();
         in_change_file.close();
 
-        remove("owner-details.txt");
-        rename("owner-details-temp.txt", "owner-details.txt");
+        if( remove( "owner-details.txt" ) != 0 ) {
+
+            perror( "Error remove and swapping from the temp file to user details file" );
+
+        } else {
+
+            if(change_info_obj.changegetSelection() == 1) {
+                cout<<endl;
+                cout<<"Username is updated successfully"<<endl;
+            } else {
+                cout<<endl;
+                cout<<"Password is updated successfully"<<endl;
+            }
+
+            remove("owner-details.txt");
+            rename("owner-detail-temp.txt", "owner-details.txt");
+        }
 
     } else {
         cout << "File not found";
@@ -1406,13 +1457,20 @@ void changeInfoLogic() {
     }
 }
 
+/*********************************************** salesAnalyzingLogic() ***********************************************/
+
+void salesAnalyzingLogic() {
+
+}
+
 /*********************************************** int main() ***********************************************/
 
 int main() {
 
-    signupDisplayLogic();
 
-    //deleteItemsLogic();
+    signupDisplayLogic();
+    menuDisplayLogic();
+
     return 0;
 }
 
@@ -1426,6 +1484,7 @@ int main() {
 //          https://www.youtube.com/watch?v=1xH_w-bTOVc&list=LLKDL2NRkpulBjnktk_gDrsQ&index=1&t=1459s
 //          https://www.educative.io/edpresso/what-is-a-cpp-abstract-class
 //			http://key-to-programming.blogspot.com/2015/01/program-for-auto-number-generator-auto.html
+//          https://stackoverflow.com/questions/13887808/permission-denied-when-i-use-remove
 
 
 /*    TODO  1) random gen number issue ( X ) */
@@ -1433,4 +1492,4 @@ int main() {
 /*    TODO  3) login / register before using ( X ) */
 /*    TODO  4) display only 10 items per page */
 /*    TODO  5) analyze sales of shopper and generate a report */
-/*    TODO  6) able to change username / password */
+/*    TODO  6) able to change username / password ( X ) */
