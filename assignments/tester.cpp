@@ -689,7 +689,7 @@ class CurrentCart/*:public ShoppingCart*/{
     SCmovie scmov;
     //Book b;
 
-    string username, itemid, itemname, cardnumber;
+    string username, itemid, itemname, cardnumber, agree;
     int prod_selection;
 
     ofstream cart_file;
@@ -775,10 +775,16 @@ class CurrentCart/*:public ShoppingCart*/{
 
         void payment(){
             
+            cout<<"Would you like to make payment?";    cin.ignore();   getline(cin, agree);
+            
+
             do{
             cout<<"Enter your card number: ";   cin.ignore();   getline(cin, cardnumber);
-            
+
             }while(cardnumber.size()==10);
+
+            
+
         }
 };
 ////////////////////////////////////////////////////////////////
@@ -1001,7 +1007,8 @@ void after_login_menu(){    //diplayed after account authenication successful fr
     cout<<"2. View Shopping Cart"<<endl;
     cout<<"3. View Order History"<<endl;
     cout<<"4. View Product and Purchase Product"<<endl;
-    cout<<"5. Logout"<<endl;
+    cout<<"5. Make payment for Products"<<endl;
+    cout<<"0. Logout"<<endl;
         cin>>selection;
 
     switch(selection){
@@ -1082,7 +1089,10 @@ void after_login_menu(){    //diplayed after account authenication successful fr
             
         break;
 
-        case 5:
+        case 5: //shopper make payment
+            cc.payment();
+
+        case 0: //logout from system
             cout<<"Logged out!"<<endl;
             exit(0);
         break;
