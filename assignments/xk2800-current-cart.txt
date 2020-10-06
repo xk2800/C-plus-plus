@@ -1,0 +1,5 @@
+2          prod2           13.5             16           com2           act1              
+3          prod3           18.5             17           com3           act2
+1          prod1           12.5             15           com1		act05
+2          prod2           13.5             16           com2           act1              	200
+2000
