@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <cstdlib>
+#include <stdio.h>
 
 using namespace std;
 
@@ -12,11 +13,12 @@ static string location = "D://";
 class Shopper{
 
     protected:
-      string username, password, cpassword, name, address;
-      int id;
+      string username, password, cpassword, name, address, del, un, pw;
+      int id, offset_name, offset_pwd;
       
+      //ifstream del_profile;
 
-      public:
+    public:
 
       Shopper(){
 
@@ -38,7 +40,7 @@ class Shopper{
             cin>>username;
 
             ofstream reg_file;
-            reg_file.open("D://"+ username +"-details.txt", std::ios_base::app);
+            reg_file.open(location + username +"-details.txt", std::ios_base::app);
         
         cout<<"Enter a password: ";
             cin>>password;
@@ -128,10 +130,10 @@ class Shopper{
             //open file in appending mode to update existing txt file for user info
             username    = getUsername();
             //cout<<"TEST UNAME:"<<username;
-            reg_file.open(location+"test-details.txt", std::ios_base::app);
+            //reg_file.open(location+ username"-details.txt", std::ios_base::app);
             //cred_file.open("D://" + username + "cred-details.txt", std::ios_base::app);
 
-            if(!reg_file){
+            if(reg_file.fail()){
                 cout<<"File cannot be found"<<endl;     exit(0);
             }
             else{  //continue if file found/has/can be created
@@ -153,15 +155,97 @@ class Shopper{
 
                 cout<<"TEST UNAME:"<<username;
 
+                reg_file<<username<<"\t"/*<<password<<setw(10)*/<<name<<"\t"<<address<<"\t\t"<<id<<setw(10);
                 cred_file<<username<<endl<<password<<endl<<endl;
                 //cred_file<<username<<setw(10)<<password<<endl<<endl;
                 //reg_file<<username<<"\t\t\t"<<password<<"\t\t\t"<<name<<"\t\t\t"<<address<<"\t\t\t"<<id;
-                reg_file<<username<<setw(10)/*<<password<<setw(10)*/<<name<<setw(10)<<address<<setw(10)<<id<<setw(10);
+                //reg_file<<username<<setw(10)/*<<password<<setw(10)*/<<name<<setw(10)<<address<<setw(10)<<id<<setw(10);
 
             }
 
             reg_file.close();
         }
+
+        void delete_account(){ 
+
+            ifstream del_profile;
+            string user;
+
+            cout<<"Would you like to delete all your account information? [Y/N]";   cin.ignore();   getline(cin, del);
+
+            if(del=="N" || del=="n"){
+                cout<<"You said No, you will be brought back to main menu";
+            } else{
+                
+                cout<<"Reconfirm your username : "; cin.ignore();   getline(cin, user);
+                cout<<"Verify your password : "; cin.ignore();   getline(cin, password);
+
+                cout<<"test:"<<user;
+                del_profile.open(location + user + "-cred-details.txt");
+
+                    if(del_profile.fail()){
+                        cout<<"File not found"; exit(0);
+                    } else{
+                        
+                        //verify_account_logic();
+                        ifstream check(location + username + "-cred-details.txt");
+
+                        getline(check, un);
+                        getline(check, pw);
+
+                        if((offset_name = username.find(un,0))!=string::npos && (offset_pwd = password.find(pw, 0))!=string::npos){
+                            if(un != username && pw != password){
+
+                                //return true;
+                            } else{
+
+                                //return false;
+                            }
+                        }
+                        //verify_account();
+                    }
+            }
+        }
+
+        /*bool verify_account_logic(){
+
+            
+            ifstream check(location + username + "-cred-details.txt");
+
+            getline(check, un);
+            getline(check, pw);
+
+            if((offset_name = username.find(un,0))!=string::npos && (offset_pwd = password.find(pw, 0))!=string::npos){
+                if(un != username && pw != password){
+
+                    return true;
+                } else{
+
+                    return false;
+                }
+            }
+        }*/
+
+        /*int verify_account(){
+
+            //bool status = delete_account();
+
+            if(status){
+
+                cout<<"Login Fail"<<endl;
+                system("PAUSE");
+                return 0;
+                
+            }else{
+
+                cout<<"Succesfully logged in!"<<endl;
+                system("PAUSE");
+                //after_login_menu();
+                delete_account();
+
+                return 1;
+            }
+        }*/
 
         virtual void display_profile() = 0;
 
@@ -256,66 +340,21 @@ class Customer:public Shopper{
 
         ifstream read_profile;
 
-        read_profile.open("test-details.txt");
+        cout<<"Confirm username: "; cin.ignore();   getline(cin, username);
+
+        read_profile.open(location + username + "-details.txt");
 
         if(read_profile.fail()){
             cout<<"File not found"; exit(0);
         } else{
             
-            test_main();
-        }
-    }
+            cout<<"Username\tName\tAddress\t\tID"<<endl;
+            cout<<"-----------------------------------------"<<endl;
+            while(getline(read_profile, username)){
 
-    bool test(){
-
-        string un;
-        int off;
-
-        cout<<"Enter your username : "; cin.ignore(); getline(cin,usernam);//cin>>username;
-        cout<<endl<<"UNAME FEEDBACK: "<<usernam<<endl<<endl;
-            ifstream read("test-details.txt");
-            getline(read, un);
-
-            if(off = usernam.find(un, 0)){
-                if(un != usernam){
-                    return true;
-                } else{
-                    cout<<"No record found";
-                    return false;
-                }
-            }
-
-    }
-
-    string getusername(){
-        //cout<<username;
-        return usernam;
-    }
-
-    int test_main(){
-
-        bool status = test();
-        //string username;
-        //username = getusername();
-        getusername() = usernam;
-        cout<<status;
-
-        if(!status){
-            cout<<"No record found!!"<<endl<<"USERNAME"<<usernam;
-            cout<<usernam;
-            exit(0); return 0;
-        } else{
-
-            //ifstream read(location + username+"-details.txt");
-            ifstream read("test-details.txt");
-
-            while(getline(read, usernam)){
-
-                cout<<usernam<<endl;
+                cout<<username<<endl;
 
             }
-
-            return 1;
         }
     }
 
@@ -325,6 +364,7 @@ class MMUStudent:public Shopper{
 
     private:
     string maj,usernam;
+
 
     public:
 
@@ -351,7 +391,7 @@ class MMUStudent:public Shopper{
         ofstream reg_file;
 
         //reg_file.open("test-details.txt", std::ios_base::app);
-        reg_file.open(location + username +"-details.txt"/*, std::ios_base::app*/);
+        reg_file.open(location + username +"-details.txt", std::ios_base::app);
         cout<<"STUD UNAME TEST: "<<username;
         if(!reg_file){
             cout<<"File is not found!"<<endl; exit(0);
@@ -375,82 +415,24 @@ class MMUStudent:public Shopper{
 
         ifstream read_profile;
 
-        read_profile.open("test-details.txt");
+        cout<<"Confirm username: "; cin.ignore();   getline(cin, username);
+
+        read_profile.open(location + username + "-details.txt");
 
         if(read_profile.fail()){
             cout<<"File not found"; exit(0);
         } else{
             
-            test_main();
+            cout<<"Username\tName\tAddress\t\tID\tMajor"<<endl;
+            cout<<"--------------------------------------------------"<<endl;
+            while(getline(read_profile, username)){
 
-            /*cout<<"Enter your username : "; cin>>username;
-            getline(read_profile, un);
-            //if((uname = username.find(un,0))!=string::npos){
-            if(un != username){
-                getline(read_profile, username);
-                    cout<<username<<endl;
-                //cout<<"Sorry, no record found";
-            }else{
-                /*getline(read_profile, username);
-                    cout<<username<<endl;
-                cout<<"Sorry, no record found";*/
-            //}
-            //}
-            //read_profile.close();
-        }
-    }
-
-    bool test(){
-
-        string un;
-        int off;
-
-        cout<<"Enter your username : "; cin.ignore(); getline(cin,usernam);//cin>>username;
-        cout<<endl<<"UNAME FEEDBACK: "<<usernam<<endl<<endl;
-            ifstream read("test-details.txt");
-            getline(read, un);
-
-            if(off = usernam.find(un, 0)){
-                if(un != usernam){
-                    return true;
-                } else{
-                    cout<<"No record found";
-                    return false;
-                }
-            }
-
-    }
-
-    string getusername(){
-        //cout<<username;
-        return usernam;
-    }
-
-    int test_main(){
-
-        bool status = test();
-        //string username;
-        //username = getusername();
-        getusername() = usernam;
-        cout<<status;
-
-        if(!status){
-            cout<<"No record found!!"<<endl<<"USERNAME"<<usernam;
-            cout<<usernam;
-            exit(0); return 0;
-        } else{
-
-            //ifstream read(location + username+"-details.txt");
-            ifstream read("test-details.txt");
-
-            while(getline(read, usernam)){
-
-                cout<<usernam<<endl;
+                cout<<username<<endl;
 
             }
-
-            return 1;
         }
+        read_profile.close();
+        delete_account();
     }
 
 };
@@ -509,71 +491,26 @@ class MMUStaff:public Shopper{
 
         ifstream read_profile;
 
-        read_profile.open("test-details.txt");
+        cout<<"Confirm username: "; cin.ignore();   getline(cin, username);
+
+        read_profile.open(location + username + "-details.txt");
 
         if(read_profile.fail()){
             cout<<"File not found"; exit(0);
         } else{
             
-            test_main();
-        }
+            cout<<"Username\tName\tAddress\t\tID\tDepartment"<<endl;
+            cout<<"--------------------------------------------------"<<endl;
+            while(getline(read_profile, username)){
 
-    }
+                cout<<username<<endl;
 
-    bool test(){
-
-        string un;
-        int off;
-
-        cout<<"Enter your username : "; cin.ignore(); getline(cin,usernam);//cin>>username;
-        cout<<endl<<"UNAME FEEDBACK: "<<usernam<<endl<<endl;
-            ifstream read("test-details.txt");
-            getline(read, un);
-
-            if(off = usernam.find(un, 0)){
-                if(un != usernam){
-                    return true;
-                } else{
-                    cout<<"No record found";
-                    return false;
-                }
             }
-
-    }
-
-    string getusername(){
-        //cout<<username;
-        return usernam;
-    }
-
-    int test_main(){
-
-        bool status = test();
-        //string username;
-        //username = getusername();
-        getusername() = usernam;
-        cout<<status;
-
-        if(!status){
-            cout<<"No record found!!"<<endl<<"USERNAME"<<usernam;
-            cout<<usernam;
-            exit(0); return 0;
-        } else{
-
-            //ifstream read(location + username+"-details.txt");
-            ifstream read("test-details.txt");
-
-            while(getline(read, usernam)){
-
-                cout<<usernam<<endl;
-            }
-
-            return 1;
         }
     }
-
 
 };
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -581,44 +518,23 @@ class ShoppingCart{
 
     protected:
 
-    ofstream cart_file;
+    //used in other classes
+    ofstream cart_file, add_to_cart;
     ifstream book_item_file, magazine_item_file, movie_item_file;
-    string username, itemid, id;
+    string username, itemid, id, output;
+
+    string line, gcl;
+    bool validate;
+    size_t pos;
+
+    //used on in this class
+    
 
     public:
 
-        void current_cart(){
-            
-            cout<<"Enter username: ";   cin.ignore();   getline(cin, username);
-
-            cart_file.open(username+"cart.txt");
-
-            /*if(!cart_file){
-                cout<<"File cannot be found"<<endl;     exit(0);
-            } else{
-
-                cout<<"Enter product ID: "; cin>>itemid;
-
-                book_item_file.open("owner-book-insert.txt");
-                magazine_item_file.open("owner-magazine-insert.txt");
-                movie_item_file.open("owner-movie-insert.txt");
-
-                if(!book_item_file){
-                    cout<<"File cannot be found"<<endl;     exit(0);
-                }else{
-
-                    getline(book_item_file, id);
-
-
-                    cout<<id;
-                }
-
-            }*/
-            
-        }
-
 
 };
+
 class SCbook:public ShoppingCart{
 
     private:
@@ -639,87 +555,94 @@ class SCbook:public ShoppingCart{
                     cout<<"Enter product ID: ";  cin.ignore();  getline(cin,itemid);
 
                     book_item_file.open("owner-book-insert.txt");
-                    //magazine_item_file.open("owner-magazine-insert.txt");
-                    //movie_item_file.open("owner-movie-insert.txt");
 
                     if(!book_item_file){
                         cout<<"File cannot be found"<<endl;     exit(0);
                     }else{
                         
                         if(book_item_file.is_open()){
-                            //while(!book_item_file.eof()){
-                                ////getline(book_item_file, line);
-                                
-                            // while(getline(book_item_file, line)){   //
-
-                            //     if(pos = line.find(itemid)!=string::npos){
-                            //         /*cout<<"ITEMID: "<<itemid;
-                            //         break;*/
-                                    
-                            //         if(pos<2){
-                            //             validate =true;
-                            //             gcl = line;
-                            //         }
-                                    
-                            //         //getline(book_item_file, search);
-                            //         //break;
-
-                            //     }else{
-                            //         //cout<<"NOT FOUND";  exit(0);
-                            //         validate = false;
-                            //     }
-
-                            //cout << "open" << endl;
-                            //cout << itemid << endl;
-
                             while(getline(book_item_file, line)) {
 
                                 pos = line.find(itemid);
-
-                                //cout << pos << endl;
 
                                 if(pos != string::npos) {
 
                                     if(pos < 3){
 
-                                        gcl = line;
-
+                                        output = line;
                                     }
-
                                 }
-
                             }
-
-                            cout << gcl << endl;
+                            cout << output << endl;
                         }
 
-                            /*if(validate==true){
-                                //while(getline(book_item_file, search)){
-                                cout<<"ITEMID"<<gcl;
-                                //}
-                            }else{
-                                cout<<"NOT FOUND";
-                            }*/
+                        if(add_to_cart.fail()){
+                            cout<<"File cannot be found"<<endl; exit(0);
+                        }else{
+                            //cout<<
                         }
-                        
-                        
-                        //getline(book_item_file, id);
-
-
-                        //cout<<id;
                     }
-                    book_item_file.close();
                 }
-        //}
+            book_item_file.close();
+        }
+
+        // void view(){
+        //     Book b;
+        //     b.item_Display();
+        // }
 
 };
 
+class SCmagazine:public ShoppingCart{
+
+    private:
+
+    public:
+
+        void magazine_cart(){
+
+            if(!cart_file){
+                cout<<"File cannot be found"<<endl; exit(0);
+            } else{
+
+                    cout<<"Enter product ID: "; cin>>itemid;
+
+                    magazine_item_file.open("owner-movie-insert.txt");
+                    
+                    if(!magazine_item_file){
+                        cout<<"File cannot be found"<<endl;     exit(0);
+                    }else{
+                        
+                        if(magazine_item_file.is_open()){
+                            while(getline(magazine_item_file, line)) {
+
+                                pos = line.find(itemid);
+
+                                if(pos != string::npos) {
+
+                                    if(pos < 3){
+
+                                        output = line;
+                                    }
+                                }
+                            }
+                            cout << output << endl;
+                        }
+                    }
+            }
+            magazine_item_file.close();
+        }
+
+};
 class SCmovie:public ShoppingCart{
 
     private:
 
-    int offset;
-    string line, itemname;
+    //int offset;
+    //string line, itemname;
+    string line, gcl;
+    bool validate;
+    size_t pos;
 
     public:
 
@@ -731,50 +654,139 @@ class SCmovie:public ShoppingCart{
 
                     cout<<"Enter product ID: "; cin>>itemid;
 
-                    book_item_file.open("owner-book-insert.txt");
-                    //magazine_item_file.open("owner-magazine-insert.txt");
-                    //movie_item_file.open("owner-movie-insert.txt");
-
-                    if(!book_item_file){
+                    movie_item_file.open("owner-movie-insert.txt");
+                    
+                    if(!magazine_item_file){
                         cout<<"File cannot be found"<<endl;     exit(0);
                     }else{
                         
-                        while(book_item_file>>itemid, getline(book_item_file, itemname)){
-                            cout<<itemid<<itemname<<endl;
-                        }
+                        if(movie_item_file.is_open()){
+                            while(getline(movie_item_file, line)) {
 
+                                pos = line.find(itemid);
 
+                                if(pos != string::npos) {
 
-                        /*if(book_item_file.is_open()){
-                            while(!book_item_file.eof()){
+                                    if(pos < 3){
 
-                                getline(book_item_file, line);
-                                //book_item_file>>line;
-                                //getline(book_item_file, itemid);
-                                
-                                if((offset = line.find(itemid, 0)) != string::npos){
-                                    
-                                    //while(book_item_file>>itemid){
-                                    //getline(book_item_file, itemid);
-                                    cout<<"FOUND: "<<itemid<<endl;
-                                    //}
+                                        output = line;
+                                    }
                                 }
                             }
-                        }*/
-                        
-                        
-                        //getline(book_item_file, id);
-
-
-                        //cout<<id;
+                            cout << output << endl;
+                        }
                     }
-
                 }
+            movie_item_file.close();
         }
-
 };
 
+class CurrentCart/*:public ShoppingCart*/{
 
+    private:
+    SCbook scb;
+    SCmagazine scmag;
+    SCmovie scmov;
+    //Book b;
+
+    string username, itemid, itemname, cardnumber, agree;
+    int prod_selection;
+
+    ofstream cart_file;
+
+    public:
+
+        void current_cart(){
+
+            cout<<"Type of product:"<<endl<<"1. Book \t 2.Magazine \t 3. Movie"<<endl;
+            cout<<"Re-confirm your type of product: ";  cin>>prod_selection;
+            
+            cout<<"Enter username: ";   cin.ignore();   getline(cin, username);
+            
+            cart_file.open(username + "-cart.txt");
+                
+                switch(prod_selection){
+
+                    case 1:
+                        scb.book_cart();
+                        //scb.view();
+                        //b.item_Display();
+                    break;
+
+                    case 2:
+                        scmag.magazine_cart();
+                    break;
+
+                    case 3:
+                        scmov.movie_cart();
+                    break;
+
+                }
+                
+
+            cart_file.close();
+
+            // return 1;
+                
+        }
+
+        void current_to_history(){ //take current file and rename
+
+            ifstream check;
+            check.open(username + "-cart.txt");
+
+            rename;
+        }
+
+
+        void view_cart(){
+
+            cout<<"Reconfirm your username: ";  cin.ignore();   getline(cin, username);
+
+            cout<<"USERNAME for view_cart:"<<username;
+
+            ifstream read;
+            read.open(username + "-cart.txt");
+
+            while(!read.eof()){
+                while(read>>itemid, getline(read, itemname)){
+                    cout<<itemid<<itemname<<endl;
+                }
+            }
+            read.close();
+        }
+
+        void order_history(){
+
+            cout<<"Reconfirm your username: ";  cin.ignore();   getline(cin, username);
+
+            cout<<"USERNAME for order_history: "<<username;
+
+            ifstream take;
+            take.open(username + "-cart-history.txt");
+
+            while(!take.eof()){
+                while(take>>itemid, getline(take, itemname)){
+                    cout<<itemid<<itemname<<endl;
+                }
+            }
+            take.close();
+        }
+
+        void payment(){
+            
+            cout<<"Would you like to make payment?";    cin.ignore();   getline(cin, agree);
+            
+
+            do{
+            cout<<"Enter your card number: ";   cin.ignore();   getline(cin, cardnumber);
+
+            }while(cardnumber.size()==10);
+
+            
+
+        }
+};
 ////////////////////////////////////////////////////////////////
 class ShopItem{
 
@@ -783,7 +795,7 @@ class ShopItem{
     int itemid;
     string itemname, add;
 
-    ShoppingCart SC;
+    CurrentCart cc;
 
     public:
 
@@ -800,6 +812,8 @@ class Book:public ShopItem{
     private:
 
     ifstream read_book_file;
+
+    //CurrentCart cc;
     SCbook SCb;
 
     public:
@@ -812,23 +826,35 @@ class Book:public ShopItem{
     void item_Display(){
 
         read_book_file.open("owner-book-insert.txt");
-
+        
         cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
         cout<<"----------------------------------------------------------------------------------"<<endl;
 
+        while(!read_book_file.eof()){
             while(read_book_file>>itemid, getline(read_book_file, itemname)){
 
                 
                 cout<<itemid<<itemname<<endl;
             }
+        }
+        //PLEASE STOP LOOPING PLEASE
+        read_book_file.close();
 
             cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
             if(add=="Y" || add=="y"){
-                SCb.book_cart();
-            } else{
+                //SCb.book_cart();
+                cout<<"HELLO WORLD"<<endl;
+                cc.current_cart();
+                //int returnValue = sc.current_cart(); //goes to 584
+                /*if(returnValue == 1) {
+
+                    cout << "sss" << endl;
+
+                }*/
+            } //else{
 
 
-            }
+          //  }
 
         }
 
@@ -860,7 +886,7 @@ class Magazine:public ShopItem{
 
             cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
             if(add=="Y" || add=="y"){
-                SC.current_cart();
+                cc.current_cart();
             } else{
 
 
@@ -909,7 +935,7 @@ class Movie:public ShopItem{
 
 
 //////////////////////////////////////////////////////////////////////////
-void cust_Type(){
+void cust_Type(){   //for register part, user pick what type of customer (profile) they are
 
     int custtype;
     
@@ -956,27 +982,33 @@ void cust_Type(){
 
 }
 
-
-void after_login_menu(){
-
-    int selection, prod_selection, uname;
+///class AfterLoginMenu{
+void after_login_menu(){    //diplayed after account authenication successful from login section
+    //private:
+    int selection, prod_selection, uname, type;
     string confirm, search, username, un;
 
     ifstream read("test-details.txt");
 
+    Customer cust;
     MMUStudent stud;
+    MMUStaff staf;
 
     Book b;
     Magazine mag;
     Movie mv;
+    ShoppingCart sc;
+    CurrentCart cc;
 
-    
+    //public:
     //menu start
     cout<<"Main Menu"<<endl;
     cout<<"1. View Profile"<<endl;
     cout<<"2. View Shopping Cart"<<endl;
     cout<<"3. View Order History"<<endl;
-    cout<<"4. View Product"<<endl;
+    cout<<"4. View Product and Purchase Product"<<endl;
+    cout<<"5. Make payment for Products"<<endl;
+    cout<<"0. Logout"<<endl;
         cin>>selection;
 
     switch(selection){
@@ -995,20 +1027,40 @@ void after_login_menu(){
                 /*getline(read, un);
                 while((uname = username.find(un,0))!=string::npos){*/
 
-                MMUStudent *student = &stud;
-                student->display_profile();
-                
-                //}
+                cout<<"Are you 1. Normal Customer \t 2. MMU Student \t 3. MMU Staff"<<endl<<"Enter your choice: ";  
+                cin>>type;
+
+                    
+
+                        if(type==1){ 
+                            Customer *customer = &cust;
+                            customer->display_profile();
+
+                        }else if(type==2){
+
+                            MMUStudent *student = &stud;
+                            student->display_profile();
+                        }else if(type==3){
+
+                            MMUStaff *staff = &staf;
+                            staff->display_profile();
+                        }else{
+                            cout<<"Input error";
+                        }
+
+
+                    
+
             }
 
         break;
 
         case 2: //view shopping cart
-
+            cc.view_cart();
         break;
 
         case 3: //view order history
-
+            cc.order_history();
         break;
 
         case 4: //view product
@@ -1022,19 +1074,32 @@ void after_login_menu(){
             if(prod_selection==1){
 
                 ShopItem *book = &b;
-                book->item_Display();
+                book->item_Display(); //goes directly to book class
 
             } else if(prod_selection==2){
 
                 ShopItem *magazine = &mag;
-                magazine->item_Display();
-
+                magazine->item_Display();   //goes directly to mag class
+                
             } else if(prod_selection==3){
 
                 ShopItem *movie = &mv;
-                movie->item_Display();
+                movie->item_Display();  //goes directly to mov class
             }
+            
+        break;
 
+        case 5: //shopper make payment
+            cc.payment();
+
+        case 0: //logout from system
+            cout<<"Logged out!"<<endl;
+            exit(0);
+        break;
+
+        default:
+            cout<<"Wrong option, select again"<<endl<<endl;
+            after_login_menu();
         break;
 
     }
@@ -1058,18 +1123,7 @@ int main(){
         if(choice==1){
 
             cust_Type();
-            //S.register_logic();
 
-            /*string username, password;
-
-            cout<<"Username: "; cin>>username;
-            cout<<"Password: "; cin>>password;
-
-            ofstream file;
-            file.open("test-details.txt");
-            file<<username<<endl<<password;
-            file.close();
-            exit(0);*/
         }else if(choice==2){
 
             bool status = L.login_logic();
@@ -1079,9 +1133,7 @@ int main(){
                 cout<<"Login Fail"<<endl;
                 system("PAUSE");
                 return 0;
-                
-                
-
+            
             }else{
 
                 cout<<"Succesfully logged in!"<<endl;
