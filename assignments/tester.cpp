@@ -13,22 +13,22 @@ static string location = "D://";
 class Shopper{
 
     protected:
+    //declaration related and used to inherited classes
       string username, password, cpassword, name, address, del, un, pw, line, savedline;
       string credfile = username + "-cred-details.txt";
       string infofile = username + "-details.txt";
       int id, offset_name, offset_pwd;
       size_t pos;
       
-      //ifstream del_profile;
 
     public:
 
+    //default constructor
       Shopper(){
-
 
       }
 
-      //reg default for all class
+      //registration I/O, default for all class
       void account_reg(){
 
           cout<<"Enter your name: ";
@@ -53,8 +53,8 @@ class Shopper{
 
             auto_genID();
 
+                //validate if both password input are same or not
                 while(password != cpassword){
-
                     cout<<"Make sure both passwords are same. Kindly check again and re-enter."<<endl;
                     
                     cout<<"Enter a password: ";
@@ -68,27 +68,22 @@ class Shopper{
       }
 
       string getName(){
-
           return name;
       }
 
       string getAddress(){
-
           return address;
       }
 
       string getUsername(){
-
           return username;
       }
 
       string getPassword(){
-
           return password;
       }
 
       string getConfirmPassword(){
-
           return cpassword;
       }
 
@@ -117,6 +112,7 @@ class Shopper{
             int _id;
         };
 
+        //function used to call and outpur auto gen value
         void auto_genID(){
 
             id_Gen idGen;
@@ -124,17 +120,14 @@ class Shopper{
             cout<<"Your id is: "<<idGen()<<endl;
         }
 
+        //registration logic, input data from user into text file
         void register_logic(){
 
             ofstream reg_file;
             ofstream cred_file;
             id_Gen idgen;
 
-            //open file in appending mode to update existing txt file for user info
             username    = getUsername();
-            //cout<<"TEST UNAME:"<<username;
-            //reg_file.open(location+ username"-details.txt", std::ios_base::app);
-            //cred_file.open("D://" + username + "cred-details.txt", std::ios_base::app);
 
             if(reg_file.fail()){
                 cout<<"File cannot be found"<<endl;     exit(0);
@@ -153,22 +146,19 @@ class Shopper{
 
                 cout<<endl;
 
-                reg_file.open(location + username +"-details.txt", std::ios_base::app);
-                cred_file.open(location + username + "-cred-details.txt", std::ios_base::app);
+                //open file in appending mode to update existing txt file for user info
+                reg_file.open(location + username +"-details.txt", std::ios_base::app); //full details of shopper here
+                cred_file.open(location + username + "-cred-details.txt", std::ios_base::app);  //login credential of shopper here
 
-                cout<<"TEST UNAME:"<<username;
-
-                reg_file<<username<<"\t"/*<<password<<setw(10)*/<<name<<"\t"<<address<<"\t\t"<<id<<setw(10);
+                reg_file<<username<<"\t"<<name<<"\t"<<address<<"\t\t"<<id<<setw(10);
                 cred_file<<username<<endl<<password<<endl<<endl;
-                //cred_file<<username<<setw(10)<<password<<endl<<endl;
-                //reg_file<<username<<"\t\t\t"<<password<<"\t\t\t"<<name<<"\t\t\t"<<address<<"\t\t\t"<<id;
-                //reg_file<<username<<setw(10)/*<<password<<setw(10)*/<<name<<setw(10)<<address<<setw(10)<<id<<setw(10);
-
+                
             }
 
             reg_file.close();
         }
 
+        //deregister shopper account
         void delete_account(){ 
 
             ifstream del_profile;
@@ -180,10 +170,8 @@ class Shopper{
                 cout<<"You said No, program will exit, thank you.";
             } else{
                 
-                cout<<"Reconfirm your username : "; cin.ignore();   getline(cin, user) /*cin>>user*/;
+                cout<<"Reconfirm your username : "; cin.ignore();   getline(cin, user);
                 cout<<"Verify your password : "; cin.ignore();   getline(cin, password);
-
-                cout<<"test:"<<user;
                 
                 //convert string element to const char pointer for function of removing and renaming file
                 const char *convertfilename = infofile.c_str();
@@ -196,7 +184,7 @@ class Shopper{
                     
                     pos = line.find(user);
 
-                    if(pos != string::npos){
+                    if(pos != string::npos){    //check shopper username based on input
                         
                         if(pos<10){
                             savedline = line;
@@ -217,7 +205,7 @@ class Shopper{
                     input_file.open(credfile, ios::in);
 
                     ofstream temp;
-                    temp.open("temp-file.txt");
+                    temp.open("temp-file.txt"); //create temp file to dump info into
 
                     while(getline(input_file, line)){
                         
@@ -228,8 +216,8 @@ class Shopper{
                     input_file.close();
                     temp.close();
 
-                    if(remove(convertfilename1)==0){
-                        cout<<"Orginal file has been removed"<<endl;
+                    if(remove(convertfilename1)==0){    //rename and remove temperory file to new name
+                        cout<<"Original file has been removed"<<endl;
 
                         if(rename("temp.txt", convertfilename1)==0){
                             cout<<"Temp file renamed to original file"<<endl;
@@ -250,7 +238,7 @@ class Shopper{
                     
                     pos = line.find(user);
 
-                    if(pos != string::npos){
+                    if(pos != string::npos){    //check shopper username based on input
 
                         if(pos<10){
                             savedline = line;
@@ -271,11 +259,11 @@ class Shopper{
                     input_file.open(infofile, ios::in);
 
                     ofstream temp;
-                    temp.open("temp.txt");
+                    temp.open("temp.txt");      //create temp file to dump info into
 
                         while(getline(input_file, line)){
 
-                            if(line.compare(savedline)!=0){
+                            if(line.compare(savedline)!=0){     
                                 temp<<line<<endl;
                             }
                         }
@@ -283,7 +271,7 @@ class Shopper{
                     input_file.close();
                     temp.close();
 
-                    if(remove(convertfilename)==0){
+                    if(remove(convertfilename)==0){     //rename and remove temperory file to new name
 
                         cout<<"Original File Removed"<<endl;
 
@@ -296,10 +284,10 @@ class Shopper{
                         cout<<"Fail to remove";
                     }
                 }
-               
             }
         }
 
+        //pure virtual function for displaying profile
         virtual void display_profile() = 0;
 
 };
@@ -316,41 +304,24 @@ class Login{
             cout<<"===================================="<<endl<<"\t\tLOGIN"<<endl<<"===================================="<<endl;
         }
 
-        void account_login(){
-
-            cout<<"Enter your username: ";
-                cin.ignore();
-                getline(cin, username);
-            
-            cout<<"Enter your password: ";
-                cin>>password;
-        }
-
-        string getUsername(){
-
-            return username;
-        }
-
-        string getPassword(){
-
-            return password;
-        }
-
+        //login logic, based on boolean to validate if shopper input and crendtials in file true or false
         bool login_logic(){
 
             string username, password, un, pw;
             int offset_name, offset_pwd;
 
+            //login IO
             cout<<"Enter username: ";
                 cin>>username;
             cout<<"Enter password: ";
                 cin>>password;
 
             ifstream read(location + username +"-cred-details.txt");
-            //read.open("cred-details.txt");
+
             getline(read, un);
             getline(read, pw);
-
+            
+            //password validation check, true/false value sent to int main() for validation
             if((offset_name = username.find(un,0))!=string::npos && (offset_pwd = password.find(pw, 0))!=string::npos){ //line.find(var);
                 if(un != username && pw != password){
 
@@ -375,11 +346,12 @@ class Customer:public Shopper{
 
     public:
 
+    //default construtor
     Customer(){
-
 
     }
 
+    //message for after success registration
     void update_cust_reg(){
 
         cout<<endl<<"Register is completed and the data is saved"<<endl<<endl;
@@ -443,10 +415,9 @@ class MMUStudent:public Shopper{
 
         ofstream reg_file;
 
-        //reg_file.open("test-details.txt", std::ios_base::app);
-        reg_file.open(location + username +"-details.txt", std::ios_base::app);
-        cout<<"STUD UNAME TEST: "<<username;
-        if(!reg_file){
+        reg_file.open(location + username +"-details.txt", std::ios_base::app);     //open file in append mode to add more info
+
+        if(reg_file.fail()){
             cout<<"File is not found!"<<endl; exit(0);
         } else{
 
@@ -455,16 +426,14 @@ class MMUStudent:public Shopper{
 
             reg_file<<setw(10)<<maj<<endl;
 
+            cout<<endl<<"Register is completed and the data is saved"<<endl<<endl;
 
         }
         reg_file.close();
     }
 
-    //PVF to display user profile
+    //Pure Virtual Funection to display user profile
     void display_profile(){
-
-        string usernam, un, usr;
-        int uname;
 
         ifstream read_profile;
 
@@ -502,9 +471,9 @@ class MMUStaff:public Shopper{
     //default constructor
     MMUStaff(){
 
-
     }
 
+    //request staff to enter department
     void staff_department(){
 
         cout<<"Enter the name of your department: ";
@@ -515,11 +484,12 @@ class MMUStaff:public Shopper{
         return department;
     }
 
+    //specific to add department into text file
     void update_staff_reg(){
 
         ofstream reg_file;
 
-        reg_file.open("test-details.txt"/*, std::ios_base::app*/);
+        reg_file.open("test-details.txt", std::ios_base::app);  //open file in append mode to add more info
 
         if(!reg_file){
             cout<<"File is not found"<<endl; exit(0);
@@ -536,7 +506,7 @@ class MMUStaff:public Shopper{
         reg_file.close();
     }
 
-    //PVF to display user profile
+    //Pure Virtual Funection to display user profile
     void display_profile(){
 
         string usernam, un, usr;
@@ -579,13 +549,11 @@ class ShoppingCart{
     string line, gcl;
     bool validate;
     size_t pos;
-    int qty;
-
-    //used on in this class
-    
+    int qty;    
 
     public:
 
+    //add item to cart function
     void add_cart(){
         
         ofstream add_cart_file;
@@ -594,7 +562,7 @@ class ShoppingCart{
                 cout<<"Cart file cannot be found"<<endl; exit(0);
             }else{
 
-                add_cart_file.open(location + username+"-current-cart.txt", std::ios_base::app);
+                add_cart_file.open(location + username+"-current-cart.txt", std::ios_base::app);    //open file in append mode to add more info
 
                 add_cart_file<<output<<"\t"<<qty<<endl;
                 cout<<"Item has been added to cart"<<endl;
@@ -603,6 +571,7 @@ class ShoppingCart{
         add_cart_file.close();
     }
 
+    //modity item in cart function
     void modify_cart(){
 
         ofstream mod_file;
@@ -612,8 +581,8 @@ class ShoppingCart{
         cout<<"Note: You can only change quantity of product."<<endl<<endl;
         cout<<"Confirm username: "; cin.ignore();   getline(cin, username);
 
-        mod_file.open(location + username + "-current-cart.txt", std::ios_base::app);
-        read_mod_file.open(location + username + "-current-cart.txt", std::ios_base::app);
+        mod_file.open(location + username + "-current-cart.txt", std::ios_base::app);   //open file in append mode to add more info
+        read_mod_file.open(location + username + "-current-cart.txt", std::ios_base::app);  //open file in append mode to add more info
 
         if(mod_file.fail()){
             cout<<"Cart file cannot be found"<<endl;    exit(0);
@@ -622,13 +591,13 @@ class ShoppingCart{
 
             cout<<"Enter product ID: "; getline(cin, itemid);
             cout<<"Enter new quantity: ";   cin>>qty;
-            //cout<<"Test prod id: "<<itemid;
+
             if(read_mod_file.is_open()){
                 while(getline(read_mod_file, line)){
 
                 pos=line.find(itemid);
 
-                    if(pos!=string::npos){
+                    if(pos!=string::npos){  //check product based on user input with data in text file
 
                         if(pos<3){
                             output=line;
@@ -645,6 +614,7 @@ class ShoppingCart{
     read_mod_file.close();
     }
 
+    //delete item from current shopping cart function
     void delete_item(){
 
         ofstream delete_file;
@@ -652,7 +622,7 @@ class ShoppingCart{
 
         cout<<"Confirm your username: ";    cin.ignore();   getline(cin, username);
 
-        delete_file.open(location + username + "-current-cart.txt", std::ios_base::app);
+        delete_file.open(location + username + "-current-cart.txt", std::ios_base::app);    //open file in append mode to add more info
         read_delete_file.open(location + username + "-current-cart.txt");
 
         if(delete_file.fail() || read_delete_file.fail()){
@@ -668,7 +638,7 @@ class ShoppingCart{
 
                         if(pos!=string::npos){
 
-                            if(pos<3){
+                            if(pos<3){  //check for product id based on 
                                 output=line;
                             }
                         }
