@@ -7,10 +7,13 @@
 
 using namespace std;
 
-//set your file location here
-static string location = "D://";
+//******note that all shopping item files are not linked together as they are in seperate zip file from this source code, 
+//shopping items text files are based from shop owner program during this program development.*********
 
-class Shopper{
+//set your text file location here
+static string location = "D://";    //all text files created from this program will be saved in this location, kindly check text files in this path
+
+class Shopper{  //shopper class
 
     protected:
     //declaration related and used to inherited classes
@@ -36,7 +39,7 @@ class Shopper{
             getline(cin, name);
         
         cout<<"Enter you full address: ";
-            cin.ignore();
+            //cin.ignore();
             getline(cin, address);
 
         cout<<"Enter a username: ";
@@ -166,8 +169,9 @@ class Shopper{
 
             cout<<"Would you like to delete all your account information? [Y/N]";   getline(cin, del);
 
-            if(del=="N" || del=="n"){
+            if(del=="N" || del=="n"){   //program terminate as shopper said No
                 cout<<"You said No, program will exit, thank you.";
+                exit(0);
             } else{
                 
                 cout<<"Reconfirm your username : "; cin.ignore();   getline(cin, user);
@@ -292,7 +296,7 @@ class Shopper{
 
 };
 
-class Login{
+class Login{    //login class for all code related to login is located in here
 
     private: 
         string username, password;
@@ -338,7 +342,7 @@ class Login{
 
 };
 
-class Customer:public Shopper{
+class Customer:public Shopper{  //customer class
 
     private:
 
@@ -385,7 +389,7 @@ class Customer:public Shopper{
 
 };
 
-class MMUStudent:public Shopper{
+class MMUStudent:public Shopper{    //MMUStudent class
 
     private:
     string maj,usernam;
@@ -460,7 +464,7 @@ class MMUStudent:public Shopper{
 };
 
 
-class MMUStaff:public Shopper{
+class MMUStaff:public Shopper{  //MMUStaff class
 
     private:
 
@@ -537,16 +541,15 @@ class MMUStaff:public Shopper{
 
 
 //////////////////////////////////////////////////////////////////////////
-class ShoppingCart{
+class ShoppingCart{ //ShoppingCart class
 
     protected:
 
     //used in other classes
     ofstream cart_file, add_to_cart;
     ifstream book_item_file, magazine_item_file, movie_item_file;
-    string username, itemid, id, output;
 
-    string line, gcl;
+    string username, itemid, id, output, line;
     bool validate;
     size_t pos;
     int qty;    
@@ -625,7 +628,7 @@ class ShoppingCart{
         delete_file.open(location + username + "-current-cart.txt", std::ios_base::app);    //open file in append mode to add more info
         read_delete_file.open(location + username + "-current-cart.txt");
 
-        if(delete_file.fail() || read_delete_file.fail()){
+        if(delete_file.fail() || read_delete_file.fail()){  //if file fail to open (using C++ build in library .fail()), error will appear
             cout<<"Error opening file to modify shopping cart items";
         }else{
 
@@ -638,7 +641,7 @@ class ShoppingCart{
 
                         if(pos!=string::npos){
 
-                            if(pos<3){  //check for product id based on 
+                            if(pos<3){  //check for product id based on user input
                                 output=line;
                             }
                         }
@@ -654,42 +657,37 @@ class ShoppingCart{
 
 };
 
-class SCbook:public ShoppingCart{
+class SCbook:public ShoppingCart{   //class for book item usage of shopping cart, used to add items into shopping cart
 
     private:
 
-    //int offset;
-    string line, gcl;
-    bool validate;
-    size_t pos;
-    int qty;
 
     public:
 
         void book_cart(){
 
-            if(!cart_file){
+            if(cart_file.fail()){ //if file fail to open (using C++ build in library .fail()), error will appear
                     cout<<"File cannot be found"<<endl;     exit(0);
                 } else{
                     
-                    cout<<"Reconfirm username: ";   /*cin.ignore();*/   getline(cin, username);
+                    cout<<"Reconfirm username: ";   getline(cin, username);
                     cout<<"Enter product ID: ";  cin.ignore();  getline(cin,itemid);
                     cout<<"Enter quantity: ";   cin>>qty;
 
                     book_item_file.open("owner-book-insert.txt");
 
-                    if(!book_item_file){
+                    if(book_item_file.fail()){  //if file fail to open (using C++ build in library .fail()), error will appear
                         cout<<"File cannot be found"<<endl;     exit(0);
                     }else{
                         
                         if(book_item_file.is_open()){
-                            while(getline(book_item_file, line)) {
+                            while(getline(book_item_file, line)){  //while loop to read whole text file
 
                                 pos=line.find(itemid);
 
                                 if(pos!=string::npos){
 
-                                    if(pos<3){
+                                    if(pos<3){  //check for product id based on user input
 
                                         output=line;
                                     }
@@ -709,36 +707,37 @@ class SCbook:public ShoppingCart{
 
 };
 
-class SCmagazine:public ShoppingCart{
+class SCmagazine:public ShoppingCart{   //class for book item usage of shopping cart, used to add items into shopping cart
 
     private:
+
 
     public:
 
         void magazine_cart(){
 
-            if(!cart_file){
+            if(cart_file.fail()){   //if file fail to open (using C++ build in library .fail()), error will appear
                 cout<<"File cannot be found"<<endl; exit(0);
             } else{
 
-                    cout<<"Reconfirm username: ";   /*cin.ignore();*/   getline(cin, username);
+                    cout<<"Reconfirm username: ";   getline(cin, username);
                     cout<<"Enter product ID: "; cin>>itemid;
                     cout<<"Enter quantity: ";   cin>>qty;
 
                     magazine_item_file.open("owner-movie-insert.txt");
                     
-                    if(!magazine_item_file){
+                    if(magazine_item_file.fail()){  //if file fail to open (using C++ build in library .fail()), error will appear
                         cout<<"File cannot be found"<<endl;     exit(0);
                     }else{
                         
                         if(magazine_item_file.is_open()){
-                            while(getline(magazine_item_file, line)) {
+                            while(getline(magazine_item_file, line)){  //while loop to read whole text file
 
                                 pos=line.find(itemid);
 
-                                if(pos!=string::npos) {
+                                if(pos!=string::npos){  
 
-                                    if(pos<3){
+                                    if(pos<3){  //check for product id based on user input
 
                                         output=line;
                                     }
@@ -755,22 +754,16 @@ class SCmagazine:public ShoppingCart{
         }
 
 };
-class SCmovie:public ShoppingCart{
+class SCmovie:public ShoppingCart{  //class for book item usage of shopping cart, used to add items into shopping cart
 
     private:
-
-    //int offset;
-    //string line, itemname;
-    string line, gcl;
-    bool validate;
-    size_t pos;
     
 
     public:
 
         void movie_cart(){
 
-            if(!cart_file){
+            if(cart_file.fail()){   //if file fail to open (using C++ build in library .fail()), error will appear
                     cout<<"File cannot be found"<<endl;     exit(0);
                 } else{
                     
@@ -780,18 +773,18 @@ class SCmovie:public ShoppingCart{
 
                     movie_item_file.open("owner-movie-insert.txt");
                     
-                    if(!magazine_item_file){
+                    if(magazine_item_file.fail()){  //if file fail to open (using C++ build in library .fail()), error will appear
                         cout<<"File cannot be found"<<endl;     exit(0);
                     }else{
                         
                         if(movie_item_file.is_open()){
-                            while(getline(movie_item_file, line)) {
+                            while(getline(movie_item_file, line)){  //while loop to read whole text file
 
                                 pos=line.find(itemid);
 
-                                if(pos!=string::npos) {
+                                if(pos!=string::npos){
 
-                                    if(pos<3){
+                                    if(pos<3){  //check for product id based on user input
 
                                         output=line;
                                     }
@@ -808,23 +801,23 @@ class SCmovie:public ShoppingCart{
         }
 };
 
-class CurrentCart/*:public ShoppingCart*/{
+class CurrentCart{  //CurrentCart class
 
     private:
-    SCbook scb;
-    SCmagazine scmag;
-    SCmovie scmov;
-    //Book b;
+        SCbook scb;
+        SCmagazine scmag;
+        SCmovie scmov;
 
-    string username, itemid, itemname, cardnumber, agree, info, confirmation;
-    int prod_selection;
+        string username, itemid, itemname, cardnumber, agree, info, confirmation;
+        int prod_selection;
 
-    ofstream cart_file;
+        ofstream cart_file;
 
     public:
 
-        void current_cart(){
+        void current_cart(){    //used to divert user to correct ""-cart() function based on what type of product they choose
 
+            //user have to re-enter product type for program to call correct function to enable program to open correct product file to read and then insert into shopping cart file
             cout<<"Type of product:"<<endl<<"1. Book \t 2.Magazine \t 3. Movie"<<endl;
             cout<<"Re-confirm your type of product: ";  cin>>prod_selection;
             
@@ -832,12 +825,11 @@ class CurrentCart/*:public ShoppingCart*/{
             
             cart_file.open(username + "-cart.txt");
                 
+                //check user input and call item's shopping cart function based on user input(integer value)
                 switch(prod_selection){
 
                     case 1:
                         scb.book_cart();
-                        //scb.view();
-                        //b.item_Display();
                     break;
 
                     case 2:
@@ -850,40 +842,37 @@ class CurrentCart/*:public ShoppingCart*/{
 
                 }
                 
-
             cart_file.close();
-
-            // return 1;
                 
         }
 
-        void current_to_history(){ //take current file and rename
+        void current_to_history(){ //used to read current shopping cart and convert into shopping history file
 
-            cout<<"Confirm your username: ";    /*cin.ignore();*/   getline(cin, username);
-            cout<<"TEST: "<<username;
+            cout<<"Confirm your username: ";    getline(cin, username);
             
             ifstream check;
             check.open(location + username + "-current-cart.txt");
 
             ofstream write;
-            write.open(location + username+"-cart-history.txt");
+            write.open(location + username+"-cart-history.txt", std::ios_base::app);    //open file in append mode to add more info
 
             ofstream clean;
+            //open file normally because want to remove all data inside the file, so doesn't matter if all data in the file goes missing, as long as the data is transfered into shopping cart history
             clean.open(location + username + "-current-cart.txt");
 
-            if(check.fail()){
+            if(check.fail()){   //if file fail to open (using C++ build in library .fail()), error will appear
                 cout<<"Cart file not found";    exit(0);
             }else{
 
-                while(!check.eof()){
+                while(!check.eof()){    //program will read the program untill it reach end of fill, using C++ library
                     while(getline(check, info)){
 
-                        if(write.fail()){
+                        if(write.fail()){   //if file fail to open (using C++ build in library .fail()), error will appear
                             cout<<"Cart History file unable to open";   exit(0);
                         }else{
 
-                            write<<info<<endl;
-                            clean<<"";
+                            write<<info<<endl<<endl;
+                            clean<<"";  //this will clear the file, leaving it blank
                         }
                     }
                 }
@@ -894,122 +883,140 @@ class CurrentCart/*:public ShoppingCart*/{
 
         }
 
-        void history_cart_convert(){
+        void history_cart_convert(){    //allow user to view shopping cart history
 
-            cout<<"Confirm username again: ";   /*cin.ignore();*/   getline(cin, username);
-            //cout<<"CHECK: "<<username;
+            cout<<"Confirm username again: ";   getline(cin, username);
+
             ifstream read;
-            read.open(location + username+"-cart-history.txt");
+            read.open(location + username+"-cart-history.txt"); //open file to read shopping cart history file
 
-            if(read.fail()){
-                cout<<"Not file found. Shopping history file error.";    exit(0);
+            if(read.fail()){    //if file fail to open (using C++ build in library .fail()), error will appear
+                cout<<"No file found. Shopping history file error.";    exit(0);
             }else{
                 cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price/unit"<<setw(15)<<" Other product info"<<endl;
                 cout<<"-------------------------------------------------------------------------------------------------"<<endl;
-                while(!read.eof()){
+
+                while(!read.eof()){     //program will read the program untill it reach end of fill, using C++ library
                     while(getline(read, info)){
+
                         cout<<info<<endl;
                     }
                 }
             }
         }
 
-        void view_cart_history(){
+        void view_cart_history(){   //another function for history_cart_convert() to make function call in other part of code become more relevent
             history_cart_convert();
         }
 
 
-        void view_cart(){
+        void view_cart(){   //this function is to view current shopping cart, items that have not been paid
 
-            cout<<"Reconfirm your username: ";  cin.ignore();   getline(cin, username);
-
-            //cout<<"USERNAME for view_cart:"<<username;
+            cout<<"Reconfirm your username: ";  
+            cin.ignore();   getline(cin, username);
 
             ifstream read;
             read.open(location + username + "-cart.txt");
 
-            while(!read.eof()){
-                while(read>>itemid, getline(read, itemname)){
-                    cout<<itemid<<itemname<<endl;
+            if(read.fail()){    //if file fail to open (using C++ build in library .fail()), error will appear
+                cout<<"File not found. Shopping cart file error.";  
+                exit(0);
+            }else{
+                while(!read.eof()){ //program will read the program untill it reach end of fill, using C++ library
+                    while(read>>itemid, getline(read, itemname)){
+                        cout<<itemid<<itemname<<endl;   //this will print all items in the shopping cart file
+                    }
                 }
             }
             read.close();
         }
 
 
-        void delete_shopping_history(){
+        void delete_shopping_history(){     //function to delete shopping cart history at shopper request
             
             cout<<"You are about to delete your shopping history, "<<"are you sure you want to do that? [Y/N]"; cin.ignore();   getline(cin, confirmation);
 
-            if(confirmation=="N" || confirmation=="n"){
-                cout<<"You replied No, program will terminate.";    exit(0);
+            if(confirmation=="N" || confirmation=="n"){ //when user enter N/n
+                cout<<"You replied No, program will terminate.";
+                exit(0);
+
             }else if(confirmation=="Y" || confirmation=="y"){
 
                 cout<<"Confirm your username: ";    getline(cin, username);
 
                 ofstream rewrite;
-                rewrite.open(location + username + "-cart-history.txt");
+                rewrite.open(location + username + "-cart-history.txt");    //file in normal mode to delete all records in the file
 
-                rewrite<<"";
+                rewrite<<"";    //this is to clear shopping cart history
 
                 cout<<"Shopping History Records Deleted, program will terminate now.";  exit(0);
                 
-            }else{
+            }else{  //when wrong input
                 cout<<"Invalid selection."<<endl<<"Try again."<<endl;
                 
                 delete_shopping_history();
             }
         }
 
-        void payment(){
+        void payment(){ //function for payment, function gets called from main menu after login has been successfull
             
             cout<<"Would you like to make payment?[Y/N]";    cin.ignore();   getline(cin, agree);
             
-            cout<<"Enter your card number: ";   getline(cin, cardnumber);
+            if(agree=="Y" || agree=="y"){   //user agree and payment starts
+                cout<<"Enter your card number: ";   
+                getline(cin, cardnumber);
 
-            if(cardnumber.size()==10){
-                
-                cout<<"Payment Successful"<<endl<<"Thank you for your payment"<<endl;
-                
-                current_to_history();
+                if(cardnumber.size()==10){
+                    
+                    cout<<"Payment Successful"<<endl<<"Thank you for your payment"<<endl;
+                    
+                    current_to_history();   //used to remove current shopping cart items to shopping cart history
 
+                    exit(0);
+                }else if(cardnumber.size()<=9 || cardnumber.size()>=11){    //if user did not enter exact 10 digits for payment card number, error will happen and user need to try again
+                    
+                    cout<<"Error, kindly check your payment card number and re-enter, thank you"<<endl;
+                    payment();  //sent back to start of payment due to user error
+                }
+            }else if(agree=="N" || agree=="n"){ //user disagree to continue with payment
+                cout<<"You entered No, program will terminate, thank you."; 
                 exit(0);
-            }else if(cardnumber.size()<=9 || cardnumber.size()>=11){
-                
-                cout<<"Error, kindly check your payment card number and re-enter, thank you"<<endl;
-                payment();
+
+            } else{ //user enter input besides Y or N
+                cout<<"Invalid input, try again"<<endl<<endl;
+                payment();  //sent back to start of payment due to user error
             }
 
         }
 };
 ////////////////////////////////////////////////////////////////
-class ShopItem{
+class ShopItem{ //ShopItem class
 
     protected:
 
-    int itemid;
-    string itemname, add;
+        int itemid;
+        string itemname, add;
 
-    CurrentCart cc;
+        CurrentCart cc;
 
     public:
 
-    //default constructor
-    ShopItem(){
+        //default constructor
+        ShopItem(){
 
-    }
+        }
 
-    virtual void item_Display() = 0;
+        //pure virtual function to display item for shopping cart
+        virtual void item_Display() = 0;
 };
 
-class Book:public ShopItem{
+class Book:public ShopItem{ //Book class
 
     private:
 
-    ifstream read_book_file;
+        ifstream read_book_file;
 
-    //CurrentCart cc;
-    SCbook SCb;
+        SCbook SCb;
 
     public:
 
@@ -1018,115 +1025,143 @@ class Book:public ShopItem{
 
         }
 
-    void item_Display(){
+        //display item for shopper to view to make a purchase of the products listed
+        void item_Display(){
 
-        read_book_file.open("owner-book-insert.txt");
+        read_book_file.open("owner-book-insert.txt");   //open file to read information for display
         
         cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
         cout<<"----------------------------------------------------------------------------------"<<endl;
 
-        while(!read_book_file.eof()){
-            while(read_book_file>>itemid, getline(read_book_file, itemname)){
+            while(!read_book_file.eof()){   //program will read the program untill it reach end of fill, using C++ library
+                while(read_book_file>>itemid, getline(read_book_file, itemname)){
 
-                
-                cout<<itemid<<itemname<<endl;
+                    
+                    cout<<itemid<<itemname<<endl;   //display items found in the file 
+                }
             }
-        }
-        //PLEASE STOP LOOPING PLEASE
+
         read_book_file.close();
+            
+            //ask shopper if they want to continue to add item into shopping cart
+            cout<<"Would you like to add any item into your shopping cart? [Y/N]"; 
+            cin>>add;
 
-            cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
             if(add=="Y" || add=="y"){
-                //SCb.book_cart();
-                cout<<"HELLO WORLD"<<endl;
+ 
                 cc.current_cart();
-                //int returnValue = sc.current_cart(); //goes to 584
-                /*if(returnValue == 1) {
+                
+            }else if(add=="N" || add=="n"){ //user disagree to continue with shopping cart
 
-                    cout << "sss" << endl;
+                cout<<"You entered No, program will terminate, thank you."; 
+                exit(0);
+            }else{ //user enter input besides Y or N
 
-                }*/
-            } //else{
-
-
-          //  }
+                cout<<"Invalid input, try again"<<endl<<endl;
+                item_Display();  //sent back to start of view item due to user error
+            }
 
         }
 
 };
 
-class Magazine:public ShopItem{
+class Magazine:public ShopItem{ //Magazine class
 
     private:
 
-    ifstream read_mag_file;
+        ifstream read_mag_file;
 
     public:
 
-    //default constructor
-    Magazine(){
+        //default constructor
+        Magazine(){
 
-    }
+        }
 
-    void item_Display(){
+        //display item for shopper to view to make a purchase of the products listed
+        void item_Display(){
 
-            read_mag_file.open("owner-magazine-insert.txt");
+            read_mag_file.open("owner-magazine-insert.txt");    //open file to read information for display
 
             cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Year"<<setw(15)<<"Month"<<endl;
             cout<<"-------------------------------------------------------------------------------------------------"<<endl;
-            
-            while(read_mag_file>>itemid, getline(read_mag_file, itemname)){
-                cout<<itemid/*<<setw(15)*/<<itemname<<endl;
+                
+                while(!read_mag_file.eof()){   //program will read the program untill it reach end of fill, using C++ library
+                    while(read_mag_file>>itemid, getline(read_mag_file, itemname)){
+                        cout<<itemid<<itemname<<endl;   //display items found in the file
+                    }
+                }
+
+            read_mag_file.close();
+
+            //ask shopper if they want to continue to add item into shopping cart
+            cout<<"Would you like to add any item into your shopping cart? [Y/N]"; 
+            cin>>add;
+
+                if(add=="Y" || add=="y"){
+                    cc.current_cart();
+                } else if(add=="N" || add=="n"){ //user disagree to continue with shopping cart
+
+                cout<<"You entered No, program will terminate, thank you."; 
+                exit(0);
+
+                }else{ //user enter input besides Y or N
+
+                    cout<<"Invalid input, try again"<<endl<<endl;
+                    item_Display();  //sent back to start of view item due to user error
+                }
+
             }
-
-            cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
-            if(add=="Y" || add=="y"){
-                cc.current_cart();
-            } else{
-
-
-            }
-
-        }
 
 };
 
-class Movie:public ShopItem{
+class Movie:public ShopItem{    //Movie class
 
     private:
 
-    ifstream read_mov_file;
-    SCmovie SCm;
+        ifstream read_mov_file;
+        SCmovie SCm;
 
     public:
 
-    //default constructor
-    Movie(){
+        //default constructor
+        Movie(){
 
-    }
+        }
 
-    void item_Display(){
+        //display item for shopper to view to make a purchase of the products listed
+        void item_Display(){
             
             cout<<"Product ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Actor"<<endl;
             cout<<"-------------------------------------------------------------------------------------------------"<<endl;
-            read_mov_file.open("owner-movie-insert.txt");
+            read_mov_file.open("owner-movie-insert.txt");   
 
-            while(read_mov_file>>itemid, getline(read_mov_file, itemname)){
+                while(!read_mov_file.eof()){   //program will read the program untill it reach end of fill, using C++ library
+                    while(read_mov_file>>itemid, getline(read_mov_file, itemname)){
 
-                cout<<itemid<<itemname<<endl;
-            }
+                        cout<<itemid<<itemname<<endl;   //display items found in the file
+                    }
+                }
 
+            read_mov_file.close();
+
+            //ask shopper if they want to continue to add item into shopping cart
             cout<<"Would you like to add any item into your shopping cart? [Y/N]"; cin>>add;
             if(add=="Y" || add=="y"){
                 SCm.movie_cart();
-            } else{
 
+            }else if(add=="N" || add=="n"){ //user disagree to continue with shopping cart
 
+                cout<<"You entered No, program will terminate, thank you."; 
+                exit(0);
+            }else{ //user enter input besides Y or N
+
+                cout<<"Invalid input, try again"<<endl<<endl;
+                item_Display();  //sent back to start of view item due to user error
             }
 
         }
 };
-
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -1134,11 +1169,11 @@ void cust_Type(){   //for register part, user pick what type of customer (profil
 
     int custtype;
     
-    //Shopper s;
     Customer cust;
     MMUStudent stud;
     MMUStaff staf;
 
+    //menu appear during registration for customer to determine information needed to for their profile
     cout<<"Customer type: "<<endl;
     cout<<"1. Normal Customer (Non MMU)"<<endl;
     cout<<"2. MMU Student"<<endl;
@@ -1147,39 +1182,43 @@ void cust_Type(){   //for register part, user pick what type of customer (profil
         cin>>custtype;
 
     if(custtype==1){
-
+        
+        //pure virtual function call
         Shopper *normal = &cust;
         normal->register_logic();
 
+        //call function inside customer class to show register success message
         cust.update_cust_reg();
 
     }else if(custtype==2){
-
-        //s.register_logic();
+        
+        //pure virtual function call
         Shopper *student = &stud;
         student->register_logic();
 
+        //call function inside MMUStudent class to enter major & show register success message
         stud.update_stud_reg();
 
 
     }else if(custtype==3){
 
+        //pure virtual function call
         Shopper *staff = &staf;
         staff->register_logic();
 
+        //call function inside MMUStaff class to enter department & show register success message
         staf.update_staff_reg();
 
-    }else{
+    }else{  //if user enter value other than 1,2,3
 
         cout<<"Kindly pick between 1-3 only.";
-        cust_Type();
+        cust_Type(); //shopper will be sent back to start of registration 
     }
 
 }
 
-///class AfterLoginMenu{
 void after_login_menu(){    //diplayed after account authenication successful from login section
-    //private:
+
     int selection, prod_selection, uname, type ,choice;
     string confirm, search, username, un;
 
@@ -1195,7 +1234,7 @@ void after_login_menu(){    //diplayed after account authenication successful fr
     ShoppingCart sc;
     CurrentCart cc;
 
-    //public:
+
     //menu start
     cout<<"Main Menu"<<endl;
     cout<<"1. View Profile"<<endl;
@@ -1210,36 +1249,35 @@ void after_login_menu(){    //diplayed after account authenication successful fr
 
         case 1: //view profile
 
-        cout<<"Are you sure? [Y/N]: ";
+            cout<<"Are you sure? [Y/N]: ";
             cin>>confirm;
 
             if(confirm=="N" && confirm=="n"){
-                after_login_menu();
+                after_login_menu(); //sends user back to main menu
             } else{
 
-                //cout<<"Enter your username: "; cin>>username;
-
-                /*getline(read, un);
-                while((uname = username.find(un,0))!=string::npos){*/
-
+                //customer to enter their type for program to display corrent info as each customer category has their unique info to display
                 cout<<"Are you 1. Normal Customer \t 2. MMU Student \t 3. MMU Staff"<<endl<<"Enter your choice: ";  
                 cin>>type;
-
                     
+                        if(type==1){
 
-                        if(type==1){ 
+                            //pure virtual function call
                             Customer *customer = &cust;
-                            customer->display_profile();
+                            customer->display_profile(); //goes directly to Customer class
 
                         }else if(type==2){
 
+                            //pure virtual function call
                             MMUStudent *student = &stud;
-                            student->display_profile();
+                            student->display_profile(); //goes directly to MMUStudent class
                         }else if(type==3){
-
+                            
+                            //pure virtual function call
                             MMUStaff *staff = &staf;
-                            staff->display_profile();
-                        }else{
+                            staff->display_profile();   //goes directly to MMUStaff class
+
+                        }else{  //if user enter value other than 1,2,3
                             cout<<"Input error";
                         }
 
@@ -1249,24 +1287,25 @@ void after_login_menu(){    //diplayed after account authenication successful fr
 
         case 2: //view shopping cart
             
+            //options to choose from within 1st option for shopping cart features
             cout<<"Choose what you would like to do next"<<endl;
             cout<<"1. View current Shopping Cart"<<endl;
             cout<<"2. Modify Item in Shopping Cart"<<endl;
             cout<<"3. Delete Item from Shopping Cart"<<endl;
                 cin>>choice;
 
+                //redirect to respective function based on user input
                 switch(choice){
-
                     case 1:
-                        cc.view_cart();
+                        cc.view_cart(); //goes to function which display current shopping cart
                     break;
 
                     case 2:
-                        sc.modify_cart();
+                        sc.modify_cart();   //goes to function which allow user to modify item in current shopping cart
                     break;
 
                     case 3:
-                        sc.delete_item();
+                        sc.delete_item();   //goes to function which allow user to delete item in current shopping cart
                     break;
                 }
             
@@ -1274,19 +1313,20 @@ void after_login_menu(){    //diplayed after account authenication successful fr
 
         case 3: //view order history
             
+            //options to choose from within 1st option for order history features
             cout<<"Choose what you would like to do next"<<endl;
             cout<<"1. View Shopping Cart History"<<endl;
             cout<<"2. Delete Shopping Cart History"<<endl;
                 cin>>choice;
 
+                //redirect to respective function based on user input
                 switch(choice){
-
                     case 1:
-                        cc.view_cart_history();
+                        cc.view_cart_history(); //goes to function which display current shopping cart information
                     break;
 
                     case 2:
-                        cc.delete_shopping_history();
+                        cc.delete_shopping_history();   //goes to function which allow shopper to delete shopping cart history
                     break;
 
                 }
@@ -1294,6 +1334,7 @@ void after_login_menu(){    //diplayed after account authenication successful fr
 
         case 4: //view product
 
+             //options to choose from within 1st option for view products features
             cout<<"Select type of product"<<endl;
             cout<<"1. Book"<<endl;
             cout<<"2. Magazine"<<endl;
@@ -1301,34 +1342,37 @@ void after_login_menu(){    //diplayed after account authenication successful fr
                 cin>>prod_selection;
 
             if(prod_selection==1){
-
+                
+                //pure virtual function call
                 ShopItem *book = &b;
                 book->item_Display(); //goes directly to book class
 
             } else if(prod_selection==2){
-
+                
+                //pure virtual function call
                 ShopItem *magazine = &mag;
-                magazine->item_Display();   //goes directly to mag class
+                magazine->item_Display();   //goes directly to magazine class
                 
             } else if(prod_selection==3){
 
+                //pure virtual function call
                 ShopItem *movie = &mv;
-                movie->item_Display();  //goes directly to mov class
+                movie->item_Display();  //goes directly to movie class
             }
             
         break;
 
         case 5: //shopper make payment
-            cc.payment();
+            cc.payment();   //goes to function which shopper to make payment and shopping cart will be cleared and moved to shopping cart history
 
         case 0: //logout from system
             cout<<"Logged out!"<<endl;
             exit(0);
         break;
 
-        default:
+        default:    //occurs when user enters options other than 1,2,3,4,5,0
             cout<<"Wrong option, select again"<<endl<<endl;
-            after_login_menu();
+            after_login_menu(); //sends user back to main menu
         break;
 
     }
@@ -1341,38 +1385,39 @@ int main(){
     int choice;
 
     Login L;
-    //Shopper S;
 
-    //login & reg
+    //Login and registration welcome message display to display the options available 
         cout<<"Hello,"<<endl<<"Select from the options below"<<endl;
         cout<<"1. new here? Register an account."<<endl<<"2. Already a member? Login."<<endl;
                 cin>>choice;
 
         
-        if(choice==1){
+        if(choice==1){  //choice for registration
 
-            cust_Type();
+            cust_Type();    //shopper will be brought to menu and logic for registration
 
-        }else if(choice==2){
+        }else if(choice==2){    //choice for login
 
-            bool status = L.login_logic();
+            //login validation
+            bool status = L.login_logic();  // I/O from login_logic() function located in login class which outputs a true or false output upon validation
 
             if(status){
-
+                
+                //if validation fail
                 cout<<"Login Fail"<<endl;
                 system("PAUSE");
                 return 0;
             
             }else{
-
+                
+                //if validation success
                 cout<<"Succesfully logged in!"<<endl;
                 system("PAUSE");
-                after_login_menu();
+                after_login_menu(); //sends user to main menu
 
                 return 1;
             }
 
         }
-
 
 }
