@@ -1,5 +1,5 @@
 /**********|**********|**********|**********|**********|**********|**********|
-Program :               oop_proj_y2s5.cpp
+Program :               TC02.1181203056.ELTON.WONG.CHUN.MENG.cpp (shop owner)
 Course :                Object Oriented Programming
 Year :                  2020/21 Trimester 1
 Name :                  Elton Wong Chun Meng
@@ -1088,8 +1088,8 @@ void showItemLogic() {
                 cout<<"----------------------------"<<endl;
 
                 cout<<endl;
-                cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Year"<<setw(15)<<"Month"<<endl;
-                cout<<"--------------------------------------------------------------------------------------------"<<endl;
+                cout<<"ID"<<setw(23)<<"Name"<<setw(23)<<"Price"<<setw(23)<<"Unit"<<setw(23)<<"Company"<<setw(23)<<"Year"<<setw(23)<<"Month"<<endl;
+                cout<<"-------------------------------------------------------------------------------------------------------------------------------"<<endl;
                 while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
 
                     cout<<show_itemid<<setw(15)<<show_itemname<<endl;
@@ -1113,8 +1113,8 @@ void showItemLogic() {
                 cout<<"----------------------------"<<endl;
 
                 cout<<endl;
-                cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Author"<<endl;
-                cout<<"--------------------------------------------------------------------------------------------"<<endl;
+                cout<<"ID"<<setw(23)<<"Name"<<setw(23)<<"Price"<<setw(23)<<"Unit"<<setw(23)<<"Company"<<setw(23)<<"Author"<<endl;
+                cout<<"-------------------------------------------------------------------------------------------------------------------------------"<<endl;
                 while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
 
                     cout<<show_itemid<<setw(15)<<show_itemname<<endl;
@@ -1139,7 +1139,7 @@ void showItemLogic() {
 
                 cout<<endl;
                 cout<<"ID"<<setw(15)<<"Name"<<setw(15)<<"Price"<<setw(15)<<"Unit"<<setw(15)<<"Company"<<setw(15)<<"Actor"<<endl;
-                cout<<"--------------------------------------------------------------------------------------------"<<endl;
+                cout<<"---------------------------------------------------------------------------------------------------"<<endl;
                 while(in_show_file>>show_itemid , getline(in_show_file, show_itemname)) {
 
                     cout<<show_itemid<<setw(15)<<show_itemname<<endl;
@@ -1564,17 +1564,17 @@ void salesAnalyzingLogic() {
 
         // Comment : loop through the file and read all the element.
         while(in_sales_file>>readid>>readtype>>readcompany>>readprod>>
-              readprice>>readqty>>readtotalprice) {
+                           readprice>>readqty>>readtotalprice) {
 
             // Comment : show different attribute of the display menu based on user selection.
-                switch(sales_analyze_obj.sales_getSelection()) {
-                    case 1 : cout<<readid<<"\t\t"<<readprod<<"\t\t"<<readqty<<"\t\t"<<readprice<<"\t\t"<<readtotalprice<<endl;
-                             break;
-                    case 2 : cout<<readid<<"\t\t"<<readcompany<<"\t\t"<<readqty<<"\t\t"<<readprice<<"\t\t"<<readtotalprice<<endl;
-                             break;
-                    case 3 : cout<<readid<<"\t\t"<<readtype<<"\t\t"<<readqty<<"\t\t"<<readprice<<"\t\t"<<readtotalprice<<endl;
-                             break;
-                }
+            switch(sales_analyze_obj.sales_getSelection()) {
+                case 1 : cout<<readid<<"\t\t"<<readprod<<"\t\t"<<readqty<<"\t\t"<<readprice<<"\t\t"<<readtotalprice<<endl;
+                    break;
+                case 2 : cout<<readid<<"\t\t"<<readcompany<<"\t\t"<<readqty<<"\t\t"<<readprice<<"\t\t"<<readtotalprice<<endl;
+                    break;
+                case 3 : cout<<readid<<"\t\t"<<readtype<<"\t\t"<<readqty<<"\t\t"<<readprice<<"\t\t"<<readtotalprice<<endl;
+                    break;
+            }
         }
         in_sales_file.close();
     } else {
@@ -1606,13 +1606,9 @@ int main() {
 //          https://www.educative.io/edpresso/what-is-a-cpp-abstract-class
 //			http://key-to-programming.blogspot.com/2015/01/program-for-auto-number-generator-auto.html
 //          https://stackoverflow.com/questions/13887808/permission-denied-when-i-use-remove
-
-
-/*    TODO  1) random gen number issue ( X ) */
-/*    TODO  2) negative numb issue ( X ) */
-/*    TODO  3) login / register before using ( X ) */
-/*    TODO  4) display only 10 items per page */
-/*    TODO  5) analyze sales of shopper and generate a report ( X ) */
-/*    TODO  6) able to change username / password ( X ) */
-/*    TODO  7) documentation / comment ( X ) */
-/*    TODO  8) edit proj desc and insert 100 new items */
+//			https://gist.github.com/saniyusuf/406b843afdfb9c6a86e25753fe2761f4
+//          https://www.lifehack.org/articles/productivity/15-enlightening-magazines-you-should-read-inspired.html
+//          https://www.pubexec.com/article/here-s-publishing-executive-s-look-makes-these-companies-such-great-places-work-400916/all/
+//          https://blog.reedsy.com/largest-book-publishers/
+//          https://gist.github.com/nanotaboada/6396437
+//          https://github.com/Nosto/nosto-magento/blob/develop/magazine.json
