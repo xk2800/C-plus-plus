@@ -309,7 +309,7 @@ class Login{    //login class for all code related to login is located in here
         }
 
         //login logic, based on boolean to validate if shopper input and crendtials in file true or false
-        bool login_logic(){
+        bool login_logic(){ //28
 
             string username, password, un, pw;
             int offset_name, offset_pwd;
@@ -618,7 +618,7 @@ class ShoppingCart{ //ShoppingCart class
     }
 
     //delete item from current shopping cart function
-    void delete_item(){
+    void delete_item(){ //34
 
         ofstream delete_file;
         ifstream read_delete_file;
@@ -664,7 +664,7 @@ class SCbook:public ShoppingCart{   //class for book item usage of shopping cart
 
     public:
 
-        void book_cart(){
+        void book_cart(){ //37
 
             if(cart_file.fail()){ //if file fail to open (using C++ build in library .fail()), error will appear
                     cout<<"File cannot be found"<<endl;     exit(0);
@@ -714,7 +714,7 @@ class SCmagazine:public ShoppingCart{   //class for book item usage of shopping 
 
     public:
 
-        void magazine_cart(){
+        void magazine_cart(){ //37
 
             if(cart_file.fail()){   //if file fail to open (using C++ build in library .fail()), error will appear
                 cout<<"File cannot be found"<<endl; exit(0);
@@ -761,7 +761,7 @@ class SCmovie:public ShoppingCart{  //class for book item usage of shopping cart
 
     public:
 
-        void movie_cart(){
+        void movie_cart(){ //37
 
             if(cart_file.fail()){   //if file fail to open (using C++ build in library .fail()), error will appear
                     cout<<"File cannot be found"<<endl;     exit(0);
@@ -815,7 +815,7 @@ class CurrentCart{  //CurrentCart class
 
     public:
 
-        void current_cart(){    //used to divert user to correct ""-cart() function based on what type of product they choose
+        void current_cart(){ //29    //used to divert user to correct ""-cart() function based on what type of product they choose
 
             //user have to re-enter product type for program to call correct function to enable program to open correct product file to read and then insert into shopping cart file
             cout<<"Type of product:"<<endl<<"1. Book \t 2.Magazine \t 3. Movie"<<endl;
@@ -846,7 +846,7 @@ class CurrentCart{  //CurrentCart class
                 
         }
 
-        void current_to_history(){ //used to read current shopping cart and convert into shopping history file
+        void current_to_history(){ //35 //used to read current shopping cart and convert into shopping history file
 
             cout<<"Confirm your username: ";    getline(cin, username);
             
@@ -932,7 +932,7 @@ class CurrentCart{  //CurrentCart class
         }
 
 
-        void delete_shopping_history(){     //function to delete shopping cart history at shopper request
+        void delete_shopping_history(){  //24   //function to delete shopping cart history at shopper request
             
             cout<<"You are about to delete your shopping history, "<<"are you sure you want to do that? [Y/N]"; cin.ignore();   getline(cin, confirmation);
 
@@ -958,7 +958,7 @@ class CurrentCart{  //CurrentCart class
             }
         }
 
-        void payment(){ //function for payment, function gets called from main menu after login has been successfull
+        void payment(){ //29 //function for payment, function gets called from main menu after login has been successfull
             
             cout<<"Would you like to make payment?[Y/N]";    cin.ignore();   getline(cin, agree);
             
@@ -1026,7 +1026,7 @@ class Book:public ShopItem{ //Book class
         }
 
         //display item for shopper to view to make a purchase of the products listed
-        void item_Display(){
+        void item_Display(){ //35
 
         read_book_file.open("owner-book-insert.txt");   //open file to read information for display
         
@@ -1165,7 +1165,7 @@ class Movie:public ShopItem{    //Movie class
 
 
 //////////////////////////////////////////////////////////////////////////
-void cust_Type(){   //for register part, user pick what type of customer (profile) they are
+void cust_Type(){  //50 //for register part, user pick what type of customer (profile) they are
 
     int custtype;
     
@@ -1217,7 +1217,7 @@ void cust_Type(){   //for register part, user pick what type of customer (profil
 
 }
 
-void after_login_menu(){    //diplayed after account authenication successful from login section
+void after_login_menu(){  //260   //diplayed after account authenication successful from login section
 
     int selection, prod_selection, uname, type ,choice;
     string confirm, search, username, un;

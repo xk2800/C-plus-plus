@@ -1,3 +1,15 @@
+/**********|**********|**********|
+Program             : shopper.cpp
+Course              : Object Oriented Programming
+Year                : 2020/21 Trimester 1
+Name                : Khew Xavier Ethan
+ID                  : 1181202757
+Lecture Section     : TC02
+Tutorial Section    : TT04
+Email               : 1181202757@student.mmu.edu.my
+Phone               : 010-2311245
+**********|**********|**********/
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -1422,3 +1434,9 @@ int main(){
         }
 
 }
+
+/**
+ * CREDITS: https://www.youtube.com/watch?v=ndz3EHpFEZc
+ *          https://stackoverflow.com/questions/39098219/auto-generate-id-c/39099637
+ *          OOP TEXTBOOK AND SLIDES used to refer
+*/
