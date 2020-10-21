@@ -2,4 +2,4 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/xk2800/C-plus-plus)
 
 
-# OOP
+# C-plus-plus
