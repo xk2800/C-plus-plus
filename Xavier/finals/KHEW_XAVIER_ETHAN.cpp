@@ -23,8 +23,11 @@ class Transport{
 
         //enter user info
         void enter_info(){
-            cout<<endl<<"Enter your name\t: ";  cin.ignore();   getline(cin, name);
-            cout<<"Enter your phone number\t: ";  getline(cin, phone_num);
+            cout<<endl<<"Enter your name\t: ";  
+                cin.ignore();
+                getline(cin, name);
+            cout<<"Enter your phone number\t: ";
+                getline(cin, phone_num);
         }
 
         //return name input from user
@@ -43,7 +46,8 @@ class Transport{
             ofstream in_file;
 
             if(in_file.fail()){     //if file unable to open
-                cout<<"File cannot be found"<<endl;     exit(0);
+                cout<<"File cannot be found"<<endl;
+                exit(0);
             } else{
                 enter_info();   //function that get user name and phone number
 
@@ -53,6 +57,8 @@ class Transport{
                 in_file<<name;
                 in_num();
             }
+
+            in_file.close();
         }
 
         //file input for user phone number
@@ -61,13 +67,16 @@ class Transport{
             ofstream in_num;
 
             if(in_num.fail()){  //if file unable to open
-                cout<<"File cannot be found"<<endl;     exit(0);
+                cout<<"File cannot be found"<<endl;
+                exit(0);
             } else{
                 phone_num = getNum();
 
                 in_num.open("my-phone-number.txt");     //to save users phone number
                 in_num<<phone_num;
             }
+
+            in_num.close();
         }
 
     virtual void display_price() = 0; 
@@ -107,19 +116,22 @@ class Air:public Transport{
             switch(route){
                 case 1:
                     cout<<"Destination: KLIA2-Alor Setar Airport"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 130;
                 break;
 
                 case 2:
                     cout<<"Destination: KLIA2-Senai Airport"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 135;
                 break;
 
                 case 3:
                     cout<<"Destination: Penang Airport-KLIA2"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 150;
                 break;
 
@@ -134,7 +146,8 @@ class Air:public Transport{
             ofstream total_in;
 
             if(total_in.fail()){    //if file unable to open
-                    cout<<"File cannot be found"<<endl;     exit(0);
+                    cout<<"File cannot be found"<<endl;
+                    exit(0);
             } else{
                 total_in.open("my-total.txt");  //to save total need to pay
 
@@ -144,7 +157,8 @@ class Air:public Transport{
             ofstream location_in;
 
             if(location_in.fail()){     //if file unable to open
-                cout<<"File cannot be found: Air Location file"<<endl;  exit(0);
+                cout<<"File cannot be found: Air Location file"<<endl;
+                exit(0);
             }
             else{
                 location_in.open("my-location.txt");    //to save name of destination user selected
@@ -165,6 +179,8 @@ class Air:public Transport{
                     break;
                 }
             }
+            total_in.close();
+            location_in.close();
         }
 };
 
@@ -199,19 +215,22 @@ class Land:public Transport{
             switch(route){
                 case 1:
                     cout<<"Destination: KL-Genting"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 30;
                 break;
                     
                 case 2:
                     cout<<"Destination: KL-Johor"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 35;
                 break;
 
                 case 3:
                     cout<<"Destination: Penang-KL"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 50;
                 break;
 
@@ -226,7 +245,8 @@ class Land:public Transport{
             ofstream total_in;
 
             if(total_in.fail()){    //if file unable to open
-                cout<<"File cannot be found"<<endl;     exit(0);
+                cout<<"File cannot be found"<<endl;
+                exit(0);
             } else{
                 total_in.open("my-total.txt");  //to save total need to pay
 
@@ -236,7 +256,8 @@ class Land:public Transport{
             ofstream location_in;
 
             if(location_in.fail()){     //if file unable to open
-                cout<<"File cannot be found: Land Location file"<<endl;  exit(0);
+                cout<<"File cannot be found: Land Location file"<<endl;
+                exit(0);
             }
             else{
                 location_in.open("my-location.txt");    //if file unable to open
@@ -256,6 +277,8 @@ class Land:public Transport{
                     break;
                 }
             }
+            total_in.close();
+            location_in.close();
         }
 };
 
@@ -291,19 +314,22 @@ class Sea:public Transport{
             switch(route){
                 case 1:
                     cout<<"Destination: Penang Mainland Port-Penang Island Port"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 60;
                 break;
                     
                 case 2:
                     cout<<"Destination: Port Klang-Melaka Port"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 45;
                 break;
 
                 case 3:
                     cout<<"Destination: Johor Port-Singapore Port"<<endl<<endl;
-                    cout<<"Kindly enter quantity of ticket(s): ";   cin>>qty_ticket;
+                    cout<<"Kindly enter quantity of ticket(s): ";
+                        cin>>qty_ticket;
                     price = 30;
                 break;
 
@@ -318,7 +344,8 @@ class Sea:public Transport{
             ofstream total_in;
 
             if(total_in.fail()){    //if file unable to open
-                    cout<<"File cannot be found"<<endl;     exit(0);
+                    cout<<"File cannot be found"<<endl;
+                    exit(0);
             } else{
                     total_in.open("my-total.txt");  //to save total need to pay
 
@@ -328,7 +355,8 @@ class Sea:public Transport{
             ofstream location_in;
 
             if(location_in.fail()){     //if file unable to open
-                cout<<"File cannot be found: Land Location file"<<endl;  exit(0);
+                cout<<"File cannot be found: Land Location file"<<endl;
+                exit(0);
             } else{
                 location_in.open("my-location.txt");    //if file unable to open
 
@@ -347,6 +375,8 @@ class Sea:public Transport{
                     break;
                 }
             }
+            total_in.close();
+            location_in.close();
         }
 };
 
@@ -371,7 +401,8 @@ void receipt(){
     cout<<"----------------------"<<endl;
 
         if(name_file.fail() || number_file.fail() || location_file.fail() || total_file.fail()){    //if files unable to open
-            cout<<"File not found: name file";  exit(0);
+            cout<<"File not found: name file";
+            exit(0);
         } else{
             
            while(getline(name_file, name)){
@@ -390,6 +421,10 @@ void receipt(){
                 cout<<"Total amount to pay\t: RM "<<total<<endl;
             }
         }
+        name_file.close();
+        number_file.close();
+        total_file.close();
+        location_file.close();
 }
 
 void pick_transport(){
